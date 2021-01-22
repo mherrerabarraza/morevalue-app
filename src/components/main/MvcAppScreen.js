@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Navbar } from "../ui/Navbar";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import "./dashboard.css";
 import { DashBoardScreen } from "../ui/DashBoardScreen";
+import { EditEmployeeScreen } from "../employee/EditEmployeeScreen";
 
-export const MvcAppScreen  = () => {
+export const MvcAppScreen = () => {
   const { isAdmin } = useSelector((state) => state.user);
+
   return (
     <div>
       <Router>
@@ -28,7 +30,6 @@ export const MvcAppScreen  = () => {
                   {isAdmin ? (
                     <>
                       <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        {console.log("isAdmin?")}
                         <span>Empresa</span>
                       </h6>
                       <li className="nav-item">
@@ -81,7 +82,7 @@ export const MvcAppScreen  = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/admin/edituser">
+                    <Link className="nav-link" to="/admin/editequipment">
                       Editar Equipo
                     </Link>
                   </li>
@@ -93,8 +94,8 @@ export const MvcAppScreen  = () => {
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
               <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <Switch>
-                  {console.log("MvcAppScreen")}
                   <Route exact component={DashBoardScreen} path="/" />
+                  <Route exact component={EditEmployeeScreen} path="/admin/editemployee" />
                 </Switch>
               </div>
             </main>

@@ -1,29 +1,37 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { startGetTrabajadoresIdEmpresa } from "../../actions/employee";
+import { startGetExamenesTodosTrabajadoresEmpresa } from "../../actions/exam";
 import { ExamenScreen } from "./ExamenScreen";
 
 export const DashBoardScreen = () => {
-  const { examenes } = useSelector((state) => state.exam);
+  const { idEmpresa } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!idEmpresa) {
+      return <div>Cargando...</div>;
+    } else {
+      dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
+      dispatch(startGetExamenesTodosTrabajadoresEmpresa(idEmpresa));
+    }
+  }, [idEmpresa,dispatch]);
+
+  // if (!idEmpresa) {
+  //   return <div>Cargando...</div>;
+  // } else {
+  //   dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
+  //   dispatch(startGetExamenesTodosTrabajadoresEmpresa(idEmpresa));
+  // }
   return (
     <div>
-      <h1>TODO:</h1>
-      <ul>
-        <li>
-          cargar resumen todos los examenes, de todas las empresas, por vencer:
-          <br />
-          1.- obtener todos los trabajadores e ingresarlos a un array(obtener
-          collection de trabajadores)
-          <br />
-          2.- con la lista de trabajadores, obtener la lista de exámenes,
-          filtrar fecha de caducidad menor o igual a 60 días
-        </li>
-      </ul>
-      <br />
-      <ul>
+      <h1>Resumen:</h1>
+      <hr/>
       {
-        examenes.map(ex=>(<div key={ex.key}>{ex.nombreExamen}</div>))
+        <div>
+          <div>{idEmpresa ? <ExamenScreen /> : <div>Loading...</div>}</div>
+        </div>
       }
-      </ul>
     </div>
   );
 };

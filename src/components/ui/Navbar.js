@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startLogout } from "../../actions/auth";
+import { trabajadoresLogout } from "../../actions/employee";
+import { examenesLogout } from "../../actions/exam";
 import { userLogout } from "../../actions/user";
 
 export const Navbar = () => {
@@ -11,6 +13,8 @@ export const Navbar = () => {
   const handleLogout = () => {
     dispatch(startLogout());
     dispatch(userLogout());
+    dispatch(trabajadoresLogout());
+    dispatch(examenesLogout());
   };
 
   return (
@@ -28,14 +32,9 @@ export const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon">
+          </span>
         </button>
-        <input
-          className="form-control form-control-dark w-100"
-          type="text"
-          placeholder="Search"
-          aria-label="Search"
-        />
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap">
             <button className="btn nav-link" onClick={handleLogout}>

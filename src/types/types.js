@@ -8,5 +8,14 @@ export const types = {
   //Quita el usuario del state
   userLogout: "[User] Logout",
 
-  getExamsIdTrabajador: "[Exam] Get Exams ID Trabajador"
+  //Trabajadores
+  getTrabajadoresIdEmpresa: "[Emp] Get Trabajadores ID Empresa",
+  trabajadoresLogout:'[Emp] Limpiar Trabajadores',
+
+
+
+  //examenes
+  getExamenesTodosTrabajadoresEmpresa: "[Exam] Get Todos Examees Empresa",
+  getExamsIdTrabajador:"[Exam] Get Todos Examenes Trabajador Segun ID",
+  examenesLogout:'[Exam] Limpiar Examenes'
 };

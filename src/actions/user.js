@@ -4,9 +4,9 @@ import { db } from "../firebase/firebase-config";
 import { types } from "../types/types";
 
 export const startLoadUserData = (uid) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     const docRef = db.collection("usuarios").doc(uid);
-    docRef
+    await docRef
       .get()
       .then((doc) => {
         if (doc.exists) {
