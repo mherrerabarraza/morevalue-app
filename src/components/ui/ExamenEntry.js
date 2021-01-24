@@ -1,14 +1,15 @@
 import React from "react";
-import { Examenes } from "./Examenes";
+import { useDispatch } from "react-redux";
+import { uiOpenModal } from "../../actions/ui";
 import { CalendarModal } from "./modal/CalendarModal";
 
 export const ExamenEntry = (examen) => {
-  const { examenes } = examen;
-  examenes.map((exa) => console.log(exa));
+  const dispatch = useDispatch();
+  const { examenes, id: idEmpleado } = examen;
+  console.log(examen);
 
   const handleModal = () => {
-    console.log("click");
-    <CalendarModal />;
+    dispatch(uiOpenModal());
   };
 
   return (
@@ -22,11 +23,9 @@ export const ExamenEntry = (examen) => {
         </span>
       </h3>
       <div>
-        {examenes.map((exa) => (
-          <Examenes key={exa.id} {...exa} />
-        ))}
+ 
       </div>
-      <CalendarModal />
+      <CalendarModal idEmpleado={idEmpleado} />
     </div>
   );
 };

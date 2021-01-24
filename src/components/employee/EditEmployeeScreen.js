@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { startGetExamsIdTrabajador } from "../../actions/exam";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { ExamenEntry } from "../ui/ExamenEntry";
-import { ExamenScreen } from "../ui/ExamenScreen";
+import Swal from 'sweetalert2'
 
 export const EditEmployeeScreen = () => {
-  const dispatch = useDispatch();
-  const [formValues, handleInputChange, reset] = useForm({
+  const [formValues, handleInputChange] = useForm({
     idEmpleado: "",
   });
 
   const { idEmpleado } = formValues;
   const [exist, setExist] = useState(false);
   const [datos, setDatos] = useState([]);
-  const { trabajadores } = useSelector((state) => state.empl);
   const { examenes } = useSelector((state) => state.exam);
 
   const handleSearch = (e) => {
@@ -25,9 +22,11 @@ export const EditEmployeeScreen = () => {
   };
   const buscar = (idEmpleado) => {
     const output = examenes.filter((employee) => employee.id === idEmpleado);
-    if (output.length > 0) {
+    if (output.length > 0 ) {
       setDatos(output);
       setExist(true);
+    }else{
+      Swal.fire('Trabajador No Encontrado','','warning')
     }
   };
 

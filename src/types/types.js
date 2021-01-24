@@ -10,12 +10,17 @@ export const types = {
 
   //Trabajadores
   getTrabajadoresIdEmpresa: "[Emp] Get Trabajadores ID Empresa",
-  trabajadoresLogout:'[Emp] Limpiar Trabajadores',
-
-
+  trabajadoresLogout: "[Emp] Limpiar Trabajadores",
 
   //examenes
-  getExamenesTodosTrabajadoresEmpresa: "[Exam] Get Todos Examees Empresa",
-  getExamsIdTrabajador:"[Exam] Get Todos Examenes Trabajador Segun ID",
-  examenesLogout:'[Exam] Limpiar Examenes'
+
+  getExamenesPorVencerPorIdEmpresa: "[Exam] Get Examenes por Vencer ID Empresa",
+  getExamenesPorVencer: "[Exam] Get Examenes por Vencer",
+
+  crearNuevoExamen: "[Exam] Crear Nuevo Examen ID Trabajador",
+  examenesLogout: "[Exam] Limpiar Examenes",
+
+  //UI
+  uiOpenModal: "[UI] Open Modal",
+  uiCloseModal: "[UI] Close Modal",
 };

@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Navbar } from "../ui/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./dashboard.css";
 import { DashBoardScreen } from "../ui/DashBoardScreen";
 import { EditEmployeeScreen } from "../employee/EditEmployeeScreen";
+import { startGetExamenesPorVencerPorIdEmpresa } from "../../actions/exam";
+import { getTrabajadoresIdEmpresa } from "../../actions/employee";
 
 export const MvcAppScreen = () => {
-  const { isAdmin } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { isAdmin, idEmpresa } = useSelector((state) => state.user);
 
+  useEffect(() => {
+    if (idEmpresa) {
+      dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa));
+      dispatch(getTrabajadoresIdEmpresa(idEmpresa));
+    }
+  }, [dispatch, idEmpresa]);
+  //aqui deberia hacer el dispatch porque ya se que empresa es
   return (
     <div>
       <Router>
@@ -95,7 +105,11 @@ export const MvcAppScreen = () => {
               <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <Switch>
                   <Route exact component={DashBoardScreen} path="/" />
-                  <Route exact component={EditEmployeeScreen} path="/admin/editemployee" />
+                  <Route
+                    exact
+                    component={EditEmployeeScreen}
+                    path="/admin/editemployee"
+                  />
                 </Switch>
               </div>
             </main>

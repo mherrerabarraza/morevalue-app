@@ -1,14 +1,11 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startLoginEmailPassword } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
 import "./signin.css";
 
 export const LoginScreen = () => {
-  // const { loading } = useSelector((state) => state.ui);
-
   const dispatch = useDispatch();
-
   const [formValues, handleInputChange] = useForm({
     email: "jenny@morevaluecompany.com",
     password: "12341234",
@@ -19,7 +16,6 @@ export const LoginScreen = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(startLoginEmailPassword(email, password));
-    // dispatch(startGetExamenesTodasLasEmpresas());
   };
   return (
     <div className="text-center">

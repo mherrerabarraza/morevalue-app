@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import { login } from "../actions/auth";
 import { firebase } from "../firebase/firebase-config";
@@ -14,7 +14,6 @@ export const AppRouter = () => {
 
   const [checking, setChecking] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { idEmpresa } = useSelector((state) => state.user);
 
   //Mantiene el estado "state" de redux respecto a los cambios
   //que se generan al reacargar la página

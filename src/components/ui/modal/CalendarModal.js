@@ -4,6 +4,9 @@ import DateTimePicker from "react-datetime-picker";
 import Modal from "react-modal";
 import "./modal.css";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { uiCloseModal } from "../../../actions/ui";
+import { startCrearNuevoExamen } from "../../../actions/exam";
 
 const customStyles = {
   content: {
@@ -15,16 +18,18 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-
 const now = moment().minutes(0).seconds(0);
-
 Modal.setAppElement("#root");
-export const CalendarModal = () => {
+
+export const CalendarModal = ({ idEmpleado }) => {
+  console.log(idEmpleado);
+  const dispatch = useDispatch();
+  const { modalOpen } = useSelector((state) => state.ui);
   const [dateStart, setDateStart] = useState(now.toDate());
   const [titleValid, setTitleValid] = useState(true);
   const [formValues, setFormValues] = useState({
-    nombreExamen: "Examen",
-    start: now.toDate(),
+    nombreExamen: "",
+    fechaVencimiento: now.toDate(),
   });
   const { nombreExamen } = formValues;
 
@@ -39,7 +44,7 @@ export const CalendarModal = () => {
     setDateStart(e);
     setFormValues({
       ...formValues,
-      start: e,
+      fechaVencimiento: e,
     });
   };
 
@@ -52,14 +57,26 @@ export const CalendarModal = () => {
   };
 
   const closeModal = () => {
-    console.log("Cerrando...");
+    dispatch(uiCloseModal());
     // setIsOpen(false);
   };
 
-//   closeModal();
+  const handleNewExamen = () => {
+    dispatch(
+      startCrearNuevoExamen(idEmpleado, {
+        ...formValues,
+        fechaVencimiento: new Date(formValues.fechaVencimiento).getTime(),
+        fechaCreacion: new Date().getTime(),
+      })
+    );
+    Swal.fire("Examen Creado con Éxito", "", "success");
+    dispatch(uiCloseModal());
+  };
+
+  //   closeModal();
   return (
     <Modal
-      isOpen={true}
+      isOpen={modalOpen}
       //   onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
       style={customStyles}
@@ -81,6 +98,7 @@ export const CalendarModal = () => {
             autoComplete="off"
             value={nombreExamen}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -90,6 +108,7 @@ export const CalendarModal = () => {
             className="form-control"
             value={dateStart}
             onChange={handleStartDateChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -100,8 +119,9 @@ export const CalendarModal = () => {
           type="submit"
           className="btn btn-outline-primary btn-block"
           style={{ marginTop: "10px" }}
+          onClick={handleNewExamen}
         >
-          <i className="far fa-save"></i>
+          <i className="far fa-save" style={{ cursor: "pointer" }}></i>
           <span> Guardar</span>
         </button>
       </form>

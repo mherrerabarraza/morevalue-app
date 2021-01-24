@@ -1,77 +1,52 @@
 import { db } from "../firebase/firebase-config";
 import { types } from "../types/types";
 
-export const startGetExamenesTodosTrabajadoresEmpresa = (idEmpresa) => {
+export const startGetExamenesPorVencerPorIdEmpresa = (idEmpresa) => {
+  const examenes = [];
   return async (dispatch) => {
-    // const examenesArray = [];
-    const resumenEntry = [];
-    db.collection("trabajadores")
+    await db
+      .collection("examenes")
       .where("idEmpresa", "==", idEmpresa)
+      //TODO: Calcular fecha a 60 días
+      // .where("fechaCaducidad", "<=", now)
       .get()
-      .then((snapTrabajadores) => {
-        snapTrabajadores.forEach((snapTrabajador) => {
-          db.collection(`/trabajadores/${snapTrabajador.id}/examenes`)
-            .get()
-            .then((snapExamenes) => {
-              resumenEntry.push({
-                id: snapTrabajador.id,
-                ...snapTrabajador.data(),
-                examenes: [],
-              });
-              snapExamenes.forEach((examen) => {
-                // examenesArray.push({
-                //   id: examen.id,
-                //   ...examen.data(),
-                // });
-
-                resumenEntry.forEach((el) => {
-                  if (el.id === snapTrabajador.id) {
-                    el.examenes.push({ id: examen.id, ...examen.data() });
-                  }
-                });
-              });
-              //ojo donde va el dispatch
-              // dispatch(getExamenesTodosTrabajadoresEmpresa(examenesArray));
-              dispatch(getExamenesTodosTrabajadoresEmpresa(resumenEntry));
-            })
-            .catch((e1) => {
-              console.log(e1);
-            });
-        });
-      })
-      .catch((e2) => {
-        console.log(e2);
+      .then((snap) => {
+        snap.forEach((examen) =>
+          examenes.push({
+            id: examen.id,
+            ...examen.data(),
+          })
+        );
       });
+    dispatch(getExamenesPorVencerPorIdEmpresa(examenes));
   };
 };
 
-export const getExamenesTodosTrabajadoresEmpresa = (examenes) => ({
-  type: types.getExamenesTodosTrabajadoresEmpresa,
+export const getExamenesPorVencerPorIdEmpresa = (examenes) => ({
+  type: types.getExamenesPorVencerPorIdEmpresa,
   payload: examenes,
 });
 
-// export const startGetExamsIdTrabajador = (idTrabajador) => {
-//   return async (dispatch) => {
-//     const examenesArray = [];
-//     await db
-//       .collection(`/trabajadores/${idTrabajador}/examenes`)
-//       .get()
-//       .then((examenes) => {
-//         examenes.forEach((examen) => {
-//           examenesArray.push({
-//             id: examen.id,
-//             ...examen.data(),
-//           });
-//         });
-//         dispatch(getExamsIdTrabajador(examenesArray));
-//       });
-//   };
-// };
+export const startCrearNuevoExamen = (examen) => {
+  return async (dispatch) => {
+    const examenRef = db.collection("examenes");
+    //agredar Datos
+    examenRef
+      .add(examen)
+      .then((examen) => {
+        console.log("Agregado: ", examen.id);
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+    dispatch(crearNuevoExamen(examen));
+  };
+};
 
-// export const getExamsIdTrabajador = (examenes) => ({
-//   type: types.getExamsIdTrabajador,
-//   payload: examenes,
-// });
+export const crearNuevoExamen = (examen) => ({
+  type: types.crearNuevoExamen,
+  payload: examen,
+});
 
 export const examenesLogout = () => ({
   type: types.examenesLogout,
