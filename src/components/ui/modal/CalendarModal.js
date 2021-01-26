@@ -100,6 +100,7 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
       className="modal"
       overlayClassName="modal-fondo"
       closeTimeoutMS={500}
+      
     >
       <h1> Nuevo examen </h1>
       <hr />
