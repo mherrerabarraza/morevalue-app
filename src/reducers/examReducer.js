@@ -19,6 +19,11 @@ export const examReducer = (state = {}, action) => {
         ...state,
         examen: action.payload,
       };
+    case types.getExamenUrl:
+      return {
+        ...state,
+        url: action.payload,
+      };
 
     case types.examenesLogout:
       return {};

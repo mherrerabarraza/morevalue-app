@@ -7,7 +7,8 @@ import "./dashboard.css";
 import { DashBoardScreen } from "../ui/DashBoardScreen";
 import { EditEmployeeScreen } from "../employee/EditEmployeeScreen";
 import { startGetExamenesPorVencerPorIdEmpresa } from "../../actions/exam";
-import { getTrabajadoresIdEmpresa } from "../../actions/employee";
+import { startGetTrabajadoresIdEmpresa } from "../../actions/employee";
+import { CreateEmployeeScreen } from "../employee/CreateEmployeeScreen";
 
 export const MvcAppScreen = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export const MvcAppScreen = () => {
   useEffect(() => {
     if (idEmpresa) {
       dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa));
-      dispatch(getTrabajadoresIdEmpresa(idEmpresa));
+      dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
     }
   }, [dispatch, idEmpresa]);
   //aqui deberia hacer el dispatch porque ya se que empresa es
@@ -74,7 +75,7 @@ export const MvcAppScreen = () => {
                     <span>Trabajadores</span>
                   </h6>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/admin/newemployee">
+                    <Link className="nav-link" to="/admin/createemployee">
                       Nuevo Trabajador
                     </Link>
                   </li>
@@ -109,6 +110,11 @@ export const MvcAppScreen = () => {
                     exact
                     component={EditEmployeeScreen}
                     path="/admin/editemployee"
+                  />
+                  <Route
+                    exact
+                    component={CreateEmployeeScreen}
+                    path="/admin/createemployee"
                   />
                 </Switch>
               </div>

@@ -15,8 +15,8 @@ const reducers = combineReducers({
   auth: authReducer,
   user: userReducer,
   exam: examReducer,
-  empl: employeeReducer,
   ui: uiReducer,
+  trab: employeeReducer,
 });
 
 export const store = createStore(

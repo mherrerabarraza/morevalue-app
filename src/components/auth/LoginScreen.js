@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { startLoginEmailPassword } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
 import "./signin.css";

@@ -1,0 +1,26 @@
+.cabecera{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px auto; 
+}
+.examenes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px auto;
+  border: 1px black solid;
+}
+.data {
+  margin: 3px 3px;
+}
+.employee {
+  text-decoration: underline;
+  color: blue;
+}
+.employee:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: red;
+  transition: 900ms ease;
+}

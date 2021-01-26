@@ -8,3 +8,4 @@ export const uiCloseModal = () => ({
   type: types.uiCloseModal,
   payload: false,
 });
+

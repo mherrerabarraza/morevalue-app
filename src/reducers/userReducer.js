@@ -7,6 +7,7 @@ export const userReducer = (state = {}, action) => {
         nombre: action.payload.nombre,
         idEmpresa: action.payload.idEmpresa,
         isAdmin: action.payload.isAdmin,
+        idUsuario:action.payload.idUsuario
       };
 
     case types.userLogout:
