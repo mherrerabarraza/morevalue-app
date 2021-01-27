@@ -66,37 +66,36 @@ export const MvcAppScreen = () => {
                           Editar Usuario
                         </Link>
                       </li>
+                      <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Trabajadores</span>
+                      </h6>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/admin/createemployee">
+                          Nuevo Trabajador
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/admin/editemployee">
+                          Editar Trabajador
+                        </Link>
+                      </li>
+                      <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Equipos</span>
+                      </h6>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/admin/newequipment">
+                          Nuevo Equipo
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/admin/editequipment">
+                          Editar Equipo
+                        </Link>
+                      </li>
                     </>
                   ) : (
                     <div></div>
                   )}
-
-                  <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Trabajadores</span>
-                  </h6>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/admin/createemployee">
-                      Nuevo Trabajador
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/admin/editemployee">
-                      Editar Trabajador
-                    </Link>
-                  </li>
-                  <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Equipos</span>
-                  </h6>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/admin/newequipment">
-                      Nuevo Equipo
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/admin/editequipment">
-                      Editar Equipo
-                    </Link>
-                  </li>
                 </ul>
               </div>
             </nav>

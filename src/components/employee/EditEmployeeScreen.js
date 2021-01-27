@@ -22,7 +22,7 @@ export const EditEmployeeScreen = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     buscar(idTrabajador);
-    // console.log(examenes);
+    console.log(examenes);
     // dispatch(startGetExamsIdTrabajador(idEmpleado));
   };
   const buscar = (idTrabajador) => {
@@ -33,9 +33,10 @@ export const EditEmployeeScreen = () => {
     console.log(ex);
 
     if (tra.length > 0) {
-      setDatosTrabajador(tra);
-      setDatosExamenes(ex);
+      // setDatosTrabajador(tra);
+      // setDatosExamenes(ex);
       setExist(true);
+      
     } else {
       Swal.fire("Trabajador No Encontrado", "", "warning");
       reset();
@@ -76,7 +77,7 @@ export const EditEmployeeScreen = () => {
             <h3>
               Examenes{" "}
               <span style={{ color: "green", cursor: "pointer" }}>
-                <i className="fas fa-plus-circle" onClick={handleModal}></i>
+                <i className="fas fa-plus-circle" onClick={handleModal}> </i>
               </span>
             </h3>
             

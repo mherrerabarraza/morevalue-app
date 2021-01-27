@@ -9,6 +9,12 @@ export const employeeReducer = (state = {}, action) => {
         trabajadores: [...action.payload],
       };
 
+    case types.crearTrabajadorEmpresa:
+      return {
+        ...state,
+        creado: action.payload,
+      };
+
     default:
       return state;
   }

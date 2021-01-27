@@ -29,11 +29,23 @@ export const trabajadoresLogout = () => ({
 });
 
 export const startCrearTrabajadorEmpresa = (idEmpresa, idEmpleado, nombre) => {
-  //TODO: Verificar si existe el usuairo antes, retornar
-  return async () => {
+  return async (dispatch) => {
+    //crea usuario
     db.collection("trabajadores").doc(idEmpleado).set({
       idEmpresa: idEmpresa,
       nombre: nombre,
     });
+    dispatch(crearTrabajadorEmpresa());
+    //actualizar la lista de usuarios de la empresa
+    dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
   };
 };
+
+export const crearTrabajadorEmpresa = () => ({
+  type: types.crearTrabajadorEmpresa,
+  payload: true,
+});
+export const trabajadorExist = () => ({
+  type: types.crearTrabajadorEmpresa,
+  payload: false,
+});

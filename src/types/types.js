@@ -11,9 +11,10 @@ export const types = {
   //Trabajadores
   getTrabajadoresIdEmpresa: "[Emp] Get Trabajadores ID Empresa",
   trabajadoresLogout: "[Emp] Limpiar Trabajadores",
+  crearTrabajadorEmpresa:"[Emp] Trabajador Creado",
+  trabajadorExist:"[Emp] Trabajador ya está en DB",
 
   //examenes
-
   getExamenesPorVencerPorIdEmpresa: "[Exam] Get Examenes por Vencer ID Empresa",
   getExamenesPorVencer: "[Exam] Get Examenes por Vencer",
   crearNuevoExamen: "[Exam] Crear Nuevo Examen ID Trabajador",

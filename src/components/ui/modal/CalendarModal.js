@@ -23,7 +23,6 @@ const now = moment().minutes(0).seconds(0);
 Modal.setAppElement("#root");
 
 export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
-  console.log(idTrabajador);
   const dispatch = useDispatch();
   const { modalOpen } = useSelector((state) => state.ui);
   const { url } = useSelector((state) => state.exam);

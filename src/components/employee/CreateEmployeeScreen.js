@@ -6,6 +6,7 @@ import { useForm } from "../../hooks/useForm";
 
 export const CreateEmployeeScreen = () => {
   const { idEmpresa } = useSelector((state) => state.user);
+  const { trabajadores } = useSelector((state) => state.trab);
   const dispatch = useDispatch();
   const [formValues, handleInputChange, reset] = useForm({
     idEmpleado: "",
@@ -17,9 +18,15 @@ export const CreateEmployeeScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(startCrearTrabajadorEmpresa(idEmpresa, idEmpleado, nombre));
-    Swal.fire("Trabajador Creado con éxito", "", "success");
-    reset();
+    const tra = trabajadores.filter((employee) => employee.id === idEmpleado);
+    if (tra.length > 0) {
+      Swal.fire("Ya existe este trabajador",'', "error");
+      reset();
+    } else {
+      dispatch(startCrearTrabajadorEmpresa(idEmpresa, idEmpleado, nombre));
+      Swal.fire("Trabajador Creado con éxito", "", "success");
+      reset();
+    }
   };
 
   return (
