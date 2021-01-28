@@ -1,10 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { startGetExamenesPorVencerPorIdEmpresa } from "../../actions/exam";
 import { ExamenScreen } from "../ui/examenes/ExamenScreen";
 export const DashBoardScreen = () => {
+  const dispatch = useDispatch();
   const { idEmpresa } = useSelector((state) => state.user);
   const { examenes } = useSelector((state) => state.exam);
-
   return (
     <div>
       <h1>Resumen:</h1>
@@ -13,7 +14,10 @@ export const DashBoardScreen = () => {
         Examenes por Vencer{" "}
         <i
           className="fas fa-sync fa-xs"
-          style={{ cursor: "pointer", color: "green"}}
+          style={{ cursor: "pointer", color: "green" }}
+          onClick={() => {
+            dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa));
+          }}
         ></i>
       </h2>
       <table className="table">

@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { authReducer } from "../reducers/authReducer";
 import { employeeReducer } from "../reducers/employeeReducer";
+import { empresaReducer } from "../reducers/empresaReducer";
 import { examReducer } from "../reducers/examReducer";
 import { uiReducer } from "../reducers/uiReducer";
 import { userReducer } from "../reducers/userReducer";
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   exam: examReducer,
   ui: uiReducer,
   trab: employeeReducer,
+  empr: empresaReducer,
 });
 
 export const store = createStore(

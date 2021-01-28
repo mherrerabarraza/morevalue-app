@@ -10,7 +10,7 @@ export const startLoadUserData = (uid) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log(doc.data());
+          // console.log(doc.data());
           const user = {
             ...doc.data(),
           };

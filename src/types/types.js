@@ -11,8 +11,8 @@ export const types = {
   //Trabajadores
   getTrabajadoresIdEmpresa: "[Emp] Get Trabajadores ID Empresa",
   trabajadoresLogout: "[Emp] Limpiar Trabajadores",
-  crearTrabajadorEmpresa:"[Emp] Trabajador Creado",
-  trabajadorExist:"[Emp] Trabajador ya está en DB",
+  crearTrabajadorEmpresa: "[Emp] Trabajador Creado",
+  trabajadorExist: "[Emp] Trabajador ya está en DB",
 
   //examenes
   getExamenesPorVencerPorIdEmpresa: "[Exam] Get Examenes por Vencer ID Empresa",
@@ -24,5 +24,8 @@ export const types = {
   //UI
   uiOpenModal: "[UI] Open Modal",
   uiCloseModal: "[UI] Close Modal",
-  
+
+  //empresas
+  crearNuevaEmpresa: "[EMP] Crear Nueva Empresa",
+  getTodasLasEmpresas: "[EMP] Get Todas Las Empresa",
 };

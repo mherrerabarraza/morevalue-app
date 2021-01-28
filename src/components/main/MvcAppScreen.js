@@ -9,6 +9,9 @@ import { EditEmployeeScreen } from "../employee/EditEmployeeScreen";
 import { startGetExamenesPorVencerPorIdEmpresa } from "../../actions/exam";
 import { startGetTrabajadoresIdEmpresa } from "../../actions/employee";
 import { CreateEmployeeScreen } from "../employee/CreateEmployeeScreen";
+import { CreateEmpresaScreen } from "../empresa/CreateEmpresaScreen";
+import { startGetTodasLasEmpresas } from "../../actions/empresa.actions";
+import { EditEmpresaScreen } from "../empresa/EditEmpresaScreen";
 
 export const MvcAppScreen = () => {
   const dispatch = useDispatch();
@@ -18,6 +21,7 @@ export const MvcAppScreen = () => {
     if (idEmpresa) {
       dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa));
       dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
+      dispatch(startGetTodasLasEmpresas());
     }
   }, [dispatch, idEmpresa]);
   //aqui deberia hacer el dispatch porque ya se que empresa es
@@ -114,6 +118,21 @@ export const MvcAppScreen = () => {
                     exact
                     component={CreateEmployeeScreen}
                     path="/admin/createemployee"
+                  />
+                  <Route
+                    exact
+                    component={CreateEmpresaScreen}
+                    path="/admin/newempresa"
+                  />
+                  <Route
+                    exact
+                    component={EditEmpresaScreen}
+                    path="/admin/editempresa"
+                  />
+                  <Route
+                    exact
+                    component={CreateEmpresaScreen}
+                    path="/admin/newempresa"
                   />
                 </Switch>
               </div>
