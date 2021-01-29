@@ -42,6 +42,7 @@ export const EditEmpresaScreen = () => {
       return;
     }
     console.log("hola");
+    //TODO: realizar cambios
   };
 
   return (
@@ -104,8 +105,8 @@ export const EditEmpresaScreen = () => {
           </div>
         </div>
       ) : (
-        <div></div>
-      )}
+          <div></div>
+        )}
     </div>
   );
 };

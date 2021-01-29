@@ -31,6 +31,23 @@ export const startCrearNuevaEmpresa = (idEmpresa, empresa) => {
   };
 };
 
+export const startUpdateEmpresa = (idEmpresa, ...data) => {
+  const { nombre } = data;
+  return async (dispatch) => {
+    const transac = db.collection('empresas').doc(idEmpresa);
+    db.runTransaction.get(transac).then(sfDoc => {
+      if (!sfDoc.exits) {
+        throw 'No existe la empresa'
+      }
+      transac.update(transac, {
+        nombre: nombre
+      }).then(console.log('Actualizado')).catch(err => console.log('Falló ', err))
+    })
+  }
+}
+
+//TODO: updateEmpresa
+
 // export const crearNuevaEmpresa = (empresa) => ({
 //   type: types.crearNuevaEmpresa,
 //   payload: empresa,
