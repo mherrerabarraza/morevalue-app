@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { startGetExamenesPorVencerPorIdEmpresa } from "../../actions/exam";
+import { startGetExamenesPorVencerPorIdEmpresa, startGetExamenesPorVencerTodasLasEmpresas } from "../../actions/exam";
 import { ExamenScreen } from "../ui/examenes/ExamenScreen";
 export const DashBoardScreen = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export const DashBoardScreen = () => {
           className="fas fa-sync fa-xs"
           style={{ cursor: "pointer", color: "green" }}
           onClick={() => {
-            dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa));
+            dispatch(startGetExamenesPorVencerTodasLasEmpresas());
           }}
         ></i>
       </h2>

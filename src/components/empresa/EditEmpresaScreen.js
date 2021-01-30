@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { startUpdateEmpresa } from "../../actions/empresa.actions";
 import { useForm } from "../../hooks/useForm";
 
 export const EditEmpresaScreen = () => {
+  const dispatch = useDispatch()
   const { empresas } = useSelector((state) => state.empr);
   const [datosEmpresa, setDatosEmpresa] = useState();
   const [exist, setExist] = useState(false);
@@ -35,14 +37,21 @@ export const EditEmpresaScreen = () => {
     setEditable(true);
   };
 
+
   const handleUpdate = (event) => {
     event.preventDefault();
     if (nombre.length <= 1) {
       Swal.fire("El nombre es muy corto", "", "info");
       return;
     }
-    console.log("hola");
-    //TODO: realizar cambios
+    /**
+     * TODO: limpiar el formulario al actualizar
+     */
+    dispatch(startUpdateEmpresa({ idEmpresa: idEmpresa, nombre: nombre }))
+      ? (Swal.fire("La Empresa se actualizó con éxito", "", 'success'))
+      : (Swal.fire("Hubo un problema", "No se pudo actualizar", 'err'))
+    reset()
+    setExist(false)
   };
 
   return (

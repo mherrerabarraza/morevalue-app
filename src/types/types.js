@@ -16,10 +16,12 @@ export const types = {
 
   //examenes
   getExamenesPorVencerPorIdEmpresa: "[Exam] Get Examenes por Vencer ID Empresa",
-  getExamenesPorVencer: "[Exam] Get Examenes por Vencer",
+  getExamenesPorVencerTodasLasEmpresas: "[Exam] Get Examenes por Vencer todas las Empresas",
   crearNuevoExamen: "[Exam] Crear Nuevo Examen ID Trabajador",
   getExamenUrl: "[Exam] Get Examen URL",
   examenesLogout: "[Exam] Limpiar Examenes",
+  getTodoExamenesTrabajadorID: "[Exam] Examenes por idTrabajador",
+  
 
   //UI
   uiOpenModal: "[UI] Open Modal",

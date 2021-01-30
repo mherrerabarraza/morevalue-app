@@ -31,20 +31,32 @@ export const startCrearNuevaEmpresa = (idEmpresa, empresa) => {
   };
 };
 
-export const startUpdateEmpresa = (idEmpresa, ...data) => {
-  const { nombre } = data;
+export const startUpdateEmpresa = (empresa) => {
+  const { idEmpresa } = empresa
   return async (dispatch) => {
-    const transac = db.collection('empresas').doc(idEmpresa);
-    db.runTransaction.get(transac).then(sfDoc => {
-      if (!sfDoc.exits) {
-        throw 'No existe la empresa'
-      }
-      transac.update(transac, {
-        nombre: nombre
-      }).then(console.log('Actualizado')).catch(err => console.log('Falló ', err))
-    })
+    const docRef = await db.collection('empresas').doc(idEmpresa).get();
+    if (docRef.exists) {
+      dispatch(startCrearNuevaEmpresa(idEmpresa, empresa))
+      // await db.collection('empresas').doc(idEmpresa).set({
+      //   idEmpresa: idEmpresa,
+      //   nombre: nombre,
+      // })
+      //   .then(console.log('Actualizado: ', idEmpresa))
+      //   .catch(error => {
+      //     console.log('Ocurrió un error: ', error);
+      //   })
+      // dispatch(updateEmpresa(idEmpresa, nombre))
+      return true;
+    } else {
+      return false;
+    }
   }
 }
+
+export const updateEmpresa = (idEmpresa, nombre) => ({
+  types: types.updateEmpresa,
+  payload: [idEmpresa, nombre]
+})
 
 //TODO: updateEmpresa
 

@@ -7,6 +7,17 @@ export const examReducer = (state = {}, action) => {
         ...state,
         examenes: [...action.payload],
       };
+    case types.getTodoExamenesTrabajadorID:
+      return {
+        ...state,
+        examenesIdTrabajador: [...action.payload]
+      }
+
+    case types.getExamenesPorVencerTodasLasEmpresas:
+      return {
+        ...state,
+        examenes: [...action.payload]
+      }
 
     case types.getExamsIdTrabajador:
       return {

@@ -19,6 +19,9 @@ export const CreateEmpresaScreen = () => {
     if (emp.length > 0) {
       Swal.fire("Ya existe esta Empresa", "", "error");
       reset();
+    } else if (idEmpresa < 9) {
+      Swal.fire("El rut proporcionado es muy corto", "", "error");
+      reset();
     } else {
       dispatch(
         startCrearNuevaEmpresa(idEmpresa, {

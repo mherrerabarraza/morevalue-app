@@ -7,9 +7,9 @@ export const ExamenScreen = ({ id, ...examen }) => {
   const { nombre, idUsuario } = useSelector((state) => state.user);
   const handleSearchEmployee = () => {
     console.log("buscar employee");
-    //TODO: registrar envento descarga
-    //dispatch(startRegistroDescarga())
-    //enviar a la página de busqueda de usuario
+    /**
+     * muestra la pantalla del empleado de acuerdo a su rut
+     */
   };
 
   const handleDownload = () => {

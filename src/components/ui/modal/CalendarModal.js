@@ -6,7 +6,7 @@ import "./modal.css";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../../actions/ui";
-import { startCrearNuevoExamen } from "../../../actions/exam";
+import { startCrearNuevoExamen, startGetTodoExamenesTrabajadorID } from "../../../actions/exam";
 import { startUploadingExamen } from "../../../actions/exam";
 
 const customStyles = {
@@ -72,10 +72,11 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
         fechaCreacion: new Date().getTime(),
         url: url,
       })
+
     );
+    //carga de inmediato el nuevo examen
     Swal.fire("Examen Creado con Éxito", "", "success");
     dispatch(uiCloseModal());
-    
   };
 
   const handleFileChange = (e) => {
@@ -99,7 +100,7 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
       className="modal"
       overlayClassName="modal-fondo"
       closeTimeoutMS={500}
-      
+
     >
       <h1> Nuevo examen </h1>
       <hr />

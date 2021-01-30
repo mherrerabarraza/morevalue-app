@@ -2,6 +2,68 @@ import { db } from "../firebase/firebase-config";
 import { fileUpload } from "../helpers/fileUpload";
 import { types } from "../types/types";
 
+
+
+/**
+ * TODO: Falta crear getExamenesPorIdTrabajador para mostrar en resumen trabajador
+ */
+
+
+ export const startGetTodoExamenesTrabajadorID = (idTrabajador) => {
+  const examenes = [];
+  return async (dispatch) => {
+    await db
+      .collection("examenes")
+      .where("idTrabajador", "==", idTrabajador)
+      .get()
+      .then((snap) => {
+        snap.forEach((examen) => {
+          examenes.push({
+            id: examen.id,
+            ...examen.data(),
+          })
+        }
+        );
+      });
+    dispatch(getTodoExamenesTrabajadorID(examenes));
+  };
+ }
+
+export const getTodoExamenesTrabajadorID = (examenes) =>({
+  type: types.getTodoExamenesTrabajadorID,
+  payload: examenes,
+})
+
+export const startGetExamenesPorVencerTodasLasEmpresas = () => {
+  var someDate = new Date();
+  var numberOfDaysToAdd = 60;
+  someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+  const newDate = someDate.getTime();
+  const examenes = [];
+  return async (dispatch) => {
+    await db
+      .collection("examenes")
+      .where("fechaCaducidad", "<=", newDate)
+      .get()
+      .then((snap) => {
+        snap.forEach((examen) => {
+          examenes.push({
+            id: examen.id,
+            ...examen.data(),
+          })
+        }
+        );
+      });
+    dispatch(getExamenesPorVencerTodasLasEmpresas(examenes));
+  };
+}
+
+export const getExamenesPorVencerTodasLasEmpresas = (examenes) => ({
+  type: types.getExamenesPorVencerTodasLasEmpresas,
+  payload: examenes,
+});
+
+
 export const startGetExamenesPorVencerPorIdEmpresa = (idEmpresa) => {
   var someDate = new Date();
   var numberOfDaysToAdd = 60;
@@ -12,7 +74,7 @@ export const startGetExamenesPorVencerPorIdEmpresa = (idEmpresa) => {
     await db
       .collection("examenes")
       .where("idEmpresa", "==", idEmpresa)
-      //TODO: Calcular fecha a 60 días
+      //Calcular fecha a 60 días (se creo un filtro en firestore tambien)
       .where("fechaCaducidad", "<=", newDate)
       .get()
       .then((snap) => {
@@ -48,6 +110,11 @@ export const startCrearNuevoExamen = (examen) => {
   };
 };
 
+export const crearNuevoExamen = (examen) => ({
+  type: types.crearNuevoExamen,
+  payload: examen,
+});
+
 export const startUploadingExamen = (examenFile) => {
   return async (dispatch) => {
     const fileUrl = await fileUpload(examenFile);
@@ -60,10 +127,6 @@ export const uploadingExamen = (fileUrl) => ({
   payload: fileUrl,
 });
 
-export const crearNuevoExamen = (examen) => ({
-  type: types.crearNuevoExamen,
-  payload: examen,
-});
 
 export const examenesLogout = () => ({
   type: types.examenesLogout,
@@ -98,3 +161,4 @@ export const startLogDescargas = (
       });
   };
 };
+

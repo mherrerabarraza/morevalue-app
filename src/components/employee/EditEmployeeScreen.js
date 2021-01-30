@@ -5,20 +5,25 @@ import Swal from "sweetalert2";
 import { CalendarModal } from "../ui/modal/CalendarModal";
 import { uiOpenModal } from "../../actions/ui";
 import { ExamenScreen } from "../ui/examenes/ExamenScreen";
+import { startGetTodoExamenesTrabajadorID } from "../../actions/exam";
 
 export const EditEmployeeScreen = () => {
   const dispatch = useDispatch();
   const [formValues, handleInputChange, reset] = useForm({
     idTrabajador: "",
   });
-
   const { idTrabajador } = formValues;
+  
+  dispatch(startGetTodoExamenesTrabajadorID(idTrabajador));
   const [exist, setExist] = useState(false);
   const [datosTrabajador, setDatosTrabajador] = useState([]);
   const [datosExamenes, setDatosExamenes] = useState([]);
   const { trabajadores } = useSelector((state) => state.trab);
-  const { examenes } = useSelector((state) => state.exam);
+  const { examenesIdTrabajador } = useSelector((state) => state.exam);
   const { idEmpresa } = useSelector((state) => state.user);
+
+
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -27,7 +32,7 @@ export const EditEmployeeScreen = () => {
   const buscar = (idTrabajador) => {
     const tra = trabajadores.filter((employee) => employee.id === idTrabajador);
     setDatosTrabajador(tra);
-    const ex = examenes.filter(
+    const ex = examenesIdTrabajador.filter(
       (examen) => examen.idTrabajador === idTrabajador
     );
     setDatosExamenes(ex);
@@ -76,8 +81,8 @@ export const EditEmployeeScreen = () => {
             {datosTrabajador ? (
               <div>Nombre: {datosTrabajador[0].nombre}</div>
             ) : (
-              <div></div>
-            )}
+                <div></div>
+              )}
           </div>
           <div>
             <h3>
@@ -105,15 +110,15 @@ export const EditEmployeeScreen = () => {
                   <ExamenScreen key={examen.id} {...examen} />
                 ))
               ) : (
-                <>Loading...</>
-              )}
+                  <>Loading...</>
+                )}
             </tbody>
           </table>
           <CalendarModal idTrabajador={idTrabajador} idEmpresa={idEmpresa} />
         </div>
       ) : (
-        <div></div>
-      )}
+          <div></div>
+        )}
     </div>
   );
 };

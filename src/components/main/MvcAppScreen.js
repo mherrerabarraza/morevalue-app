@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./dashboard.css";
 import { DashBoardScreen } from "../ui/DashBoardScreen";
 import { EditEmployeeScreen } from "../employee/EditEmployeeScreen";
-import { startGetExamenesPorVencerPorIdEmpresa } from "../../actions/exam";
+import { startGetExamenesPorVencerTodasLasEmpresas } from "../../actions/exam";
 import { startGetTrabajadoresIdEmpresa } from "../../actions/employee";
 import { CreateEmployeeScreen } from "../employee/CreateEmployeeScreen";
 import { CreateEmpresaScreen } from "../empresa/CreateEmpresaScreen";
@@ -19,7 +19,7 @@ export const MvcAppScreen = () => {
 
   useEffect(() => {
     if (idEmpresa) {
-      dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa));
+      dispatch(startGetExamenesPorVencerTodasLasEmpresas());
       dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
       dispatch(startGetTodasLasEmpresas());
     }
