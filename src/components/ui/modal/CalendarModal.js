@@ -72,16 +72,17 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
         fechaCreacion: new Date().getTime(),
         url: url,
       })
-
     );
     //carga de inmediato el nuevo examen
     Swal.fire("Examen Creado con Éxito", "", "success");
     dispatch(uiCloseModal());
+    startGetTodoExamenesTrabajadorID(idTrabajador)
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      //si se adjuntó archivo, obtener la URL
       dispatch(startUploadingExamen(file));
     }
   };

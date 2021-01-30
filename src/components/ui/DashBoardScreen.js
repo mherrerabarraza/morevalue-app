@@ -20,10 +20,11 @@ export const DashBoardScreen = () => {
           }}
         ></i>
       </h2>
-      <table className="table">
+      <table className='table'>
+
         <thead>
           <tr>
-            <th scope="col">Rut Empresa</th>
+            <th scope="col" data-sortable="true" data-field="id">Rut Empresa</th>
             <th scope="col">Rut Trabajador</th>
             <th scope="col">Fecha Caducidad</th>
             <th scope="col">Nombre Examen</th>
@@ -36,8 +37,8 @@ export const DashBoardScreen = () => {
               <ExamenScreen key={examen.id} {...examen} />
             ))
           ) : (
-            <>Loading...</>
-          )}
+              <>Loading...</>
+            )}
         </tbody>
       </table>
     </div>

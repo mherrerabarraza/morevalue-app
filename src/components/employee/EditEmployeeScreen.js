@@ -43,6 +43,8 @@ export const EditEmployeeScreen = () => {
       setExist(true);
     } else {
       Swal.fire("Trabajador No Encontrado", "", "warning");
+      //evita error de busqueda de no existente, después de encontrado
+      setExist(false)
       reset();
     }
   };

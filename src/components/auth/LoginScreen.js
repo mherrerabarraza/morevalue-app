@@ -7,8 +7,8 @@ import "./signin.css";
 export const LoginScreen = () => {
   const dispatch = useDispatch();
   const [formValues, handleInputChange] = useForm({
-    email: "jenny@morevaluecompany.com",
-    password: "12341234",
+    email: "",
+    password: "",
   });
 
   const { email, password } = formValues;
