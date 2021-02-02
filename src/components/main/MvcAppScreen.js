@@ -12,6 +12,10 @@ import { CreateEmployeeScreen } from "../employee/CreateEmployeeScreen";
 import { CreateEmpresaScreen } from "../empresa/CreateEmpresaScreen";
 import { startGetTodasLasEmpresas } from "../../actions/empresa.actions";
 import { EditEmpresaScreen } from "../empresa/EditEmpresaScreen";
+import { CreateEquipmentScreen } from "../equipment/CreateEquipmentScreen";
+import { startGetEquiposIdEmpresa } from "../../actions/equipos.actions";
+import { startGetPermisosPorVencerTodasLasEmpresas } from "../../actions/permisos.actions";
+import { EditEquipmentScreen } from "../equipment/EditEquipmentScreen";
 
 export const MvcAppScreen = () => {
   const dispatch = useDispatch();
@@ -20,8 +24,10 @@ export const MvcAppScreen = () => {
   useEffect(() => {
     if (idEmpresa) {
       dispatch(startGetExamenesPorVencerTodasLasEmpresas());
-      dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
+      dispatch(startGetPermisosPorVencerTodasLasEmpresas());
       dispatch(startGetTodasLasEmpresas());
+      dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
+      dispatch(startGetEquiposIdEmpresa(idEmpresa));
     }
   }, [dispatch, idEmpresa]);
   //aqui deberia hacer el dispatch porque ya se que empresa es
@@ -39,67 +45,68 @@ export const MvcAppScreen = () => {
                 <ul className="nav flex-column">
                   <li className="nav-item">
                     <Link className="nav-link" to="/">
-                      Escritorio
+                      <span><i className='fas fa-home'></i></span>
+                      {' '}Escritorio
                     </Link>
                   </li>
                   {isAdmin ? (
                     <>
                       <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Empresa</span>
+                        <span><i className="fas fa-laptop-house"></i>{' '}Empresa</span>
                       </h6>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/newempresa">
-                          Nueva Empresa
+                          <span><i className="fas fa-plus-circle"></i>{' '}</span>Nueva Empresa
                         </Link>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/editempresa">
-                          Editar Empresa
+                          <span><i className="fas fa-pen"></i>{' '}</span>Editar Empresa
                         </Link>
                       </li>
                       <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Usuario</span>
+                        <span><i className="fas fa-users"></i>{' '}Usuario</span>
                       </h6>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/newuser">
-                          Nuevo Usuario
+                          <span><i className="fas fa-user-plus"></i>{' '}</span>Nuevo Usuario
                         </Link>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/edituser">
-                          Editar Usuario
+                          <span><i className="fas fa-user-edit"></i>{' '}</span>Editar Usuario
                         </Link>
                       </li>
                       <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Trabajadores</span>
+                        <span><i className="fas fa-hard-hat"></i>{' '}Trabajadores</span>
                       </h6>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/createemployee">
-                          Nuevo Trabajador
+                        <span><i className="fas fa-plus-circle"></i>{' '}</span>Nuevo Trabajador
                         </Link>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/editemployee">
-                          Editar Trabajador
+                        <span><i className="fas fa-pen"></i>{' '}</span>Editar Trabajador
                         </Link>
                       </li>
                       <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Equipos</span>
+                        <span><i className="fas fa-truck-pickup"></i>{' '}Equipos</span>
                       </h6>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/newequipment">
-                          Nuevo Equipo
+                        <span><i className="fas fa-plus-circle"></i>{' '}</span>Nuevo Equipo
                         </Link>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/editequipment">
-                          Editar Equipo
+                        <span><i className="fas fa-pen"></i>{' '}</span>Editar Equipo
                         </Link>
                       </li>
                     </>
                   ) : (
-                    <div></div>
-                  )}
+                      <div></div>
+                    )}
                 </ul>
               </div>
             </nav>
@@ -133,6 +140,16 @@ export const MvcAppScreen = () => {
                     exact
                     component={CreateEmpresaScreen}
                     path="/admin/newempresa"
+                  />
+                  <Route
+                    exact
+                    component={CreateEquipmentScreen}
+                    path="/admin/newequipment"
+                  />
+                  <Route
+                    exact
+                    component={EditEquipmentScreen}
+                    path="/admin/editequipment"
                   />
                 </Switch>
               </div>

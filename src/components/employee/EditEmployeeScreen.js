@@ -22,9 +22,6 @@ export const EditEmployeeScreen = () => {
   const { examenesIdTrabajador } = useSelector((state) => state.exam);
   const { idEmpresa } = useSelector((state) => state.user);
 
-
-
-
   const handleSearch = (e) => {
     e.preventDefault();
     buscar(idTrabajador);
