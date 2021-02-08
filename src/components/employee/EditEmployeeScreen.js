@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import Swal from "sweetalert2";
+
 import { CalendarModal } from "../ui/modal/CalendarModal";
+
 import { uiOpenModal } from "../../actions/ui";
 import { ExamenScreen } from "../ui/examenes/ExamenScreen";
 import { startGetTodoExamenesTrabajadorID } from "../../actions/exam";
@@ -13,8 +15,12 @@ export const EditEmployeeScreen = () => {
     idTrabajador: "",
   });
   const { idTrabajador } = formValues;
-  
-  dispatch(startGetTodoExamenesTrabajadorID(idTrabajador));
+
+
+  useEffect(() => {
+    dispatch(startGetTodoExamenesTrabajadorID(idTrabajador));
+  }, [dispatch, idTrabajador])
+
   const [exist, setExist] = useState(false);
   const [datosTrabajador, setDatosTrabajador] = useState([]);
   const [datosExamenes, setDatosExamenes] = useState([]);
@@ -85,7 +91,7 @@ export const EditEmployeeScreen = () => {
           </div>
           <div>
             <h3>
-              Examenes{" "}
+              Docuementos{" "}
               <span style={{ color: "green", cursor: "pointer" }}>
                 <i className="fas fa-plus-circle" onClick={handleModal}>
                   {" "}
@@ -99,8 +105,8 @@ export const EditEmployeeScreen = () => {
                 <th scope="col">Rut Empresa</th>
                 <th scope="col">Rut Trabajador</th>
                 <th scope="col">Fecha Caducidad</th>
-                <th scope="col">Nombre Examen</th>
-                <th scope="col">Examen</th>
+                <th scope="col">Nombre Documento</th>
+                <th scope="col">Descargar</th>
               </tr>
             </thead>
             <tbody>

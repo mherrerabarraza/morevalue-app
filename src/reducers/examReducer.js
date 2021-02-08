@@ -19,6 +19,12 @@ export const examReducer = (state = {}, action) => {
         examenes: [...action.payload]
       }
 
+    case types.removeExamenUrl:
+      return {
+        ...state,
+        url: null,
+      }
+
     case types.getExamsIdTrabajador:
       return {
         ...state,

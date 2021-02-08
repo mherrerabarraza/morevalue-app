@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { startGetTodoPermisosEquipoID } from '../../actions/permisos.actions';
@@ -14,14 +14,16 @@ export const EditEquipmentScreen = () => {
     });
     const { idEquipo } = formValues;
 
-    dispatch(startGetTodoPermisosEquipoID(idEquipo));
+
+    useEffect(() => {
+        dispatch(startGetTodoPermisosEquipoID(idEquipo));
+    }, [dispatch, idEquipo]);
+
     const [exist, setExist] = useState(false);
     const [datosEquipo, setDatosEquipo] = useState([]);
     const [datosPermisos, setDatosPermisos] = useState([]);
     const { equipos } = useSelector((state) => state.equi);
-    console.log(equipos);
     const { permisos } = useSelector((state) => state.perm);
-    console.log(permisos);
     const { idEmpresa } = useSelector((state) => state.user);
 
     const handleSearch = (e) => {
@@ -87,7 +89,7 @@ export const EditEquipmentScreen = () => {
                     </div>
                     <div>
                         <h3>
-                            Permisos{" "}
+                            Documentos{" "}
                             <span style={{ color: "green", cursor: "pointer" }}>
                                 <i className="fas fa-plus-circle" onClick={handleModal}>
                                     {" "}
@@ -99,10 +101,10 @@ export const EditEquipmentScreen = () => {
                         <thead>
                             <tr>
                                 <th scope="col">Rut Empresa</th>
-                                <th scope="col">Rut Trabajador</th>
+                                <th scope="col">ID o Patente Equipo</th>
                                 <th scope="col">Fecha Caducidad</th>
-                                <th scope="col">Nombre Examen</th>
-                                <th scope="col">Examen</th>
+                                <th scope="col">Nombre Documento</th>
+                                <th scope="col">Descargar</th>
                             </tr>
                         </thead>
                         <tbody>

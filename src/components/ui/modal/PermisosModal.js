@@ -6,7 +6,7 @@ import "./modal.css";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../../actions/ui";
-import { startUploadingExamen } from "../../../actions/exam";
+import { removeExamenUrl, startUploadingExamen } from "../../../actions/exam";
 import { startCrearNuevoPermiso, startGetTodoPermisosEquipoID } from "../../../actions/permisos.actions";
 
 const customStyles = {
@@ -59,9 +59,9 @@ export const PermisosModal = ({ idEquipo, idEmpresa }) => {
 
     const closeModal = () => {
         dispatch(uiCloseModal());
+        dispatch(removeExamenUrl());
         // setIsOpen(false);
     };
-    console.log(idEquipo);
     const handleNewPermiso = () => {
         dispatch(
             startCrearNuevoPermiso({
@@ -77,6 +77,8 @@ export const PermisosModal = ({ idEquipo, idEmpresa }) => {
         Swal.fire("Permiso Creado con Éxito", "", "success");
         dispatch(uiCloseModal());
         startGetTodoPermisosEquipoID(idEquipo)
+        dispatch(removeExamenUrl());
+        
     };
 
     const handleFileChange = (e) => {

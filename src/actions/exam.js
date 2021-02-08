@@ -4,12 +4,7 @@ import { types } from "../types/types";
 
 
 
-/**
- * TODO: Falta crear getExamenesPorIdTrabajador para mostrar en resumen trabajador
- */
-
-
- export const startGetTodoExamenesTrabajadorID = (idTrabajador) => {
+export const startGetTodoExamenesTrabajadorID = (idTrabajador) => {
   const examenes = [];
   return async (dispatch) => {
     await db
@@ -27,16 +22,16 @@ import { types } from "../types/types";
       });
     dispatch(getTodoExamenesTrabajadorID(examenes));
   };
- }
+}
 
-export const getTodoExamenesTrabajadorID = (examenes) =>({
+export const getTodoExamenesTrabajadorID = (examenes) => ({
   type: types.getTodoExamenesTrabajadorID,
   payload: examenes,
 })
 
 export const startGetExamenesPorVencerTodasLasEmpresas = () => {
   var someDate = new Date();
-  var numberOfDaysToAdd = 60;
+  var numberOfDaysToAdd = 90;
   someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
   const newDate = someDate.getTime();
   const examenes = [];
@@ -66,7 +61,7 @@ export const getExamenesPorVencerTodasLasEmpresas = (examenes) => ({
 
 export const startGetExamenesPorVencerPorIdEmpresa = (idEmpresa) => {
   var someDate = new Date();
-  var numberOfDaysToAdd = 60;
+  var numberOfDaysToAdd = 90;
   someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
   const newDate = someDate.getTime();
   const examenes = [];
@@ -126,6 +121,10 @@ export const uploadingExamen = (fileUrl) => ({
   type: types.getExamenUrl,
   payload: fileUrl,
 });
+
+export const removeExamenUrl = () => ({
+  type: types.removeExamenUrl,
+})
 
 
 export const examenesLogout = () => ({

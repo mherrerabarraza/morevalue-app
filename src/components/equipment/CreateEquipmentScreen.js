@@ -25,7 +25,7 @@ export const CreateEquipmentScreen = () => {
             Swal.fire("Ya existe este equipo", '', "error");
             reset();
         } else {
-            dispatch(startCrearEquipoEmpresa(idEmpresa, idEquipo, nombre));
+            dispatch(startCrearEquipoEmpresa(idEmpresa, idEquipo.toUpperCase(), nombre));
             Swal.fire("Equipo Creado con éxito", "", "success");
             reset();
         }

@@ -19,6 +19,7 @@ export const types = {
   getExamenesPorVencerTodasLasEmpresas: "[Exam] Get Examenes por Vencer todas las Empresas",
   crearNuevoExamen: "[Exam] Crear Nuevo Examen ID Trabajador",
   getExamenUrl: "[Exam] Get Examen URL",
+  removeExamenUrl: "[Exam] Remove Examen URL",
   examenesLogout: "[Exam] Limpiar Examenes",
   getTodoExamenesTrabajadorID: "[Exam] Examenes por idTrabajador",
 
@@ -38,6 +39,7 @@ export const types = {
   equipoExist: "[Emp] Equipo ya está en DB",
 
   //Permisos
+  getPermisosPorVencerIdEmpresas: '[PER] Permisos por vencer ID Empresa',
   getTodoPermisosEquipoID: '[PER] Get todos Permisos Equipo ID',
   getPermisosPorVencerTodasLasEmpresas: '[PER] Get todos Permisos por vencer todas las empresas',
   crearNuevoPermiso: '[PER] Crear Nuevo Permiso'

@@ -6,7 +6,7 @@ import "./modal.css";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../../actions/ui";
-import { startCrearNuevoExamen, startGetTodoExamenesTrabajadorID } from "../../../actions/exam";
+import { removeExamenUrl, startCrearNuevoExamen, startGetTodoExamenesTrabajadorID } from "../../../actions/exam";
 import { startUploadingExamen } from "../../../actions/exam";
 
 const customStyles = {
@@ -59,6 +59,7 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
 
   const closeModal = () => {
     dispatch(uiCloseModal());
+    dispatch(removeExamenUrl());
     // setIsOpen(false);
   };
 
@@ -77,6 +78,7 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
     Swal.fire("Examen Creado con Éxito", "", "success");
     dispatch(uiCloseModal());
     startGetTodoExamenesTrabajadorID(idTrabajador)
+    dispatch(removeExamenUrl());
   };
 
   const handleFileChange = (e) => {
