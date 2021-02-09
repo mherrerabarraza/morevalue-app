@@ -40,7 +40,7 @@ export const ExamenScreen = ({ id, ...examen }) => {
   }
   return (
     <tr>
-      <td><i class="fas fa-circle" style={{ color: `${calcularFecha(fechaCaducidad)}`, border: '1px solid black', borderRadius: '50px' }}></i></td>
+      <td><i className="fas fa-circle" style={{ color: `${calcularFecha(fechaCaducidad)}`, border: '1px solid black', borderRadius: '50px' }}></i></td>
       <td>{idEmpresa}</td>
       <td /*onClick={handleSearchEmployee}*/>{idTrabajador}</td>
       <td>{new Date(fechaCaducidad).toLocaleDateString()}</td>

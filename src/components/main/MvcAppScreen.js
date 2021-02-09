@@ -52,19 +52,6 @@ export const MvcAppScreen = () => {
                   {isAdmin ? (
                     <>
                       <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span><i className="fas fa-laptop-house"></i>{' '}Empresa</span>
-                      </h6>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/admin/newempresa">
-                          <span><i className="fas fa-plus-circle"></i>{' '}</span>Nueva Empresa
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/admin/editempresa">
-                          <span><i className="fas fa-pen"></i>{' '}</span>Editar Empresa
-                        </Link>
-                      </li>
-                      <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span><i className="fas fa-users"></i>{' '}Usuario</span>
                       </h6>
                       <li className="nav-item">
@@ -75,6 +62,19 @@ export const MvcAppScreen = () => {
                       <li className="nav-item">
                         <Link className="nav-link" to="/admin/edituser">
                           <span><i className="fas fa-user-edit"></i>{' '}</span>Editar Usuario
+                        </Link>
+                      </li>
+                      <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span><i className="fas fa-laptop-house"></i>{' '}Empresa</span>
+                      </h6>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/admin/newempresa">
+                          <span><i className="fas fa-plus-circle"></i>{' '}</span>Nueva Empresa
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/admin/editempresa">
+                          <span><i className="fas fa-pen"></i>{' '}</span>Editar Empresa
                         </Link>
                       </li>
                       <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

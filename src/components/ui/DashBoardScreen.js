@@ -4,12 +4,13 @@ import { startGetPermisosPorVencerTodasLasEmpresas } from "../../actions/permiso
 import { startGetExamenesPorVencerTodasLasEmpresas } from "../../actions/exam";
 import { ExamenScreen } from "../ui/examenes/ExamenScreen";
 import { PermisosScreen } from "./permisos/PermisosScreen";
+
 export const DashBoardScreen = () => {
   const dispatch = useDispatch();
   const { examenes } = useSelector((state) => state.exam);
   const { permisos } = useSelector((state) => state.perm);
   return (
-    <div>
+    <div className="container-fluid">
       <h1>Resumen:</h1>
       <hr />
       <h2>
