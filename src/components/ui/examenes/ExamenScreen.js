@@ -1,62 +1,97 @@
+import { Button } from "@material-ui/core";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { startLogDescargas } from "../../../actions/exam";
-export const ExamenScreen = ({ id, ...examen }) => {
-
+import { CalcularFecha } from "../helpers/CalcularFecha";
+export const ExamenScreen = ({ datosExamenes }) => {
 
   /**
    * TODO: al presionar el rut del trabajador ir a la págiba del trabajador
    */
 
+  // const HandleDownload = () => {
+  //   console.log(
+  //     "archivo descargado: " + datosExamenes.nombreExamen + "descargado por: " + datosExamenes.nombre
+  //   );
+  //   useDispatch(
+  //     startLogDescargas(datosExamenes.idContrato, datosExamenes.idUsuario, datosExamenes.idEmpresa, datosExamenes.idTrabajador, datosExamenes.nombreExamen, datosExamenes.datosExamenes.url)
+  //   );
+  // };
 
-  const dispatch = useDispatch();
-  const { idEmpresa, idTrabajador, fechaCaducidad, url, nombreExamen } = examen;
-  const { nombre, idUsuario } = useSelector((state) => state.user);
-  const handleDownload = () => {
-    console.log(
-      "archivo descargado: " + nombreExamen + "descargado por: " + nombre
-    );
-    dispatch(
-      startLogDescargas(idUsuario, idEmpresa, idTrabajador, nombreExamen, url)
-    );
-  };
 
-  const calcularFecha = (fechaCaducidad) => {
-    const p30 = new Date();
-    const p60 = new Date()
-    const p90 = new Date()
-    p30.setDate(p30.getDate() + 30)
-    p60.setDate(p60.getDate() + 60)
-    p90.setDate(p90.getDate() + 90)
-    if (fechaCaducidad <= p30.getTime()) {
-      return `red`;
-    }
-    if (fechaCaducidad <= p60.getTime() && fechaCaducidad <= p90.getTime()) {
-      return `yellow`;
-    }
-    if (fechaCaducidad > p90.getTime()) {
-      return `green`;
-    }
-  }
+  const columns = [
+    {
+      field: 'estado',
+      headerName: 'Estado',
+      width: 130,
+      renderCell: (params) => (
+        <div>
+          <i
+            className="fas fa-circle"
+            style={{
+              color: `${params.value.color}`,
+              border: '1px solid black', borderRadius: '50px'
+            }}></i>
+          <span>{' '}{params.value.texto}</span>
+        </div>
+      ),
+    },
+    { field: 'idEmpresa', headerName: 'Empresa', width: 120 },
+    { field: 'idContrato', headerName: 'Contrato', width: 120 },
+    { field: 'idTrabajador', headerName: 'Trabajador', width: 120 },
+    { field: 'fechaCaducidad', headerName: 'Caduca', width: 120 },
+    { field: 'nombreExamen', headerName: 'Documento', width: 130 },
+    {
+      field: 'url',
+      headerName: 'Descarga',
+      width: 130,
+      renderCell: (params) => (
+        <div>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+          >
+            <a
+              href={params.value}
+              target='_blank'
+              rel='noreferrer'
+              style={{ textDecoration: 'none' }}
+            >Descargar</a>
+          </Button>
+        </div>
+
+      ),
+    },
+  ];
+  const rows = [];
+  datosExamenes.forEach(dp => {
+    rows.push({
+      id: dp.id,
+      idTrabajador: dp.idTrabajador,
+      estado: {
+        texto: CalcularFecha(dp.fechaCaducidad).texto,
+        color: CalcularFecha(dp.fechaCaducidad).color,
+      },
+      idContrato: dp.idContrato,
+      fechaCaducidad: new Date(dp.fechaCaducidad).toLocaleDateString(),
+      idEmpresa: dp.idEmpresa,
+      nombreExamen: dp.nombreExamen,
+      url: dp.url,
+    })
+  })
+
   return (
-    <tr>
-      <td><i className="fas fa-circle" style={{ color: `${calcularFecha(fechaCaducidad)}`, border: '1px solid black', borderRadius: '50px' }}></i></td>
-      <td>{idEmpresa}</td>
-      <td /*onClick={handleSearchEmployee}*/>{idTrabajador}</td>
-      <td>{new Date(fechaCaducidad).toLocaleDateString()}</td>
-      <td>{nombreExamen}</td>
-
-      <td>
-        <a
-          className="data"
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-          onClick={handleDownload}
-        >
-          descargar
-        </a>
-      </td>
-    </tr>
-  );
+    <div>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        showToolbar
+        autoHeight
+        columnTypes
+        density='compact'
+        components={{ Toolbar: GridToolbar }} />
+    </div>
+  )
 };

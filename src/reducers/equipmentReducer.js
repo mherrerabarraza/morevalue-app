@@ -5,9 +5,14 @@ export const equipmentReducer = (state = {}, action) => {
         case types.crearEquipoEmpresa:
             return {
                 ...state,
-                equipo: action.payload
+                equipos: [...action.payload]
             }
         case types.getEquiposIdEmpresa:
+            return {
+                ...state,
+                equipos: [...action.payload]
+            }
+        case types.getTodosLosEquipos:
             return {
                 ...state,
                 equipos: [...action.payload]

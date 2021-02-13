@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../../actions/ui";
 import { removeExamenUrl, startUploadingExamen } from "../../../actions/exam";
 import { startCrearNuevoPermiso, startGetTodoPermisosEquipoID } from "../../../actions/permisos.actions";
+import { Button, TextField } from "@material-ui/core";
+import SaveIcon from '@material-ui/icons/Save';
 
 const customStyles = {
     content: {
@@ -22,7 +24,7 @@ const customStyles = {
 const now = moment().minutes(0).seconds(0);
 Modal.setAppElement("#root");
 
-export const PermisosModal = ({ idEquipo, idEmpresa }) => {
+export const PermisosModal = ({ idEquipo, idEmpresa, idContrato }) => {
     const dispatch = useDispatch();
     const { modalOpen } = useSelector((state) => state.ui);
     const { url } = useSelector((state) => state.exam);
@@ -67,6 +69,7 @@ export const PermisosModal = ({ idEquipo, idEmpresa }) => {
             startCrearNuevoPermiso({
                 idEquipo: idEquipo,
                 idEmpresa: idEmpresa,
+                idContrato: idContrato,
                 nombrePermiso: nombrePermiso,
                 fechaCaducidad: new Date(formValues.fechaCaducidad).getTime(),
                 fechaCreacion: new Date().getTime(),
@@ -74,11 +77,10 @@ export const PermisosModal = ({ idEquipo, idEmpresa }) => {
             })
         );
         //carga de inmediato el nuevo examen
-        Swal.fire("Permiso Creado con Éxito", "", "success");
+        Swal.fire("Documento Creado con Éxito", "", "success");
         dispatch(uiCloseModal());
-        startGetTodoPermisosEquipoID(idEquipo)
         dispatch(removeExamenUrl());
-        
+
     };
 
     const handleFileChange = (e) => {
@@ -105,20 +107,23 @@ export const PermisosModal = ({ idEquipo, idEmpresa }) => {
             closeTimeoutMS={500}
 
         >
-            <h1> Nuevo Permiso </h1>
+            <h1> Nuevo Documento </h1>
             <hr />
             <form className="container" onSubmit={handleSubmitForm}>
                 <div className="form-group">
-                    <label>Nombre</label>
-                    <input
+                    <TextField
                         type="text"
                         className={`form-control ${!titleValid && "is-invalid"}`}
-                        placeholder="Nombre del permiso"
                         name="nombrePermiso"
                         autoComplete="off"
                         value={nombrePermiso}
                         onChange={handleInputChange}
                         required
+                        type="text"
+                        autoFocus
+                        variant='outlined'
+                        style={{ width: 300, marginBottom: 10 }}
+                        label='Nombre del Documento'
                     />
                 </div>
                 <div className="form-group">
@@ -142,26 +147,29 @@ export const PermisosModal = ({ idEquipo, idEmpresa }) => {
                         onChange={handleFileChange}
                         required
                     />
-                    <button
-                        className="btn btn-success"
+                    <Button
                         onClick={handleArchivoExamenchange}
+                        color='primary'
+                        variant='contained'
                     >
-                        Archivo Permiso
-          </button>
+                        Archivo Documento
+                    </Button>
                 </div>
 
-                <button
+                <Button
                     type="submit"
-                    className="btn btn-outline-primary btn-block"
+                    // className="btn btn-outline-primary btn-block"
                     style={{
                         marginTop: "10px",
                         display: `${url ? "" : "none"}`,
                     }}
                     onClick={handleNewPermiso}
+                    color='primary'
+                    variant='outlined'
+                    startIcon={<SaveIcon />}
                 >
-                    <i className="far fa-save" style={{ cursor: "pointer" }}></i>
-                    <span> Guardar</span>
-                </button>
+                    <span>Guardar</span>
+                </Button>
             </form>
         </Modal>
     );

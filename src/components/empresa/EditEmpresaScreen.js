@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { Autocomplete } from '@material-ui/lab';
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -23,7 +23,6 @@ export const EditEmpresaScreen = () => {
   });
 
   const { idEmpresa, nombre } = formValues;
-  console.log(formValues);
   const handleSearch = () => {
     buscar(idEmpresa);
   };
@@ -50,7 +49,6 @@ export const EditEmpresaScreen = () => {
       Swal.fire("El nombre es muy corto", "", "info");
       return;
     }
-    console.log(value.idEmpresa);
     /**
      * TODO: limpiar el formulario al actualizar
      */

@@ -13,6 +13,7 @@ export const types = {
   trabajadoresLogout: "[Emp] Limpiar Trabajadores",
   crearTrabajadorEmpresa: "[Emp] Trabajador Creado",
   trabajadorExist: "[Emp] Trabajador ya está en DB",
+  getTodosTrabajadores: "[Emp] Get Todos Trabajadores Todas las Empresa",
 
   //examenes
   getExamenesPorVencerPorIdEmpresa: "[Exam] Get Examenes por Vencer ID Empresa",
@@ -22,7 +23,6 @@ export const types = {
   removeExamenUrl: "[Exam] Remove Examen URL",
   examenesLogout: "[Exam] Limpiar Examenes",
   getTodoExamenesTrabajadorID: "[Exam] Examenes por idTrabajador",
-
 
   //UI
   uiOpenModal: "[UI] Open Modal",
@@ -37,10 +37,17 @@ export const types = {
   crearEquipoEmpresa: "[Emp] Equipo Creado",
   equiposLogout: "[Emp] Limpiar Equipos",
   equipoExist: "[Emp] Equipo ya está en DB",
+  getTodosLosEquipos: '[Emp] Get todos los equipos',
 
   //Permisos
   getPermisosPorVencerIdEmpresas: '[PER] Permisos por vencer ID Empresa',
   getTodoPermisosEquipoID: '[PER] Get todos Permisos Equipo ID',
   getPermisosPorVencerTodasLasEmpresas: '[PER] Get todos Permisos por vencer todas las empresas',
-  crearNuevoPermiso: '[PER] Crear Nuevo Permiso'
+  crearNuevoPermiso: '[PER] Crear Nuevo Permiso',
+
+  //contratos
+  crearNuevoContrato: '[CON] Nuevo Contrato',
+  getContratosIdEmpresa: '[CON] Get Contrato ID Empresa',
+  getTodosContratos: '[CON] Get Todos Contratos'
+
 };

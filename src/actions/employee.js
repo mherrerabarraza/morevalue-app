@@ -24,15 +24,42 @@ export const getTrabajadoresIdEmpresa = (trabajadores) => ({
   payload: trabajadores,
 });
 
+
+export const startGetTodosTrabajadores = () => {
+  return async (dispatch) => {
+    const trabajadores = [];
+    db.collection("trabajadores")
+      .get()
+      .then((snapTrabajadores) => {
+        snapTrabajadores.forEach((trabajador) => {
+          trabajadores.push({
+            id: trabajador.id,
+            ...trabajador.data(),
+          });
+        });
+        dispatch(getTrabajadoresIdEmpresa(trabajadores));
+      });
+  };
+};
+
+export const getTodosTrabajadores = (trabajadores) => ({
+  type: types.getTodosTrabajadores,
+  payload: trabajadores,
+});
+
+
+
+
 export const trabajadoresLogout = () => ({
   type: types.trabajadoresLogout,
 });
 
-export const startCrearTrabajadorEmpresa = (idEmpresa, idEmpleado, nombre) => {
+export const startCrearTrabajadorEmpresa = (idEmpresa, idContrato, idEmpleado, nombre) => {
   return async (dispatch) => {
     //crea usuario
     db.collection("trabajadores").doc(idEmpleado).set({
       idEmpresa: idEmpresa,
+      idContrato: idContrato,
       nombre: nombre,
     });
     dispatch(crearTrabajadorEmpresa());

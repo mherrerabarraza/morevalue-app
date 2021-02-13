@@ -17,7 +17,7 @@ export const startGetPermisosPorVencerIdEmpresas = (idEmpresa) => {
       .get()
       .then((snap) => {
         snap.forEach((permiso) =>
-        permisos.push({
+          permisos.push({
             id: permiso.id,
             ...permiso.data(),
           })
@@ -34,76 +34,76 @@ export const getPermisosPorVencerIdEmpresas = (examenes) => ({
 
 
 export const startGetPermisosPorVencerTodasLasEmpresas = () => {
-    var someDate = new Date();
-    var numberOfDaysToAdd = 90;
-    someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
-    const newDate = someDate.getTime();
-    const permisos = [];
-    return async (dispatch) => {
-      await db
-        .collection("permisos")
-        .where("fechaCaducidad", "<=", newDate)
-        .get()
-        .then((snap) => {
-          snap.forEach((permiso) => {
-            permisos.push({
-              id: permiso.id,
-              ...permiso.data(),
-            })
-          }
-          );
-        });
-      dispatch(getPermisosPorVencerTodasLasEmpresas(permisos));
-    };
-  }
-  
-  export const getPermisosPorVencerTodasLasEmpresas = (permisos) => ({
-    type: types.getPermisosPorVencerTodasLasEmpresas,
-    payload: permisos,
-  });
-
-  export const startGetTodoPermisosEquipoID = (idEquipo) => {
-    const permisos = [];
-    return async (dispatch) => {
-      await db
-        .collection("permisos")
-        .where("idEquipo", "==", idEquipo)
-        .get()
-        .then((snap) => {
-          snap.forEach((permiso) => {
-            permisos.push({
-              id: permiso.id,
-              ...permiso.data(),
-            })
-          }
-          );
-        });
-      dispatch(getTodoPermisosEquipoID(permisos));
-    };
-   }
-  
-  export const getTodoPermisosEquipoID = (permisos) =>({
-    type: types.getTodoPermisosEquipoID,
-    payload: permisos,
-  })
-
-  export const startCrearNuevoPermiso = (permiso) => {
-    return async (dispatch) => {
-      const permisoRef = db.collection("permisos");
-      //agredar Datos
-      permisoRef
-        .add(permiso)
-        .then((permiso) => {
-          console.log("Agregado: ", permiso.id);
-        })
-        .catch((error) => {
-          console.log("Error: ", error);
-        });
-      dispatch(crearNuevoExamen(permiso));
-    };
+  var someDate = new Date();
+  var numberOfDaysToAdd = 90;
+  someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+  const newDate = someDate.getTime();
+  const permisos = [];
+  return async (dispatch) => {
+    await db
+      .collection("permisos")
+      .where("fechaCaducidad", "<=", newDate)
+      .get()
+      .then((snap) => {
+        snap.forEach((permiso) => {
+          permisos.push({
+            id: permiso.id,
+            ...permiso.data(),
+          })
+        }
+        );
+      });
+    dispatch(getPermisosPorVencerTodasLasEmpresas(permisos));
   };
-  
-  export const crearNuevoExamen = (permiso) => ({
-    type: types.crearNuevoPermiso,
-    payload: permiso,
-  });
+}
+
+export const getPermisosPorVencerTodasLasEmpresas = (permisos) => ({
+  type: types.getPermisosPorVencerTodasLasEmpresas,
+  payload: permisos,
+});
+
+export const startGetTodoPermisosEquipoID = (idEquipo) => {
+  const permisos = [];
+  console.log(idEquipo);
+  return async (dispatch) => {
+    await db
+      .collection("permisos")
+      .where("idEquipo", "==", idEquipo)
+      .get()
+      .then((snap) => {
+        snap.forEach((permiso) => {
+          permisos.push({
+            id: permiso.id,
+            ...permiso.data(),
+          })
+        }
+        );
+      });
+    dispatch(getTodoPermisosEquipoID(permisos));
+  };
+}
+
+export const getTodoPermisosEquipoID = (permisos) => ({
+  type: types.getTodoPermisosEquipoID,
+  payload: permisos,
+})
+
+export const startCrearNuevoPermiso = (permiso) => {
+  const { idEquipo } = permiso
+  return async (dispatch) => {
+    await db.collection("permisos")
+      .add(permiso)
+      .then(
+        dispatch(startGetPermisosPorVencerTodasLasEmpresas()),
+        dispatch(startGetTodoPermisosEquipoID(idEquipo))
+      )
+      .catch(err => {
+        throw new Error(err)
+      })
+  };
+};
+
+export const crearNuevoPermiso = (permiso) => ({
+  type: types.crearNuevoPermiso,
+  payload: permiso,
+});

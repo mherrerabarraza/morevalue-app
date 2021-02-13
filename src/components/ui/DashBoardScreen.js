@@ -4,6 +4,7 @@ import { startGetPermisosPorVencerTodasLasEmpresas } from "../../actions/permiso
 import { startGetExamenesPorVencerTodasLasEmpresas } from "../../actions/exam";
 import { ExamenScreen } from "../ui/examenes/ExamenScreen";
 import { PermisosScreen } from "./permisos/PermisosScreen";
+import { CircularProgress } from "@material-ui/core";
 
 export const DashBoardScreen = () => {
   const dispatch = useDispatch();
@@ -18,55 +19,26 @@ export const DashBoardScreen = () => {
         <i
           className="fas fa-sync fa-xs"
           style={{ cursor: "pointer", color: "green" }}
+          /**
+           * Volver a cargar todos los exámenes
+           */
           onClick={() => {
             dispatch(startGetExamenesPorVencerTodasLasEmpresas());
             dispatch(startGetPermisosPorVencerTodasLasEmpresas());
           }}
         ></i>
       </h2>
-      <table className='table'>
-        <thead>
-          <tr>
-            <th scope='column'>Estado</th>
-            <th scope="col" data-sortable="true" data-field="id">Rut Empresa</th>
-            <th scope="col">Rut Trabajador</th>
-            <th scope="col">Fecha Caducidad</th>
-            <th scope="col">Nombre Documento</th>
-            <th scope="col">Descargar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {examenes ? (
-            examenes.map((examen) => (
-              <ExamenScreen key={examen.id} {...examen} />
-            ))
-          ) : (
-              <>Loading...</>
-            )}
-        </tbody>
+      {
+        examenes
+          ? <ExamenScreen datosExamenes={examenes} />
+          : <CircularProgress />
+      }
+      {
+        permisos
+          ? <PermisosScreen datosPermisos={permisos} />
+          : <CircularProgress color='secondary' />
 
-      </table>
-      <table className='table'>
-        <thead>
-          <tr>
-            <th scope='column'>Estado</th>
-            <th scope="col" data-sortable="true" data-field="id">Rut Empresa</th>
-            <th scope="col">ID Equipo</th>
-            <th scope="col">Fecha Caducidad</th>
-            <th scope="col">Nombre Documento</th>
-            <th scope="col">Descargar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {permisos ? (
-            permisos.map((permiso) => (
-              <PermisosScreen key={permiso.id} {...permiso} />
-            ))
-          ) : (
-              <>Loading...</>
-            )}
-        </tbody>
-      </table>
+      }
     </div>
   );
 };

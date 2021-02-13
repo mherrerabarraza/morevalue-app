@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { startGetTodoPermisosEquipoID } from '../../actions/permisos.actions';
@@ -6,6 +6,7 @@ import { useForm } from '../../hooks/useForm';
 import { PermisosScreen } from '../ui/permisos/PermisosScreen';
 import { uiOpenModal } from '../../actions/ui'
 import { PermisosModal } from '../ui/modal/PermisosModal';
+import { Button, CircularProgress, Container, TextField } from '@material-ui/core';
 
 export const EditEquipmentScreen = () => {
     const dispatch = useDispatch();
@@ -13,38 +14,25 @@ export const EditEquipmentScreen = () => {
         idEquipo: "",
     });
     const { idEquipo } = formValues;
-
-
-    useEffect(() => {
-        dispatch(startGetTodoPermisosEquipoID(idEquipo));
-    }, [dispatch, idEquipo]);
-
     const [exist, setExist] = useState(false);
     const [datosEquipo, setDatosEquipo] = useState([]);
-    const [datosPermisos, setDatosPermisos] = useState([]);
     const { equipos } = useSelector((state) => state.equi);
-    const { permisos } = useSelector((state) => state.perm);
+    const { permisosEquipo } = useSelector((state) => state.perm)
     const { idEmpresa } = useSelector((state) => state.user);
 
     const handleSearch = (e) => {
         e.preventDefault();
+        dispatch(startGetTodoPermisosEquipoID(idEquipo));
         buscar(idEquipo);
     };
     const buscar = (idEquipo) => {
         const equ = equipos.filter((equipo) => equipo.id === idEquipo);
+        console.log(equ);
         setDatosEquipo(equ);
-        const per = permisos.filter(
-            (permiso) => permiso.idEquipo === idEquipo
-        );
-        setDatosPermisos(per);
-
         if (equ.length > 0) {
-            // setDatosTrabajador(tra);
-            // setDatosExamenes(ex);
             setExist(true);
         } else {
             Swal.fire("Equipo No Encontrado", "", "warning");
-            //evita error de busqueda de no existente, después de encontrado
             setExist(false)
             reset();
         }
@@ -52,29 +40,35 @@ export const EditEquipmentScreen = () => {
     const handleModal = () => {
         dispatch(uiOpenModal());
     };
+
     return (
-        <div>
+        <Container maxWidth='xl'>
             <form onSubmit={handleSearch}>
                 <h1 className="h3 mb-3 fw-normal">Buscar Eqiupo</h1>
                 <hr />
-                <input
+                <TextField
                     type="text"
                     id="idEquipo"
                     name="idEquipo"
                     className="form-control"
-                    placeholder="Ingrese patente, ej: AABB11"
+                    label="Ingrese patente"
                     required
                     autoFocus
+                    variant='outlined'
+                    placeholder="Ej: AABB11"
+                    style={{ width: 300, marginBottom: 10 }}
                     onChange={handleInputChange}
                     value={idEquipo}
                 />
-                <button
-                    className="w-100 btn btn-lg btn-primary"
-                    style={{ marginTop: "10px", marginBottom: "10px" }}
+                <br />
+                <Button
+                    style={{ width: 300, marginBottom: 10 }}
                     type="submit"
+                    color='primary'
+                    variant='contained'
                 >
                     Buscar
-        </button>
+                </Button>
             </form>
 
             {exist ? (
@@ -97,31 +91,21 @@ export const EditEquipmentScreen = () => {
                             </span>
                         </h3>
                     </div>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Rut Empresa</th>
-                                <th scope="col">ID o Patente Equipo</th>
-                                <th scope="col">Fecha Caducidad</th>
-                                <th scope="col">Nombre Documento</th>
-                                <th scope="col">Descargar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {datosPermisos ? (
-                                datosPermisos.map((permiso) => (
-                                    <PermisosScreen key={permiso.id} {...permiso} />
-                                ))
-                            ) : (
-                                    <>Loading...</>
-                                )}
-                        </tbody>
-                    </table>
-                    <PermisosModal idEquipo={idEquipo} idEmpresa={idEmpresa} />
+                    {/* Pasar directamente el permiso sin recorrer 1 a 1 para que no
+                    haya duplicidad en la creación de la tabla */}
+                    {permisosEquipo ? (
+                        <PermisosScreen datosPermisos={permisosEquipo} />
+                    ) : (
+                            <CircularProgress />
+                        )}
+                    <PermisosModal
+                        idContrato={datosEquipo[0].idContrato}
+                        idEquipo={idEquipo} 
+                        idEmpresa={idEmpresa} />
                 </div>
             ) : (
                     <div></div>
                 )}
-        </div>
+        </Container>
     );
 }

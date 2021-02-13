@@ -1,43 +1,77 @@
+import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import React from 'react'
+import { Button } from '@material-ui/core'
+import { CalcularFecha } from '../helpers/CalcularFecha';
 
-export const PermisosScreen = ({ id, ...permiso }) => {
-    const { idEmpresa, idEquipo, fechaCaducidad, url, nombrePermiso } = permiso;
-    const calcularFecha = (fechaCaducidad) => {
-        const p30 = new Date();
-        const p60 = new Date()
-        const p90 = new Date()
-        p30.setDate(p30.getDate() + 30)
-        p60.setDate(p60.getDate() + 60)
-        p90.setDate(p90.getDate() + 90)
-        if (fechaCaducidad <= p30.getTime()) {
-            return `red`;
-        }
-        if (fechaCaducidad > p30.getTime() && fechaCaducidad <= p90.getTime()) {
-            return `yellow`;
-        }
-        if (fechaCaducidad > p90.getTime()) {
-            return `green`;
-        }
-    }
-    return (
-        <tr>
-            <td><i className="fas fa-circle" style={{ color: `${calcularFecha(fechaCaducidad)}`, border: '1px solid black', borderRadius: '50px' }}></i></td>
-            <td>{idEmpresa}</td>
-            <td>{idEquipo}</td>
-            <td>{new Date(fechaCaducidad).toLocaleDateString()}</td>
-            <td>{nombrePermiso}</td>
+export const PermisosScreen = ({ datosPermisos }) => {
 
-            <td>
-                <a
-                    className="data"
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                // onClick={handleDownload}
+    const columns = [
+        {
+            field: 'estado',
+            headerName: 'Estado',
+            width: 130,
+            renderCell: (params) => (
+                <div>
+                    <i
+                        className="fas fa-circle"
+                        style={{
+                            color: `${params.value.color}`,
+                            border: '1px solid black', borderRadius: '50px'
+                        }}></i>
+                    <span>{' '}{params.value.texto}</span>
+                </div>
+            ),
+        },
+        { field: 'idEmpresa', headerName: 'Empresa', width: 120 },
+        { field: 'idContrato', headerName: 'Contrato', width: 120 },
+        { field: 'fechaCaducidad', headerName: 'Caduca', width: 120 },
+        { field: 'nombrePermiso', headerName: 'Documento', width: 130 },
+        {
+            field: 'url',
+            headerName: 'Descarga',
+            width: 130,
+            renderCell: (params) => (
+
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
                 >
-                    descargar
-        </a>
-            </td>
-        </tr >
-    );
+                    <a
+                        href={params.value}
+                        target='_blank'
+                        rel='noreferrer'
+                        style={{ textDecoration: 'none' }}
+                    >Descargar</a>
+                </Button>
+            ),
+        },
+    ];
+    const rows = [];
+    datosPermisos.forEach(dp => {
+        rows.push({
+            id: dp.id,
+            estado: {
+                texto: CalcularFecha(dp.fechaCaducidad).texto,
+                color: CalcularFecha(dp.fechaCaducidad).color,
+            },
+            idContrato: dp.idContrato,
+            fechaCaducidad: new Date(dp.fechaCaducidad).toLocaleDateString(),
+            idEmpresa: dp.idEmpresa,
+            nombrePermiso: dp.nombrePermiso,
+            url: dp.url,
+        })
+    })
+
+    return (
+        <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            showToolbar
+            autoHeight
+            columnTypes
+            density='compact'
+            components={{ Toolbar: GridToolbar }} />
+    )
 }

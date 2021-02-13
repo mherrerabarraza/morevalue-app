@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { startCrearTrabajadorEmpresa } from "../../actions/employee";
 import { useForm } from "../../hooks/useForm";
-import { DropDown } from "../ui/drop-down/DropDown";
+import { Autocomplete } from "@material-ui/lab";
+import { Button, Container, TextField } from "@material-ui/core";
 
 export const CreateEmployeeScreen = () => {
-  // const { idEmpresa } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { contratos } = useSelector((state) => state.cont)
   const { trabajadores } = useSelector((state) => state.trab);
   const { empresas } = useSelector(state => state.empr);
-  const dispatch = useDispatch();
+
+
+
+  //DropDown Empresa
+  const [empresaValue, setEmpresaValue] = useState(empresas[0])
+  const [empresaInputValue, setEmpresaInputValue] = useState('')
+  //DropDown Contrato
+  const [contratoValue, setContratoValue] = useState(contratos[0])
+  const [contratoInputValue, setContratoInputValue] = useState('')
 
 
   const [formValues, handleInputChange, reset] = useForm({
@@ -18,8 +28,8 @@ export const CreateEmployeeScreen = () => {
     idEmpresa: "",
   });
 
-  const { idEmpleado, nombre, idEmpresa } = formValues;
-  console.log(formValues);
+  const { idEmpleado, nombre } = formValues;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const tra = trabajadores.filter((employee) => employee.id === idEmpleado);
@@ -27,61 +37,101 @@ export const CreateEmployeeScreen = () => {
       Swal.fire("Ya existe este trabajador", '', "error");
       reset();
     } else {
-      dispatch(startCrearTrabajadorEmpresa(idEmpresa, idEmpleado, nombre));
+      dispatch(startCrearTrabajadorEmpresa(empresaValue.idEmpresa, contratoValue.id, idEmpleado, nombre));
       Swal.fire("Trabajador Creado con éxito", "", "success");
       reset();
     }
   };
-
   return (
-    <div>
+    <Container maxWidth='sm'>
       <form onSubmit={handleSubmit}>
         <h1 className="h3 mb-3 fw-normal">Nuevo Trabajador</h1>
         <hr />
-        <select
-          id='idEmpresa'
-          name='idEmpresa'
-          className="form-select"
-          required
-          value={idEmpresa}
-          onChange={handleInputChange}
-
-        >
-          <option defaultValue key='default' value='default' className='dropdown-item'>Selecciona una empresa</option>
-          {
-            empresas.map(empresa => <DropDown key={empresa.idEmpresa} {...empresa} />)
-          }
-        </select>
-        <input
-          type="text"
+        <Autocomplete
+          id="nombreEmpresaAutoComplete"
+          name='nombreEmpresaAutoComplete'
+          options={empresas}
+          getOptionLabel={(option) => option.nombre}
+          style={{ width: 300, marginBottom: 10 }}
+          value={empresaValue}
+          onChange={(event, newValue) => {
+            setEmpresaValue(newValue);
+            if (empresaValue === null) {
+              setEmpresaValue(empresas[0])
+            }
+          }}
+          inputValue={empresaInputValue}
+          onInputChange={(event, newInputValue) => {
+            setEmpresaInputValue(newInputValue);
+          }}
+          renderInput={(params) =>
+            <TextField
+              {...params}
+              label="Empresa"
+              variant="outlined"
+            />}
+        />
+        <Autocomplete
+          id="nombreContratosAutoComplete"
+          name='nombreContratosAutoComplete'
+          options={contratos}
+          getOptionLabel={(option) => option.id}
+          style={{ width: 300, marginBottom: 10, marginTop: 10 }}
+          value={contratoValue}
+          onChange={(event, newValue) => {
+            setContratoValue(newValue);
+            if (contratoValue === null) {
+              setContratoValue(contratos[0])
+            }
+          }}
+          inputValue={contratoInputValue}
+          onInputChange={(event, newInputValue) => {
+            setContratoInputValue(newInputValue);
+          }}
+          renderInput={(params) =>
+            <TextField
+              {...params}
+              label="Contrato Asociado"
+              variant="outlined"
+            />}
+        />
+        <TextField
           id="idEmpleado"
           name="idEmpleado"
-          className="form-control"
+          style={{ width: 300, marginBottom: 10 }}
+          variant="outlined"
+          label="Rut"
+          type="text"
           placeholder="Ingrese Rut sin puntos, ni guión"
           required
           autoFocus
           onChange={handleInputChange}
           value={idEmpleado}
         />
-        <input
+        <br />
+        <TextField
           type="text"
           id="nombre"
           name="nombre"
-          className="form-control"
+          style={{ width: 300, marginBottom: 10 }}
           placeholder="Nombre"
           required
           autoFocus
           onChange={handleInputChange}
           value={nombre}
+          variant="outlined"
+          label="Nombre"
         />
-        <button
-          className="w-100 btn btn-lg btn-primary"
-          style={{ marginTop: "10px" }}
+        <Button
+          style={{ width: 300, marginBottom: 10 }}
           type="submit"
+          color='primary'
+          variant='contained'
+
         >
           Crear Trabajador
-        </button>
+        </Button>
       </form>
-    </div>
+    </Container>
   );
 };

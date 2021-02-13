@@ -6,8 +6,10 @@ import "./modal.css";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../../actions/ui";
-import { removeExamenUrl, startCrearNuevoExamen, startGetTodoExamenesTrabajadorID } from "../../../actions/exam";
+import { getTodoExamenesTrabajadorID, removeExamenUrl, startCrearNuevoExamen } from "../../../actions/exam";
 import { startUploadingExamen } from "../../../actions/exam";
+import { Button, TextField } from "@material-ui/core";
+import SaveIcon from '@material-ui/icons/Save';
 
 const customStyles = {
   content: {
@@ -22,7 +24,7 @@ const customStyles = {
 const now = moment().minutes(0).seconds(0);
 Modal.setAppElement("#root");
 
-export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
+export const CalendarModal = ({ idTrabajador, idEmpresa, idContrato }) => {
   const dispatch = useDispatch();
   const { modalOpen } = useSelector((state) => state.ui);
   const { url } = useSelector((state) => state.exam);
@@ -62,11 +64,15 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
     dispatch(removeExamenUrl());
     // setIsOpen(false);
   };
-
   const handleNewExamen = () => {
     dispatch(
+      /**
+       * TODO: Revisar porque lleva al 
+       * exam.js todo como un objeto en idTrabajador
+       */
       startCrearNuevoExamen({
         idTrabajador: idTrabajador,
+        idContrato: idContrato,
         idEmpresa: idEmpresa,
         nombreExamen: nombreExamen,
         fechaCaducidad: new Date(formValues.fechaCaducidad).getTime(),
@@ -74,10 +80,8 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
         url: url,
       })
     );
-    //carga de inmediato el nuevo examen
-    Swal.fire("Examen Creado con Éxito", "", "success");
+    Swal.fire("Documento Creado con Éxito", "", "success");
     dispatch(uiCloseModal());
-    startGetTodoExamenesTrabajadorID(idTrabajador)
     dispatch(removeExamenUrl());
   };
 
@@ -105,20 +109,22 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
       closeTimeoutMS={500}
 
     >
-      <h1> Nuevo examen </h1>
+      <h1> Nuevo Documento </h1>
       <hr />
       <form className="container" onSubmit={handleSubmitForm}>
         <div className="form-group">
-          <label>Nombre</label>
-          <input
+          <TextField
             type="text"
             className={`form-control ${!titleValid && "is-invalid"}`}
-            placeholder="Nombre del examen"
             name="nombreExamen"
             autoComplete="off"
             value={nombreExamen}
             onChange={handleInputChange}
             required
+            autoFocus
+            variant='outlined'
+            style={{ width: 300, marginBottom: 10 }}
+            label='Nombre del Documento'
           />
         </div>
         <div className="form-group">
@@ -142,26 +148,29 @@ export const CalendarModal = ({ idTrabajador, idEmpresa }) => {
             onChange={handleFileChange}
             required
           />
-          <button
-            className="btn btn-success"
+          <Button
             onClick={handleArchivoExamenchange}
+            color='primary'
+            variant='contained'
           >
-            Archivo Examen
-          </button>
+            Seleccionar Documento
+          </Button>
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="btn btn-outline-primary btn-block"
+          // className="btn btn-outline-primary btn-block"
           style={{
             marginTop: "10px",
             display: `${url ? "" : "none"}`,
           }}
+          color='primary'
           onClick={handleNewExamen}
+          variant='outlined'
+          startIcon={<SaveIcon />}
         >
-          <i className="far fa-save" style={{ cursor: "pointer" }}></i>
-          <span> Guardar</span>
-        </button>
+          <span>Guardar</span>
+        </Button>
       </form>
     </Modal>
   );

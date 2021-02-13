@@ -2,8 +2,6 @@ import { db } from "../firebase/firebase-config";
 import { fileUpload } from "../helpers/fileUpload";
 import { types } from "../types/types";
 
-
-
 export const startGetTodoExamenesTrabajadorID = (idTrabajador) => {
   const examenes = [];
   return async (dispatch) => {
@@ -31,6 +29,7 @@ export const getTodoExamenesTrabajadorID = (examenes) => ({
 
 export const startGetExamenesPorVencerTodasLasEmpresas = () => {
   var someDate = new Date();
+  var today = someDate.getTime();
   var numberOfDaysToAdd = 90;
   someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
   const newDate = someDate.getTime();
@@ -38,6 +37,7 @@ export const startGetExamenesPorVencerTodasLasEmpresas = () => {
   return async (dispatch) => {
     await db
       .collection("examenes")
+      .where("fechaCaducidad", ">=", today)
       .where("fechaCaducidad", "<=", newDate)
       .get()
       .then((snap) => {
@@ -90,18 +90,19 @@ export const getExamenesPorVencerPorIdEmpresa = (examenes) => ({
 });
 
 export const startCrearNuevoExamen = (examen) => {
+  const { idTrabajador } = examen
   return async (dispatch) => {
-    const examenRef = db.collection("examenes");
-    //agredar Datos
-    examenRef
+    // const newExamen = [];
+    // console.log('startCrearNuevoExamen-idContrato : ', idTrabajador.idTrabajador);
+    await db.collection("examenes")
       .add(examen)
-      .then((examen) => {
-        console.log("Agregado: ", examen.id);
+      .then(
+        dispatch(startGetExamenesPorVencerTodasLasEmpresas()),
+        dispatch(startGetTodoExamenesTrabajadorID(idTrabajador))
+      )
+      .catch(err => {
+        throw new Error(err);
       })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
-    dispatch(crearNuevoExamen(examen));
   };
 };
 

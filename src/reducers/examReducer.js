@@ -2,6 +2,13 @@ import { types } from "../types/types";
 
 export const examReducer = (state = {}, action) => {
   switch (action.type) {
+
+    // case types.getExamsIdTrabajador:
+    //   return {
+    //     ...state,
+    //     examenesTrabajador: [...action.payload],
+    //   };
+
     case types.getExamenesPorVencerPorIdEmpresa:
       return {
         ...state,
@@ -10,7 +17,7 @@ export const examReducer = (state = {}, action) => {
     case types.getTodoExamenesTrabajadorID:
       return {
         ...state,
-        examenesIdTrabajador: [...action.payload]
+        examenesTrabajador: [...action.payload]
       }
 
     case types.getExamenesPorVencerTodasLasEmpresas:
@@ -25,16 +32,11 @@ export const examReducer = (state = {}, action) => {
         url: null,
       }
 
-    case types.getExamsIdTrabajador:
-      return {
-        ...state,
-        examenes: [...action.payload],
-      };
 
     case types.crearNuevoExamen:
       return {
         ...state,
-        examen: action.payload,
+        examenes: [...action.payload],
       };
     case types.getExamenUrl:
       return {

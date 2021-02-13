@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { authReducer } from "../reducers/authReducer";
+import { contractReducer } from "../reducers/contractReducer";
 import { employeeReducer } from "../reducers/employeeReducer";
 import { empresaReducer } from "../reducers/empresaReducer";
 import { equipmentReducer } from "../reducers/equipmentReducer";
@@ -22,7 +23,8 @@ const reducers = combineReducers({
   trab: employeeReducer,
   empr: empresaReducer,
   equi: equipmentReducer,
-  perm: permisosReducer
+  perm: permisosReducer,
+  cont: contractReducer
 });
 
 export const store = createStore(

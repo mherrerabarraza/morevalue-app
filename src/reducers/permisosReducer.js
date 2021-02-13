@@ -7,10 +7,10 @@ export const permisosReducer = (state = {}, action) => {
                 ...state,
                 permisos: [...action.payload],
             };
-        case types.getTodoExamenesPermisosEquipoID:
+        case types.getTodoPermisosEquipoID:
             return {
                 ...state,
-                permisosIdEquipo: [...action.payload]
+                permisosEquipo: [...action.payload]
             }
 
         default:

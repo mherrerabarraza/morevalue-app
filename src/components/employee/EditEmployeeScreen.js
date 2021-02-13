@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { /*useEffect ,*/ useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import Swal from "sweetalert2";
@@ -8,42 +8,53 @@ import { CalendarModal } from "../ui/modal/CalendarModal";
 import { uiOpenModal } from "../../actions/ui";
 import { ExamenScreen } from "../ui/examenes/ExamenScreen";
 import { startGetTodoExamenesTrabajadorID } from "../../actions/exam";
+import { Button, CircularProgress, Container, TextField } from "@material-ui/core";
+// import { startGetTrabajadoresIdEmpresa } from "../../actions/employee";
 
 export const EditEmployeeScreen = () => {
   const dispatch = useDispatch();
+  const { trabajadores } = useSelector((state) => state.trab);
+  const { idEmpresa } = useSelector((state) => state.user);
+  // const { examenes } = useSelector((state) => state.exam);
+  const { examenesTrabajador } = useSelector ((state) => state.exam)
+  const [exist, setExist] = useState(false);
+  const [datosTrabajador, setDatosTrabajador] = useState([]);
+  // const [datosExamenes, setDatosExamenes] = useState([]);
   const [formValues, handleInputChange, reset] = useForm({
     idTrabajador: "",
   });
   const { idTrabajador } = formValues;
 
+  /**
+   * TODO: Ahora encuentra los examenes ONTHEFLY, pero necesito que 
+   * se muestren cuando se busca el trabajador
+   */
 
-  useEffect(() => {
-    dispatch(startGetTodoExamenesTrabajadorID(idTrabajador));
-  }, [dispatch, idTrabajador])
+  // useEffect(() => {
+  //   // dispatch(startGetTodoExamenesTrabajadorID(idTrabajador));
+  //   // dispatch(startGetTrabajadoresIdEmpresa(idEmpresa))
+  // }, [idTrabajador, idEmpresa, dispatch])
 
-  const [exist, setExist] = useState(false);
-  const [datosTrabajador, setDatosTrabajador] = useState([]);
-  const [datosExamenes, setDatosExamenes] = useState([]);
-  const { trabajadores } = useSelector((state) => state.trab);
-  const { examenesIdTrabajador } = useSelector((state) => state.exam);
-  const { idEmpresa } = useSelector((state) => state.user);
+
 
   const handleSearch = (e) => {
     e.preventDefault();
+    dispatch(startGetTodoExamenesTrabajadorID(idTrabajador));
     buscar(idTrabajador);
   };
+  
   const buscar = (idTrabajador) => {
     const tra = trabajadores.filter((employee) => employee.id === idTrabajador);
     setDatosTrabajador(tra);
-    const ex = examenesIdTrabajador.filter(
-      (examen) => examen.idTrabajador === idTrabajador
-    );
-    setDatosExamenes(ex);
-
+    // const ex = examenes.filter(
+    //   (examen) => examen.idTrabajador === idTrabajador
+    // );
+    // setDatosExamenes(ex);
     if (tra.length > 0) {
       // setDatosTrabajador(tra);
       // setDatosExamenes(ex);
       setExist(true);
+
     } else {
       Swal.fire("Trabajador No Encontrado", "", "warning");
       //evita error de busqueda de no existente, después de encontrado
@@ -51,32 +62,41 @@ export const EditEmployeeScreen = () => {
       reset();
     }
   };
+
   const handleModal = () => {
     dispatch(uiOpenModal());
   };
   return (
-    <div>
-      <form onSubmit={handleSearch}>
+    <Container maxWidth='xl'>
+      <form
+        onSubmit={handleSearch}
+      >
         <h1 className="h3 mb-3 fw-normal">Buscar Trabajador</h1>
         <hr />
-        <input
+        <TextField
           type="text"
           id="idTrabajador"
           name="idTrabajador"
           className="form-control"
-          placeholder="Ingrese rut, ej: 123456789"
+          placeholder="Ej: 12345678-9"
           required
           autoFocus
           onChange={handleInputChange}
           value={idTrabajador}
+          variant='outlined'
+          label='Rut Trabajador'
+          style={{ width: 300, marginBottom: 10 }}
         />
-        <button
-          className="w-100 btn btn-lg btn-primary"
-          style={{ marginTop: "10px", marginBottom: "10px" }}
+        <br />
+        <Button
+          style={{ width: 300, marginBottom: 10 }}
           type="submit"
+          color='primary'
+          variant='contained'
+
         >
-          Buscar
-        </button>
+          Buscar Trabajador
+        </Button>
       </form>
 
       {exist ? (
@@ -91,7 +111,7 @@ export const EditEmployeeScreen = () => {
           </div>
           <div>
             <h3>
-              Docuementos{" "}
+              Documentos{" "}
               <span style={{ color: "green", cursor: "pointer" }}>
                 <i className="fas fa-plus-circle" onClick={handleModal}>
                   {" "}
@@ -99,31 +119,21 @@ export const EditEmployeeScreen = () => {
               </span>
             </h3>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Rut Empresa</th>
-                <th scope="col">Rut Trabajador</th>
-                <th scope="col">Fecha Caducidad</th>
-                <th scope="col">Nombre Documento</th>
-                <th scope="col">Descargar</th>
-              </tr>
-            </thead>
-            <tbody>
-              {datosExamenes ? (
-                datosExamenes.map((examen) => (
-                  <ExamenScreen key={examen.id} {...examen} />
-                ))
-              ) : (
-                  <>Loading...</>
-                )}
-            </tbody>
-          </table>
-          <CalendarModal idTrabajador={idTrabajador} idEmpresa={idEmpresa} />
+
+          {examenesTrabajador ? (
+            <ExamenScreen datosExamenes={examenesTrabajador} />
+          ) : (
+              <CircularProgress />
+            )}
+          <CalendarModal
+            idTrabajador={idTrabajador}
+            idEmpresa={idEmpresa}
+            idContrato={datosTrabajador[0].idContrato}
+          />
         </div>
       ) : (
           <div></div>
         )}
-    </div>
+    </Container>
   );
 };

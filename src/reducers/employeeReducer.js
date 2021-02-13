@@ -8,6 +8,16 @@ export const employeeReducer = (state = {}, action) => {
         ...state,
         trabajadores: [...action.payload],
       };
+    case types.getTodosTrabajadores:
+      return {
+        ...state,
+        trabajadores: [...action.payload],
+      };
+    // case types.getTrabajadoresIdEmpresa:
+    //   return {
+    //     ...state,
+    //     trabajadores: [...action.payload],
+    //   };
 
     case types.crearTrabajadorEmpresa:
       return {
