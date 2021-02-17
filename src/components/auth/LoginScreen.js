@@ -1,3 +1,4 @@
+import { Button, Card, CardContent, Container, CssBaseline, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { startLoginEmailPassword } from "../../actions/auth";
@@ -18,37 +19,52 @@ export const LoginScreen = () => {
     dispatch(startLoginEmailPassword(email, password));
   };
   return (
-    <div className="text-center">
-      <main className="form-signin">
-        <form onSubmit={handleLogin}>
-          <h1 className="h3 mb-3 fw-normal">Ingreso Empresas</h1>
-          <input
+    // <div className="text-center">
+    //   <main className="form-signin">
+    <Container maxWidth='xs' component='main'>
+      <CssBaseline />
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography component='h1' variant='h5'>
+          Ingresar
+        </Typography>
+        <form onSubmit={handleLogin} style={{width:'100%'}}>
+          <TextField
             type="email"
             id="email"
             name="email"
-            className="form-control"
             placeholder="Correo Electrónico"
             required
             autoFocus
             onChange={handleInputChange}
             value={email}
+            variant='outlined'
+            fullWidth
+            margin='normal'
           />
-          <input
+          <TextField
             type="password"
             id="password"
             name="password"
-            className="form-control"
+            margin='normal'
             placeholder="Contraseña"
             required
             onChange={handleInputChange}
             value={password}
+            variant='outlined'
+            fullWidth
           />
-          <div className="checkbox mb-3"></div>
-          <button className="w-100 btn btn-lg btn-primary" type="submit">
+          <Button 
+            type="submit"
+            variant='contained'
+            color='primary'
+            fullWidth
+            >
             Ingresar
-          </button>
+          </Button>
         </form>
-      </main>
-    </div>
+      </div>
+    </Container>
+    //   </main>
+    // </div>
   );
 };

@@ -23,13 +23,19 @@ export const getTodasLasEmpresas = (empresas) => ({
   payload: empresas,
 });
 
-export const startCrearNuevaEmpresa = (idEmpresa, empresa) => {
+export const startCrearNuevaEmpresa = (empresa) => {
+  const { idEmpresa } = empresa
   return async (dispatch) => {
     await db.collection("empresas").doc(idEmpresa).set(empresa);
     // dispatch(crearNuevaEmpresa(empresa));
     dispatch(startGetTodasLasEmpresas());
   };
 };
+
+export const crearNuevaEmpresa = (empresa) => ({
+  type: types.crearNuevaEmpresa,
+  payload: empresa,
+});
 
 export const startUpdateEmpresa = (empresa) => {
   const { idEmpresa } = empresa
@@ -60,7 +66,3 @@ export const updateEmpresa = (idEmpresa, nombre) => ({
 
 //TODO: updateEmpresa
 
-// export const crearNuevaEmpresa = (empresa) => ({
-//   type: types.crearNuevaEmpresa,
-//   payload: empresa,
-// });

@@ -24,6 +24,7 @@ export const PermisosScreen = ({ datosPermisos }) => {
         },
         { field: 'idEmpresa', headerName: 'Empresa', width: 120 },
         { field: 'idContrato', headerName: 'Contrato', width: 120 },
+        { field: 'idEquipo', headerName: 'Equipo', width: 120 },
         { field: 'fechaCaducidad', headerName: 'Caduca', width: 120 },
         { field: 'nombrePermiso', headerName: 'Documento', width: 130 },
         {
@@ -56,6 +57,7 @@ export const PermisosScreen = ({ datosPermisos }) => {
                 color: CalcularFecha(dp.fechaCaducidad).color,
             },
             idContrato: dp.idContrato,
+            idEquipo: dp.idEquipo,
             fechaCaducidad: new Date(dp.fechaCaducidad).toLocaleDateString(),
             idEmpresa: dp.idEmpresa,
             nombrePermiso: dp.nombrePermiso,

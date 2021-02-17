@@ -64,7 +64,9 @@ export const startCrearTrabajadorEmpresa = (idEmpresa, idContrato, idEmpleado, n
     });
     dispatch(crearTrabajadorEmpresa());
     //actualizar la lista de usuarios de la empresa
-    dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
+    // dispatch(startGetTrabajadoresIdEmpresa(idEmpresa));
+    //actulizar la lista de todos los trabajadores
+    dispatch(startGetTodosTrabajadores());
   };
 };
 

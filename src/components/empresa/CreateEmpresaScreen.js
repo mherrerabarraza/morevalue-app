@@ -3,15 +3,31 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { startCrearNuevaEmpresa } from "../../actions/empresa.actions";
 import { useForm } from "../../hooks/useForm";
+import { Button, Container, TextField } from "@material-ui/core";
 
 export const CreateEmpresaScreen = () => {
   const dispatch = useDispatch();
   const [formValues, handleInputChange, reset] = useForm({
     idEmpresa: "",
     nombre: "",
+    direccion: '',
+    telefonoEmpresaContacto: '',
+    nombrePersonaContacto: '',
+    telefonoPersonaContacto: '',
+    emailPersonaContacto: '',
+
+
+
   });
   const { empresas } = useSelector((state) => state.empr);
-  const { idEmpresa, nombre } = formValues;
+  const {
+    idEmpresa,
+    nombre,
+    direccion,
+    telefonoEmpresaContacto,
+    nombrePersonaContacto,
+    telefonoPersonaContacto,
+    emailPersonaContacto, } = formValues;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -24,9 +40,17 @@ export const CreateEmpresaScreen = () => {
       reset();
     } else {
       dispatch(
-        startCrearNuevaEmpresa(idEmpresa, {
+        /**
+         * ARREGLAR ESTO
+         */
+        startCrearNuevaEmpresa({
           idEmpresa: idEmpresa,
           nombre: nombre,
+          direccion: direccion,
+          telefonoEmpresaContacto: telefonoEmpresaContacto,
+          nombrePersonaContacto: nombrePersonaContacto,
+          telefonoPersonaContacto: telefonoPersonaContacto,
+          emailPersonaContacto: emailPersonaContacto,
         })
       );
       Swal.fire("Empresa Creada con éxito", "", "success");
@@ -35,37 +59,105 @@ export const CreateEmpresaScreen = () => {
   };
 
   return (
-    <div>
+    <Container maxWidth='sm'>
       <h3>Crear Empresa</h3>
+      <hr/>
       <form className="form" onSubmit={handleSubmit}>
-        <input
+        <TextField
           id="idEmpresa"
           name="idEmpresa"
           type="text"
           value={idEmpresa}
           onChange={handleInputChange}
-          className="form-control"
-          placeholder="Rut Empresa sin puntos ni guión"
+          label='Rut Empresa'
+          placeholder="Ej: 12345678-9"
           required
+          variant="outlined"
+          style={{ width: 300, marginBottom: 10 }}
         />
-        <input
+        <TextField
           id="nombre"
           name="nombre"
           type="text"
           value={nombre}
           onChange={handleInputChange}
           className="form-control"
+          label='Nombre Empresa'
           placeholder="Nombre Empresa"
           required
+          variant="outlined"
+          style={{ width: 300, marginBottom: 10 }}
         />
-        <button
-          type="Submit"
-          className="w-100 btn btn-lg btn-primary"
-          style={{ marginTop: "10px", marginBottom: "10px" }}
+        <TextField
+          id="direccion"
+          name="direccion"
+          type="text"
+          value={direccion}
+          onChange={handleInputChange}
+          className="form-control"
+          label='Dirección'
+          placeholder="Dirección"
+          required
+          variant="outlined"
+          style={{ width: 300, marginBottom: 10 }}
+        />
+        <TextField
+          id="telefonoEmpresaContacto"
+          name="telefonoEmpresaContacto"
+          type="text"
+          value={telefonoEmpresaContacto}
+          onChange={handleInputChange}
+          className="form-control"
+          label='Telefono Empresa'
+          required
+          variant="outlined"
+          style={{ width: 300, marginBottom: 10 }}
+        />
+        <TextField
+          id="nombrePersonaContacto"
+          name="nombrePersonaContacto"
+          type="text"
+          value={nombrePersonaContacto}
+          onChange={handleInputChange}
+          className="form-control"
+          label='Nombre Persona Contacto'
+          required
+          variant="outlined"
+          style={{ width: 300, marginBottom: 10 }}
+        />
+        <TextField
+          id="telefonoPersonaContacto"
+          name="telefonoPersonaContacto"
+          type="text"
+          value={telefonoPersonaContacto}
+          onChange={handleInputChange}
+          className="form-control"
+          label='Teléfono Persona Contacto'
+          required
+          variant="outlined"
+          style={{ width: 300, marginBottom: 10 }}
+        />
+        <TextField
+          id="emailPersonaContacto"
+          name="emailPersonaContacto"
+          type="email"
+          value={emailPersonaContacto}
+          onChange={handleInputChange}
+          className="form-control"
+          label='Email Persona Contacto'
+          required
+          variant="outlined"
+          style={{ width: 300, marginBottom: 10 }}
+        />
+        <Button
+          style={{ width: 300, marginBottom: 10 }}
+          type="submit"
+          color='primary'
+          variant='contained'
         >
           crear
-        </button>
+        </Button>
       </form>
-    </div>
+    </Container>
   );
 };

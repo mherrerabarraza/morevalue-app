@@ -1,21 +1,24 @@
 import { Button } from "@material-ui/core";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { startLogDescargas } from "../../../actions/exam";
 import { CalcularFecha } from "../helpers/CalcularFecha";
 export const ExamenScreen = ({ datosExamenes }) => {
-
+  const dispatch = useDispatch();
   /**
    * TODO: al presionar el rut del trabajador ir a la págiba del trabajador
    */
 
-  // const HandleDownload = () => {
-  //   console.log(
-  //     "archivo descargado: " + datosExamenes.nombreExamen + "descargado por: " + datosExamenes.nombre
-  //   );
-  //   useDispatch(
-  //     startLogDescargas(datosExamenes.idContrato, datosExamenes.idUsuario, datosExamenes.idEmpresa, datosExamenes.idTrabajador, datosExamenes.nombreExamen, datosExamenes.datosExamenes.url)
-  //   );
-  // };
+  const handleDownload = (e) => {
+    console.log(e);
+    console.log(
+      "archivo descargado: " + datosExamenes.nombreExamen + "descargado por: " + datosExamenes.nombre
+    );
+    dispatch(
+      startLogDescargas(datosExamenes.idContrato, datosExamenes.idUsuario, datosExamenes.idEmpresa, datosExamenes.idTrabajador, datosExamenes.nombreExamen, datosExamenes.url)
+    );
+  };
 
 
   const columns = [
@@ -51,6 +54,7 @@ export const ExamenScreen = ({ datosExamenes }) => {
             variant="outlined"
             color="primary"
             size="small"
+            onClick={handleDownload}
           >
             <a
               href={params.value}

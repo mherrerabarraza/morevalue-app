@@ -22,6 +22,7 @@ export const CreateEmployeeScreen = () => {
   const [contratoInputValue, setContratoInputValue] = useState('')
 
 
+
   const [formValues, handleInputChange, reset] = useForm({
     idEmpleado: "",
     nombre: "",
@@ -37,7 +38,11 @@ export const CreateEmployeeScreen = () => {
       Swal.fire("Ya existe este trabajador", '', "error");
       reset();
     } else {
-      dispatch(startCrearTrabajadorEmpresa(empresaValue.idEmpresa, contratoValue.id, idEmpleado, nombre));
+      dispatch(startCrearTrabajadorEmpresa(
+        empresaValue.idEmpresa,
+        contratoValue.id,
+        idEmpleado,
+        nombre));
       Swal.fire("Trabajador Creado con éxito", "", "success");
       reset();
     }
@@ -56,6 +61,8 @@ export const CreateEmployeeScreen = () => {
           value={empresaValue}
           onChange={(event, newValue) => {
             setEmpresaValue(newValue);
+            const cont = contratos.filter(con => con.idEmpresa === newValue.idEmpresa)
+            console.log(cont);
             if (empresaValue === null) {
               setEmpresaValue(empresas[0])
             }
