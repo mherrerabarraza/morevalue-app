@@ -17,7 +17,8 @@ export const types = {
 
   //examenes
   getExamenesPorVencerPorIdEmpresa: "[Exam] Get Examenes por Vencer ID Empresa",
-  getExamenesPorVencerTodasLasEmpresas: "[Exam] Get Examenes por Vencer todas las Empresas",
+  getExamenesPorVencerTodasLasEmpresas:
+    "[Exam] Get Examenes por Vencer todas las Empresas",
   crearNuevoExamen: "[Exam] Crear Nuevo Examen ID Trabajador",
   getExamenUrl: "[Exam] Get Examen URL",
   removeExamenUrl: "[Exam] Remove Examen URL",
@@ -37,17 +38,17 @@ export const types = {
   crearEquipoEmpresa: "[Emp] Equipo Creado",
   equiposLogout: "[Emp] Limpiar Equipos",
   equipoExist: "[Emp] Equipo ya está en DB",
-  getTodosLosEquipos: '[Emp] Get todos los equipos',
+  getTodosLosEquipos: "[Emp] Get todos los equipos",
 
   //Permisos
-  getPermisosPorVencerIdEmpresas: '[PER] Permisos por vencer ID Empresa',
-  getTodoPermisosEquipoID: '[PER] Get todos Permisos Equipo ID',
-  getPermisosPorVencerTodasLasEmpresas: '[PER] Get todos Permisos por vencer todas las empresas',
-  crearNuevoPermiso: '[PER] Crear Nuevo Permiso',
+  getPermisosPorVencerIdEmpresas: "[PER] Permisos por vencer ID Empresa",
+  getTodoPermisosEquipoID: "[PER] Get todos Permisos Equipo ID",
+  getPermisosPorVencerTodasLasEmpresas:
+    "[PER] Get todos Permisos por vencer todas las empresas",
+  crearNuevoPermiso: "[PER] Crear Nuevo Permiso",
 
   //contratos
-  crearNuevoContrato: '[CON] Nuevo Contrato',
-  getContratosIdEmpresa: '[CON] Get Contrato ID Empresa',
-  getTodosContratos: '[CON] Get Todos Contratos'
-
-};
+  crearNuevoContrato: "[CON] Nuevo Contrato",
+  getContratosIdEmpresa: "[CON] Get Contrato ID Empresa",
+  getTodosContratos: "[CON] Get Todos Contratos",
+}

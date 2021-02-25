@@ -1,32 +1,37 @@
-import React, { useState } from "react";
-import { Button, Container, TextField } from "@material-ui/core";
-import { Autocomplete } from '@material-ui/lab';
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
-import { startUpdateEmpresa } from "../../actions/empresa.actions";
-import { useForm } from "../../hooks/useForm";
+import React, { useState } from "react"
+import { Button, Container, TextField } from "@material-ui/core"
+import { Autocomplete } from "@material-ui/lab"
+import { useDispatch, useSelector } from "react-redux"
+import Swal from "sweetalert2"
+import { startUpdateEmpresa } from "../../actions/empresa.actions"
+import { useForm } from "../../hooks/useForm"
+import {
+  crearNuevoContrato,
+  startCrearNuevoContrato,
+} from "../../actions/contract"
+import { uiOpenModal } from "../../actions/ui"
+import { ContratoModal } from "../ui/modal/ContratoModal"
 
 export const EditEmpresaScreen = () => {
   const dispatch = useDispatch()
-  const { empresas } = useSelector((state) => state.empr);
-  const [datosEmpresa, setDatosEmpresa] = useState();
-  const [exist, setExist] = useState(false);
-  const [editable, setEditable] = useState(false);
+  const { empresas } = useSelector((state) => state.empr)
+  const [datosEmpresa, setDatosEmpresa] = useState()
+  const [exist, setExist] = useState(false)
+  const [editable, setEditable] = useState(false)
   /**
-   *  Controles value, inputValue 
+   *  Controles value, inputValue
    */
   const [value, setValue] = useState(empresas[0])
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState("")
   const [formValues, handleInputChange, reset] = useForm({
     idEmpresa: "",
     nombre: "",
-    direccion: '',
-    telefonoEmpresaContacto: '',
-    nombrePersonaContacto: '',
-    telefonoPersonaContacto: '',
-    emailPersonaContacto: ''
-  });
-
+    direccion: "",
+    telefonoEmpresaContacto: "",
+    nombrePersonaContacto: "",
+    telefonoPersonaContacto: "",
+    emailPersonaContacto: "",
+  })
   const {
     idEmpresa,
     nombre,
@@ -34,43 +39,49 @@ export const EditEmpresaScreen = () => {
     telefonoEmpresaContacto,
     nombrePersonaContacto,
     telefonoPersonaContacto,
-    emailPersonaContacto } = formValues;
+    emailPersonaContacto,
+  } = formValues
   // const handleSearch = () => {
   //   buscar(idEmpresa);
   // };
   const buscar = (idEmpresa) => {
-    const emp = empresas.filter((empresa) => empresa.idEmpresa === idEmpresa);
+    const emp = empresas.filter((empresa) => empresa.idEmpresa === idEmpresa)
     if (emp.length > 0) {
-      setDatosEmpresa(emp);
-      setExist(true);
-      setEditable(false);
+      setDatosEmpresa(emp)
+      setExist(true)
+      setEditable(false)
     } else {
-      Swal.fire("Empresa No Encontrada", "", "warning");
-      setExist(false);
-      reset();
+      Swal.fire("Empresa No Encontrada", "", "warning")
+      setExist(false)
+      reset()
     }
-  };
+  }
 
   const handleEdit = () => {
-    setEditable(true);
-  };
+    setEditable(true)
+  }
 
   const handleUpdate = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (nombre.length <= 1) {
-      Swal.fire("El nombre es muy corto", "", "info");
-      return;
+      Swal.fire("El nombre es muy corto", "", "info")
+      return
     }
     /**
      * TODO: limpiar el formulario al actualizar
      */
-    dispatch(startUpdateEmpresa({ idEmpresa: idEmpresa ? idEmpresa : value.idEmpresa, nombre: nombre }))
-      ? (Swal.fire("La Empresa se actualizó con éxito", "", 'success'))
-      : (Swal.fire("Hubo un problema", "No se pudo actualizar", 'err'))
+    dispatch(
+      startUpdateEmpresa({
+        idEmpresa: idEmpresa ? idEmpresa : value.idEmpresa,
+        nombre: nombre,
+      })
+    )
+      ? Swal.fire("La Empresa se actualizó con éxito", "", "success")
+      : Swal.fire("Hubo un problema", "No se pudo actualizar", "err")
     reset()
     setExist(false)
     setValue(empresas[0])
-  };
+  }
 
   // const filtrarEmpresa = (sug) => {
   //   const filtered = empresas.filter(emp => {
@@ -78,50 +89,56 @@ export const EditEmpresaScreen = () => {
   //   })
   //   console.log(filtered);
   // }
+
+  const handleAddContrato = () => {
+    dispatch(uiOpenModal())
+  }
+
+  console.log(value.idEmpresa)
+
   return (
     <Container maxWidth="xl">
       <h1 className="h3 mb-3 fw-normal">Buscar Empresa</h1>
       <hr />
       <Autocomplete
         id="nombreEmpresaAutoComplete"
-        name='nombreEmpresaAutoComplete'
+        name="nombreEmpresaAutoComplete"
         options={empresas}
         getOptionLabel={(option) => option.nombre}
         style={{ width: 300 }}
         value={value}
         onChange={(event, newValue) => {
-          setValue(newValue);
+          setValue(newValue)
           if (value === null) {
             setValue(empresas[0])
           }
         }}
         inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
+          setInputValue(newInputValue)
         }}
-        renderInput={(params) =>
+        renderInput={(params) => (
           <TextField
             {...params}
             variant="outlined"
             className="form-control"
             style={{ width: 300, marginBottom: 10 }}
-          />}
+          />
+        )}
       />
       <Button
         type="submit"
         onClick={() => buscar(value.idEmpresa)}
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         style={{ width: 300, marginBottom: 10 }}
       >
         Ver Información
-          </Button>
+      </Button>
 
       {exist ? (
-
-        <Container maxWidth='sm'>
+        <Container maxWidth="xl">
           <div style={{ marginTop: "20px" }}>
-
             <h3>
               <span>
                 Datos de la Empresa{" "}
@@ -129,6 +146,11 @@ export const EditEmpresaScreen = () => {
                   className="fas fa-edit"
                   style={{ color: "green", cursor: "pointer" }}
                   onClick={handleEdit}
+                ></i>
+                <i
+                  class="fas fa-briefcase"
+                  style={{ color: "green", cursor: "pointer" }}
+                  onClick={handleAddContrato}
                 ></i>
               </span>
             </h3>
@@ -217,18 +239,20 @@ export const EditEmpresaScreen = () => {
                 <Button
                   type="submit"
                   style={{ width: 300, marginBottom: 10 }}
-                  variant='outlined'
-                  color='primary'
+                  variant="outlined"
+                  color="primary"
                 >
                   Guardar Cambios
                 </Button>
               )}
             </form>
           </div>
+          <ContratoModal idEmpresa={value.idEmpresa} />
+          <div>TODO: Mostrar Contratos</div>
         </Container>
       ) : (
-          <div></div>
-        )}
-    </Container >
-  );
-};
+        <div></div>
+      )}
+    </Container>
+  )
+}
