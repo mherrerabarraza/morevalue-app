@@ -22,7 +22,7 @@ export const EditEquipmentScreen = () => {
   const [exist, setExist] = useState(false)
   const [datosEquipo, setDatosEquipo] = useState([])
   const { equipos } = useSelector((state) => state.equi)
-  const { permisos } = useSelector((state) => state.perm)
+  const { permisosEquipos } = useSelector((state) => state.perm)
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -97,8 +97,8 @@ export const EditEquipmentScreen = () => {
           </div>
           {/* Pasar directamente el permiso sin recorrer 1 a 1 para que no
                     haya duplicidad en la creación de la tabla */}
-          {permisos ? (
-            <PermisosScreen datosPermisos={permisos} />
+          {permisosEquipos ? (
+            <PermisosScreen datosPermisos={permisosEquipos} />
           ) : (
             <CircularProgress />
           )}

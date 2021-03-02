@@ -60,3 +60,8 @@ export const getTodosContratos = (contratos) => ({
   type: types.getTodosContratos,
   payload: contratos,
 })
+
+export const contratosLogout = () => ({
+  type: types.contratosLogout,
+  payload: null,
+})

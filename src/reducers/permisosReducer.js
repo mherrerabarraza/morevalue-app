@@ -7,11 +7,18 @@ export const permisosReducer = (state = {}, action) => {
         ...state,
         permisos: [...action.payload],
       }
+    case types.getTodoPermisosEquipoID:
+      return {
+        ...state,
+        permisosEquipos: [...action.payload],
+      }
     case types.getPermisosPorVencerIdEmpresas:
       return {
         ...state,
         permisos: [...action.payload],
       }
+    case types.permisosLogout:
+      return {}
 
     default:
       return state

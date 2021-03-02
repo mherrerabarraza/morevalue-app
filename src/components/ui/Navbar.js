@@ -1,21 +1,29 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { startLogout } from "../../actions/auth";
-import { trabajadoresLogout } from "../../actions/employee";
-import { examenesLogout } from "../../actions/exam";
-import { userLogout } from "../../actions/user";
+import React from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { startLogout } from "../../actions/auth"
+import { contratosLogout } from "../../actions/contract"
+import { trabajadoresLogout } from "../../actions/employee"
+import { empresasLogout } from "../../actions/empresa.actions"
+import { equiposLogout } from "../../actions/equipos.actions"
+import { examenesLogout } from "../../actions/exam"
+import { permisosLogout } from "../../actions/permisos.actions"
+import { userLogout } from "../../actions/user"
 
 export const Navbar = () => {
   //obtiene el nombre
-  const { nombre } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const { nombre } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
 
   const handleLogout = () => {
-    dispatch(startLogout());
-    dispatch(userLogout());
-    dispatch(trabajadoresLogout());
-    dispatch(examenesLogout());
-  };
+    dispatch(startLogout())
+    dispatch(userLogout())
+    dispatch(trabajadoresLogout())
+    dispatch(examenesLogout())
+    dispatch(permisosLogout())
+    dispatch(contratosLogout())
+    dispatch(empresasLogout())
+    dispatch(equiposLogout())
+  }
 
   return (
     <div>
@@ -32,8 +40,7 @@ export const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon">
-          </span>
+          <span className="navbar-toggler-icon"></span>
         </button>
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap">
@@ -44,5 +51,5 @@ export const Navbar = () => {
         </ul>
       </header>
     </div>
-  );
-};
+  )
+}

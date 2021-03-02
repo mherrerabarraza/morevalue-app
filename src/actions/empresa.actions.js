@@ -59,9 +59,13 @@ export const startUpdateEmpresa = (empresa) => {
   }
 }
 
-export const updateEmpresa = (idEmpresa, nombre) => ({
-  types: types.updateEmpresa,
-  payload: [idEmpresa, nombre],
+// export const updateEmpresa = (idEmpresa, nombre) => ({
+//   types: types.updateEmpresa,
+//   payload: [idEmpresa, nombre],
+// })
+export const empresasLogout = () => ({
+  type: types.empresasLogout,
+  payload: null,
 })
 
 //TODO: updateEmpresa

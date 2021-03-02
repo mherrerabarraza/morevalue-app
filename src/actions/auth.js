@@ -69,4 +69,5 @@ export const startLogout = () => {
 
 export const logout = () => ({
   type: types.logout,
+  payload: null,
 })

@@ -7,12 +7,8 @@ export const empresaReducer = (state = {}, action) => {
         ...state,
         empresas: action.payload,
       }
-    // case types.crearNuevaEmpresa:
-    //   console.log(action.payload);
-    //   return {
-    //     ...state,
-    //     ultimaCreada: action.payload,
-    //   };
+    case types.empresasLogout:
+      return {}
     default:
       return state
   }

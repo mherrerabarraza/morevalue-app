@@ -127,6 +127,7 @@ export const removeExamenUrl = () => ({
 
 export const examenesLogout = () => ({
   type: types.examenesLogout,
+  payload: null,
 })
 
 export const startLogDescargas = (

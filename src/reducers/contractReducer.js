@@ -18,6 +18,8 @@ export const contractReducer = (state = {}, action) => {
         ...state,
         contratos: [...action.payload],
       }
+    case types.contratosLogout:
+      return {}
     default:
       return state
   }

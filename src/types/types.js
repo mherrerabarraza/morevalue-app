@@ -37,9 +37,10 @@ export const types = {
   //Equipos
   getEquiposIdEmpresa: "[Emp] Get Equipos ID Empresa",
   crearEquipoEmpresa: "[Emp] Equipo Creado",
-  equiposLogout: "[Emp] Limpiar Equipos",
   equipoExist: "[Emp] Equipo ya está en DB",
   getTodosLosEquipos: "[Emp] Get todos los equipos",
+  equiposLogout: "[Emp] Limpiar Equipos",
+  empresasLogout: "[Emp] Limpiar Empresas",
 
   //Permisos
   getPermisosPorVencerIdEmpresas: "[PER] Permisos por vencer ID Empresa",
@@ -47,9 +48,11 @@ export const types = {
   getPermisosPorVencerTodasLasEmpresas:
     "[PER] Get todos Permisos por vencer todas las empresas",
   crearNuevoPermiso: "[PER] Crear Nuevo Permiso",
+  permisosLogout: "[PER] Permiso Logout",
 
   //contratos
   crearNuevoContrato: "[CON] Nuevo Contrato",
   getContratosIdEmpresa: "[CON] Get Contrato ID Empresa",
   getTodosContratos: "[CON] Get Todos Contratos",
+  contratosLogout: "[CON] Contratos Logout",
 }

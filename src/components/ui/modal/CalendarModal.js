@@ -6,11 +6,7 @@ import "./modal.css"
 import Swal from "sweetalert2"
 import { useDispatch, useSelector } from "react-redux"
 import { uiCloseModal } from "../../../actions/ui"
-import {
-  getTodoExamenesTrabajadorID,
-  removeExamenUrl,
-  startCrearNuevoExamen,
-} from "../../../actions/exam"
+import { removeExamenUrl, startCrearNuevoExamen } from "../../../actions/exam"
 import { startUploadingExamen } from "../../../actions/exam"
 import { Button, TextField } from "@material-ui/core"
 import SaveIcon from "@material-ui/icons/Save"

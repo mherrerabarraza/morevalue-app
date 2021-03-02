@@ -19,7 +19,7 @@ import {
 export const EditEmployeeScreen = () => {
   const dispatch = useDispatch()
   const { trabajadores } = useSelector((state) => state.trab)
-  const { examenes } = useSelector((state) => state.exam)
+  const { examenesTrabajador } = useSelector((state) => state.exam)
   const [exist, setExist] = useState(false)
   const [datosTrabajador, setDatosTrabajador] = useState([])
   const [formValues, handleInputChange, reset] = useForm({
@@ -110,8 +110,8 @@ export const EditEmployeeScreen = () => {
             </h3>
           </div>
 
-          {examenes ? (
-            <ExamenScreen datosExamenes={examenes} />
+          {examenesTrabajador ? (
+            <ExamenScreen datosExamenes={examenesTrabajador} />
           ) : (
             <CircularProgress />
           )}

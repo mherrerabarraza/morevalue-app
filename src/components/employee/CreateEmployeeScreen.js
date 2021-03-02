@@ -25,7 +25,6 @@ export const CreateEmployeeScreen = () => {
     idContrato: "",
   })
   const { idEmpleado, nombre, idEmpresa, idContrato } = formValues
-  console.log(formValues)
 
   const handleSubmit = (e) => {
     e.preventDefault()

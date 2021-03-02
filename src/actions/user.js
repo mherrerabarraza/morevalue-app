@@ -32,4 +32,5 @@ export const loadUserData = (user) => ({
 //limpia el store
 export const userLogout = () => ({
   type: types.userLogout,
+  payload: null,
 })

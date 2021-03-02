@@ -7,9 +7,9 @@ import "./dashboard.css"
 import { DashBoardScreen } from "../ui/DashBoardScreen"
 import { EditEmployeeScreen } from "../employee/EditEmployeeScreen"
 import {
+  getExamenesPorVencerPorIdEmpresa,
   startGetExamenesPorVencerPorIdEmpresa,
   startGetExamenesPorVencerTodasLasEmpresas,
-  startGetExamenesPorVencerTodasLasEmpresasRutEmpresa,
 } from "../../actions/exam"
 import { startGetTodosTrabajadores } from "../../actions/employee"
 import { CreateEmployeeScreen } from "../employee/CreateEmployeeScreen"
@@ -19,6 +19,7 @@ import { EditEmpresaScreen } from "../empresa/EditEmpresaScreen"
 import { CreateEquipmentScreen } from "../equipment/CreateEquipmentScreen"
 import { startGetTodosLosEquipos } from "../../actions/equipos.actions"
 import {
+  getPermisosPorVencerIdEmpresas,
   startGetPermisosPorVencerIdEmpresas,
   startGetPermisosPorVencerTodasLasEmpresas,
 } from "../../actions/permisos.actions"
@@ -28,11 +29,21 @@ import {
   startGetTodosContratos,
 } from "../../actions/contract"
 import { NewUserScreen } from "../user/NewUserScreen"
-import { FormControl, Select } from "@material-ui/core"
+import { Button, FormControl, Select } from "@material-ui/core"
+import { useForm } from "../../hooks/useForm"
 
 export const MvcAppScreen = () => {
+  const [formValues, handleInputChange] = useForm({
+    idContrato: "",
+  })
+
+  const { idContrato } = formValues
+  //aqui deberia hacer el dispatch porque ya se que empresa es
+  const { contratos } = useSelector((state) => state.cont)
   const dispatch = useDispatch()
   const { isAdmin, idEmpresa } = useSelector((state) => state.user)
+  const { permisos } = useSelector((state) => state.perm)
+  const { examenes } = useSelector((state) => state.exam)
   useEffect(() => {
     if (isAdmin && idEmpresa) {
       dispatch(startGetExamenesPorVencerTodasLasEmpresas())
@@ -48,8 +59,31 @@ export const MvcAppScreen = () => {
       dispatch(startGetPermisosPorVencerIdEmpresas(idEmpresa))
     }
   }, [dispatch, idEmpresa, isAdmin])
-  //aqui deberia hacer el dispatch porque ya se que empresa es
-  const { contratos } = useSelector((state) => state.cont)
+
+  const handleDocumentosPorContrato = () => {
+    //muestra los documentos de acuerdo al contrato seleccionado
+    //por defecto muestra todos los documebtos de todos los contratos
+    //este irá anexado al botón
+
+    if (idContrato === "1") {
+      dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa))
+      dispatch(startGetPermisosPorVencerIdEmpresas(idEmpresa))
+    } else {
+      const filtroDocumentosPersonas = examenes.filter(
+        (dpe) => dpe.idContrato === idContrato
+      )
+      const filtroDocumentosEquipos = permisos.filter(
+        (deq) => deq.idContrato === idContrato
+      )
+      dispatch(getExamenesPorVencerPorIdEmpresa(filtroDocumentosPersonas))
+      dispatch(getPermisosPorVencerIdEmpresas(filtroDocumentosEquipos))
+    }
+
+    /**
+     * Pasar los datos al state para que pueda renderizar
+     * los documentos en DashBoardScreen
+     */
+  }
   return (
     <div>
       <Router>
@@ -69,39 +103,58 @@ export const MvcAppScreen = () => {
                       </span>
                       <br />
                       {!isAdmin ? (
-                        <FormControl variant="outlined">
-                          <Select
-                            style={{
-                              marginTop: 10,
-                            }}
-                            native
-                            // value={idContrato}
-                            // onChange={handleInputChange}
-                            label="Contrato"
-                            required
-                            inputProps={{
-                              name: "idContrato",
-                              id: "idContratos",
-                            }}
-                          >
-                            <option key="default" defaultValue>
-                              Seleccione Contrato
-                            </option>
-                            {contratos ? (
-                              contratos.map((contrato) => (
-                                <option
-                                  key={contrato.id}
-                                  id={contrato.id}
-                                  value={contrato.idContrato}
-                                >
-                                  {contrato.idContrato}
+                        <>
+                          <FormControl variant="outlined">
+                            <Select
+                              style={{
+                                marginTop: 10,
+                              }}
+                              value={idContrato}
+                              onChange={handleInputChange}
+                              native
+                              label="Contrato"
+                              required
+                              inputProps={{
+                                name: "idContrato",
+                                id: "idContrato",
+                              }}
+                            >
+                              <option key="default" defaultValue value="1">
+                                Seleccione Contrato
+                              </option>
+                              {contratos ? (
+                                contratos.map((contrato) => (
+                                  <option
+                                    key={contrato.id}
+                                    id={contrato.id}
+                                    value={contrato.idContrato}
+                                  >
+                                    {contrato.idContrato}
+                                  </option>
+                                ))
+                              ) : (
+                                <option key="nodata">
+                                  No existen contratos
                                 </option>
-                              ))
-                            ) : (
-                              <option key="nodata">No existen contratos</option>
-                            )}
-                          </Select>
-                        </FormControl>
+                              )}
+                            </Select>
+                          </FormControl>
+                          <FormControl variant="outlined">
+                            <Button
+                              onClick={handleDocumentosPorContrato}
+                              style={{
+                                // width: 200,
+                                marginBottom: 10,
+                                marginTop: 10,
+                              }}
+                              type="submit"
+                              color="primary"
+                              variant="contained"
+                            >
+                              Ver Contrato
+                            </Button>
+                          </FormControl>
+                        </>
                       ) : (
                         <div></div>
                       )}

@@ -248,7 +248,7 @@ export const EditEmpresaScreen = () => {
                 <span>
                   Contratos Asociados{" "}
                   <i
-                    class="fas fa-briefcase"
+                    className="fas fa-briefcase"
                     style={{ color: "green", cursor: "pointer" }}
                     onClick={handleAddContrato}
                   ></i>

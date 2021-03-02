@@ -24,11 +24,9 @@ export const NewUserScreen = () => {
   })
   const { empresas } = useSelector((state) => state.empr)
   const { idEmpresa, idUsuario, nombre, isAdmin, password, email } = formValues
-  // console.log(formValues)
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log(formValues)
     dispatch(
       startRegisterWithEmailPasswordName({
         email: email,
