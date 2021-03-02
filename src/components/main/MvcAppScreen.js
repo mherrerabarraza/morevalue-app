@@ -6,30 +6,35 @@ import { useDispatch, useSelector } from "react-redux"
 import "./dashboard.css"
 import { DashBoardScreen } from "../ui/DashBoardScreen"
 import { EditEmployeeScreen } from "../employee/EditEmployeeScreen"
-import { startGetExamenesPorVencerTodasLasEmpresas } from "../../actions/exam"
 import {
-  startGetTodosTrabajadores,
-  startGetTrabajadoresIdEmpresa,
-} from "../../actions/employee"
+  startGetExamenesPorVencerPorIdEmpresa,
+  startGetExamenesPorVencerTodasLasEmpresas,
+  startGetExamenesPorVencerTodasLasEmpresasRutEmpresa,
+} from "../../actions/exam"
+import { startGetTodosTrabajadores } from "../../actions/employee"
 import { CreateEmployeeScreen } from "../employee/CreateEmployeeScreen"
 import { CreateEmpresaScreen } from "../empresa/CreateEmpresaScreen"
 import { startGetTodasLasEmpresas } from "../../actions/empresa.actions"
 import { EditEmpresaScreen } from "../empresa/EditEmpresaScreen"
 import { CreateEquipmentScreen } from "../equipment/CreateEquipmentScreen"
+import { startGetTodosLosEquipos } from "../../actions/equipos.actions"
 import {
-  startGetEquiposIdEmpresa,
-  startGetTodosLosEquipos,
-} from "../../actions/equipos.actions"
-import { startGetPermisosPorVencerTodasLasEmpresas } from "../../actions/permisos.actions"
+  startGetPermisosPorVencerIdEmpresas,
+  startGetPermisosPorVencerTodasLasEmpresas,
+} from "../../actions/permisos.actions"
 import { EditEquipmentScreen } from "../equipment/EditEquipmentScreen"
-import { startGetTodosContratos } from "../../actions/contract"
+import {
+  startGetContratosIdEmpresa,
+  startGetTodosContratos,
+} from "../../actions/contract"
+import { NewUserScreen } from "../user/NewUserScreen"
+import { FormControl, Select } from "@material-ui/core"
 
 export const MvcAppScreen = () => {
   const dispatch = useDispatch()
   const { isAdmin, idEmpresa } = useSelector((state) => state.user)
-
   useEffect(() => {
-    if (isAdmin) {
+    if (isAdmin && idEmpresa) {
       dispatch(startGetExamenesPorVencerTodasLasEmpresas())
       dispatch(startGetPermisosPorVencerTodasLasEmpresas())
       dispatch(startGetTodasLasEmpresas())
@@ -37,8 +42,14 @@ export const MvcAppScreen = () => {
       dispatch(startGetTodosContratos())
       dispatch(startGetTodosTrabajadores())
     }
-  }, [dispatch, idEmpresa])
+    if (!isAdmin && idEmpresa) {
+      dispatch(startGetContratosIdEmpresa(idEmpresa))
+      dispatch(startGetExamenesPorVencerPorIdEmpresa(idEmpresa))
+      dispatch(startGetPermisosPorVencerIdEmpresas(idEmpresa))
+    }
+  }, [dispatch, idEmpresa, isAdmin])
   //aqui deberia hacer el dispatch porque ya se que empresa es
+  const { contratos } = useSelector((state) => state.cont)
   return (
     <div>
       <Router>
@@ -54,9 +65,46 @@ export const MvcAppScreen = () => {
                   <li className="nav-item">
                     <Link className="nav-link" to="/">
                       <span>
-                        <i className="fas fa-home"></i>
-                      </span>{" "}
-                      Escritorio
+                        <i className="fas fa-home"></i> Escritorio
+                      </span>
+                      <br />
+                      {!isAdmin ? (
+                        <FormControl variant="outlined">
+                          <Select
+                            style={{
+                              marginTop: 10,
+                            }}
+                            native
+                            // value={idContrato}
+                            // onChange={handleInputChange}
+                            label="Contrato"
+                            required
+                            inputProps={{
+                              name: "idContrato",
+                              id: "idContratos",
+                            }}
+                          >
+                            <option key="default" defaultValue>
+                              Seleccione Contrato
+                            </option>
+                            {contratos ? (
+                              contratos.map((contrato) => (
+                                <option
+                                  key={contrato.id}
+                                  id={contrato.id}
+                                  value={contrato.idContrato}
+                                >
+                                  {contrato.idContrato}
+                                </option>
+                              ))
+                            ) : (
+                              <option key="nodata">No existen contratos</option>
+                            )}
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <div></div>
+                      )}
                     </Link>
                   </li>
                   {isAdmin ? (
@@ -163,6 +211,16 @@ export const MvcAppScreen = () => {
                     component={EditEmployeeScreen}
                     path="/admin/editemployee"
                   />
+                  <Route
+                    exact
+                    component={NewUserScreen}
+                    path="/admin/newuser"
+                  />
+                  {/* <Route
+                    exact
+                    component={editUserScreen}
+                    path="/admin/newuser"
+                  /> */}
                   <Route
                     exact
                     component={CreateEmployeeScreen}

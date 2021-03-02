@@ -1,33 +1,45 @@
-import { Button, Card, CardContent, Container, CssBaseline, TextField, Typography } from "@material-ui/core";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { startLoginEmailPassword } from "../../actions/auth";
-import { useForm } from "../../hooks/useForm";
-import "./signin.css";
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  CssBaseline,
+  TextField,
+  Typography,
+} from "@material-ui/core"
+import React from "react"
+import { useDispatch } from "react-redux"
+import { startLoginEmailPassword } from "../../actions/auth"
+import { useForm } from "../../hooks/useForm"
+import "./signin.css"
 
 export const LoginScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const [formValues, handleInputChange] = useForm({
     email: "",
     password: "",
-  });
+  })
 
-  const { email, password } = formValues;
+  const { email, password } = formValues
 
   const handleLogin = (e) => {
-    e.preventDefault();
-    dispatch(startLoginEmailPassword(email, password));
-  };
+    e.preventDefault()
+    dispatch(startLoginEmailPassword(email, password))
+  }
   return (
-    // <div className="text-center">
-    //   <main className="form-signin">
-    <Container maxWidth='xs' component='main'>
+    <Container maxWidth="xs" component="main">
       <CssBaseline />
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography component='h1' variant='h5'>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
           Ingresar
         </Typography>
-        <form onSubmit={handleLogin} style={{width:'100%'}}>
+        <form onSubmit={handleLogin} style={{ width: "100%" }}>
           <TextField
             type="email"
             id="email"
@@ -37,34 +49,27 @@ export const LoginScreen = () => {
             autoFocus
             onChange={handleInputChange}
             value={email}
-            variant='outlined'
+            variant="outlined"
             fullWidth
-            margin='normal'
+            margin="normal"
           />
           <TextField
             type="password"
             id="password"
             name="password"
-            margin='normal'
+            margin="normal"
             placeholder="Contraseña"
             required
             onChange={handleInputChange}
             value={password}
-            variant='outlined'
+            variant="outlined"
             fullWidth
           />
-          <Button 
-            type="submit"
-            variant='contained'
-            color='primary'
-            fullWidth
-            >
+          <Button type="submit" variant="contained" color="primary" fullWidth>
             Ingresar
           </Button>
         </form>
       </div>
     </Container>
-    //   </main>
-    // </div>
-  );
-};
+  )
+}

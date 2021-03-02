@@ -7,6 +7,7 @@ export const types = {
   loadUserData: "[User] Load Logged User Data",
   //Quita el usuario del state
   userLogout: "[User] Logout",
+  createUser: "[User] Created User",
 
   //Trabajadores
   getTrabajadoresIdEmpresa: "[Emp] Get Trabajadores ID Empresa",

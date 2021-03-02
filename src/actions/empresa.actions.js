@@ -1,9 +1,9 @@
-import { db } from "../firebase/firebase-config";
-import { types } from "../types/types";
+import { db } from "../firebase/firebase-config"
+import { types } from "../types/types"
 
 export const startGetTodasLasEmpresas = () => {
   return async (dispatch) => {
-    const empresas = [];
+    const empresas = []
     db.collection("empresas")
       .get()
       .then((empresasRef) => {
@@ -11,38 +11,38 @@ export const startGetTodasLasEmpresas = () => {
           empresas.push({
             idEmpresa: empresa.id,
             ...empresa.data(),
-          });
-        });
-        dispatch(getTodasLasEmpresas(empresas));
-      });
-  };
-};
+          })
+        })
+        dispatch(getTodasLasEmpresas(empresas))
+      })
+  }
+}
 
 export const getTodasLasEmpresas = (empresas) => ({
   type: types.getTodasLasEmpresas,
   payload: empresas,
-});
+})
 
 export const startCrearNuevaEmpresa = (empresa) => {
   const { idEmpresa } = empresa
   return async (dispatch) => {
-    await db.collection("empresas").doc(idEmpresa).set(empresa);
+    await db.collection("empresas").doc(idEmpresa).set(empresa)
     // dispatch(crearNuevaEmpresa(empresa));
-    dispatch(startGetTodasLasEmpresas());
-  };
-};
+    dispatch(startGetTodasLasEmpresas())
+  }
+}
 
 export const crearNuevaEmpresa = (empresa) => ({
   type: types.crearNuevaEmpresa,
   payload: empresa,
-});
+})
 
 export const startUpdateEmpresa = (empresa) => {
   const { idEmpresa } = empresa
   return async (dispatch) => {
-    const docRef = await db.collection('empresas').doc(idEmpresa).get();
+    const docRef = await db.collection("empresas").doc(idEmpresa).get()
     if (docRef.exists) {
-      dispatch(startCrearNuevaEmpresa(idEmpresa, empresa))
+      dispatch(startCrearNuevaEmpresa(empresa))
       // await db.collection('empresas').doc(idEmpresa).set({
       //   idEmpresa: idEmpresa,
       //   nombre: nombre,
@@ -52,17 +52,16 @@ export const startUpdateEmpresa = (empresa) => {
       //     console.log('Ocurrió un error: ', error);
       //   })
       // dispatch(updateEmpresa(idEmpresa, nombre))
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   }
 }
 
 export const updateEmpresa = (idEmpresa, nombre) => ({
   types: types.updateEmpresa,
-  payload: [idEmpresa, nombre]
+  payload: [idEmpresa, nombre],
 })
 
 //TODO: updateEmpresa
-

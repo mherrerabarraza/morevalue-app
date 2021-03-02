@@ -1,16 +1,15 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { uiOpenModal } from "../../actions/ui";
-import { CalendarModal } from "./modal/CalendarModal";
+import React from "react"
+import { useDispatch } from "react-redux"
+import { uiOpenModal } from "../../actions/ui"
+import { CalendarModal } from "./modal/CalendarModal"
 
 export const ExamenEntry = (examen) => {
-  const dispatch = useDispatch();
-  const { examenes, id: idEmpleado } = examen;
-  console.log(examen);
+  const dispatch = useDispatch()
+  const { examenes, id: idEmpleado } = examen
 
   const handleModal = () => {
-    dispatch(uiOpenModal());
-  };
+    dispatch(uiOpenModal())
+  }
 
   return (
     <div>
@@ -22,10 +21,8 @@ export const ExamenEntry = (examen) => {
           <i className="fas fa-plus-circle" onClick={handleModal}></i>
         </span>
       </h3>
-      <div>
- 
-      </div>
+      <div></div>
       <CalendarModal idEmpleado={idEmpleado} />
     </div>
-  );
-};
+  )
+}

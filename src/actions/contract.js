@@ -2,10 +2,10 @@ import { types } from "../types/types"
 import { db } from "../firebase/firebase-config"
 
 export const startCrearNuevoContrato = (contrato) => {
-  const { idContrato } = contrato
   return async (dispatch) => {
-    await db.collection("contratos").doc(idContrato).set(contrato)
+    await db.collection("contratos").add(contrato)
     dispatch(crearNuevoContrato())
+    dispatch(startGetTodosContratos())
   }
 }
 

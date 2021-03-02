@@ -1,32 +1,34 @@
-import React, { /*useEffect ,*/ useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "../../hooks/useForm";
-import Swal from "sweetalert2";
+import React, { /*useEffect ,*/ useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useForm } from "../../hooks/useForm"
+import Swal from "sweetalert2"
 
-import { CalendarModal } from "../ui/modal/CalendarModal";
+import { CalendarModal } from "../ui/modal/CalendarModal"
 
-import { uiOpenModal } from "../../actions/ui";
-import { ExamenScreen } from "../ui/examenes/ExamenScreen";
-import { startGetTodoExamenesTrabajadorID } from "../../actions/exam";
-import { Button, CircularProgress, Container, TextField } from "@material-ui/core";
+import { uiOpenModal } from "../../actions/ui"
+import { ExamenScreen } from "../ui/examenes/ExamenScreen"
+import { startGetTodoExamenesTrabajadorID } from "../../actions/exam"
+import {
+  Button,
+  CircularProgress,
+  Container,
+  TextField,
+} from "@material-ui/core"
 // import { startGetTrabajadoresIdEmpresa } from "../../actions/employee";
 
 export const EditEmployeeScreen = () => {
-  const dispatch = useDispatch();
-  const { trabajadores } = useSelector((state) => state.trab);
-  const { idEmpresa } = useSelector((state) => state.user);
-  // const { examenes } = useSelector((state) => state.exam);
-  const { examenesTrabajador } = useSelector ((state) => state.exam)
-  const [exist, setExist] = useState(false);
-  const [datosTrabajador, setDatosTrabajador] = useState([]);
-  // const [datosExamenes, setDatosExamenes] = useState([]);
+  const dispatch = useDispatch()
+  const { trabajadores } = useSelector((state) => state.trab)
+  const { examenes } = useSelector((state) => state.exam)
+  const [exist, setExist] = useState(false)
+  const [datosTrabajador, setDatosTrabajador] = useState([])
   const [formValues, handleInputChange, reset] = useForm({
     idTrabajador: "",
-  });
-  const { idTrabajador } = formValues;
+  })
+  const { idTrabajador } = formValues
 
   /**
-   * TODO: Ahora encuentra los examenes ONTHEFLY, pero necesito que 
+   * TODO: Ahora encuentra los examenes ONTHEFLY, pero necesito que
    * se muestren cuando se busca el trabajador
    */
 
@@ -35,42 +37,31 @@ export const EditEmployeeScreen = () => {
   //   // dispatch(startGetTrabajadoresIdEmpresa(idEmpresa))
   // }, [idTrabajador, idEmpresa, dispatch])
 
-
-
   const handleSearch = (e) => {
-    e.preventDefault();
-    dispatch(startGetTodoExamenesTrabajadorID(idTrabajador));
-    buscar(idTrabajador);
-  };
-  
-  const buscar = (idTrabajador) => {
-    const tra = trabajadores.filter((employee) => employee.id === idTrabajador);
-    setDatosTrabajador(tra);
-    // const ex = examenes.filter(
-    //   (examen) => examen.idTrabajador === idTrabajador
-    // );
-    // setDatosExamenes(ex);
-    if (tra.length > 0) {
-      // setDatosTrabajador(tra);
-      // setDatosExamenes(ex);
-      setExist(true);
+    e.preventDefault()
+    dispatch(startGetTodoExamenesTrabajadorID(idTrabajador))
+    buscar(idTrabajador)
+  }
 
+  const buscar = (idTrabajador) => {
+    const tra = trabajadores.filter((employee) => employee.id === idTrabajador)
+    setDatosTrabajador(tra)
+    if (tra.length > 0) {
+      setExist(true)
     } else {
-      Swal.fire("Trabajador No Encontrado", "", "warning");
+      Swal.fire("Trabajador No Encontrado", "", "warning")
       //evita error de busqueda de no existente, después de encontrado
       setExist(false)
-      reset();
+      reset()
     }
-  };
+  }
 
   const handleModal = () => {
-    dispatch(uiOpenModal());
-  };
+    dispatch(uiOpenModal())
+  }
   return (
-    <Container maxWidth='xl'>
-      <form
-        onSubmit={handleSearch}
-      >
+    <Container maxWidth="xl">
+      <form onSubmit={handleSearch}>
         <h1 className="h3 mb-3 fw-normal">Buscar Trabajador</h1>
         <hr />
         <TextField
@@ -83,17 +74,16 @@ export const EditEmployeeScreen = () => {
           autoFocus
           onChange={handleInputChange}
           value={idTrabajador}
-          variant='outlined'
-          label='Rut Trabajador'
+          variant="outlined"
+          label="Rut Trabajador"
           style={{ width: 300, marginBottom: 10 }}
         />
         <br />
         <Button
           style={{ width: 300, marginBottom: 10 }}
           type="submit"
-          color='primary'
-          variant='contained'
-
+          color="primary"
+          variant="contained"
         >
           Buscar Trabajador
         </Button>
@@ -106,8 +96,8 @@ export const EditEmployeeScreen = () => {
             {datosTrabajador ? (
               <div>Nombre: {datosTrabajador[0].nombre}</div>
             ) : (
-                <div></div>
-              )}
+              <div></div>
+            )}
           </div>
           <div>
             <h3>
@@ -120,20 +110,22 @@ export const EditEmployeeScreen = () => {
             </h3>
           </div>
 
-          {examenesTrabajador ? (
-            <ExamenScreen datosExamenes={examenesTrabajador} />
+          {examenes ? (
+            <ExamenScreen datosExamenes={examenes} />
           ) : (
-              <CircularProgress />
-            )}
+            <CircularProgress />
+          )}
           <CalendarModal
             idTrabajador={idTrabajador}
-            idEmpresa={idEmpresa}
+            //debe ser el idEmpresa del Trabajador
+            //no del user
+            idEmpresa={datosTrabajador[0].idEmpresa}
             idContrato={datosTrabajador[0].idContrato}
           />
         </div>
       ) : (
-          <div></div>
-        )}
+        <div></div>
+      )}
     </Container>
-  );
-};
+  )
+}

@@ -1,30 +1,38 @@
-import { Button } from "@material-ui/core";
-import { DataGrid, GridToolbar } from "@material-ui/data-grid";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { startLogDescargas } from "../../../actions/exam";
-import { CalcularFecha } from "../helpers/CalcularFecha";
+import { Button } from "@material-ui/core"
+import { DataGrid, GridToolbar } from "@material-ui/data-grid"
+import React from "react"
+import { useDispatch } from "react-redux"
+import { startLogDescargas } from "../../../actions/exam"
+import { CalcularFecha } from "../helpers/CalcularFecha"
 export const ExamenScreen = ({ datosExamenes }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   /**
    * TODO: al presionar el rut del trabajador ir a la págiba del trabajador
    */
 
   const handleDownload = (e) => {
-    console.log(e);
     console.log(
-      "archivo descargado: " + datosExamenes.nombreExamen + "descargado por: " + datosExamenes.nombre
-    );
+      "archivo descargado: " +
+        datosExamenes.nombreExamen +
+        "descargado por: " +
+        datosExamenes.nombre
+    )
     dispatch(
-      startLogDescargas(datosExamenes.idContrato, datosExamenes.idUsuario, datosExamenes.idEmpresa, datosExamenes.idTrabajador, datosExamenes.nombreExamen, datosExamenes.url)
-    );
-  };
-
+      startLogDescargas(
+        datosExamenes.idContrato,
+        datosExamenes.idUsuario,
+        datosExamenes.idEmpresa,
+        datosExamenes.idTrabajador,
+        datosExamenes.nombreExamen,
+        datosExamenes.url
+      )
+    )
+  }
 
   const columns = [
     {
-      field: 'estado',
-      headerName: 'Estado',
+      field: "estado",
+      headerName: "Estado",
       width: 130,
       renderCell: (params) => (
         <div>
@@ -32,24 +40,25 @@ export const ExamenScreen = ({ datosExamenes }) => {
             className="fas fa-circle"
             style={{
               color: `${params.value.color}`,
-              border: '1px solid black', borderRadius: '50px'
-            }}></i>
-          <span>{' '}{params.value.texto}</span>
+              border: "1px solid black",
+              borderRadius: "50px",
+            }}
+          ></i>
+          <span> {params.value.texto}</span>
         </div>
       ),
     },
-    { field: 'idEmpresa', headerName: 'Empresa', width: 120 },
-    { field: 'idContrato', headerName: 'Contrato', width: 120 },
-    { field: 'idTrabajador', headerName: 'Trabajador', width: 120 },
-    { field: 'fechaCaducidad', headerName: 'Caduca', width: 120 },
-    { field: 'nombreExamen', headerName: 'Documento', width: 130 },
+    { field: "idEmpresa", headerName: "Empresa", width: 120 },
+    { field: "idContrato", headerName: "Contrato", width: 120 },
+    { field: "idTrabajador", headerName: "Trabajador", width: 120 },
+    { field: "fechaCaducidad", headerName: "Caduca", width: 120 },
+    { field: "nombreExamen", headerName: "Documento", width: 130 },
     {
-      field: 'url',
-      headerName: 'Descarga',
+      field: "url",
+      headerName: "Descarga",
       width: 130,
       renderCell: (params) => (
         <div>
-
           <Button
             variant="outlined"
             color="primary"
@@ -58,18 +67,19 @@ export const ExamenScreen = ({ datosExamenes }) => {
           >
             <a
               href={params.value}
-              target='_blank'
-              rel='noreferrer'
-              style={{ textDecoration: 'none' }}
-            >Descargar</a>
+              target="_blank"
+              rel="noreferrer"
+              style={{ textDecoration: "none" }}
+            >
+              Descargar
+            </a>
           </Button>
         </div>
-
       ),
     },
-  ];
-  const rows = [];
-  datosExamenes.forEach(dp => {
+  ]
+  const rows = []
+  datosExamenes.forEach((dp) => {
     rows.push({
       id: dp.id,
       idTrabajador: dp.idTrabajador,
@@ -94,8 +104,9 @@ export const ExamenScreen = ({ datosExamenes }) => {
         showToolbar
         autoHeight
         columnTypes
-        density='compact'
-        components={{ Toolbar: GridToolbar }} />
+        density="compact"
+        components={{ Toolbar: GridToolbar }}
+      />
     </div>
   )
-};
+}

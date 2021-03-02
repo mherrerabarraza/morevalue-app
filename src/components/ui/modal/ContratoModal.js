@@ -31,9 +31,12 @@ export const ContratoModal = ({ idEmpresa }) => {
   const [titleValid, setTitleValid] = useState(true)
   const [formValues, setFormValues] = useState({
     idContrato: "",
+    nombreEmpresa: "",
+    nombreFaena: "",
+    dotacion: "",
     fechaCaducidad: now.toDate(),
   })
-  const { idContrato } = formValues
+  const { idContrato, nombreEmpresa, nombreFaena, dotacion } = formValues
 
   const handleInputChange = ({ target }) => {
     setFormValues({
@@ -75,6 +78,9 @@ export const ContratoModal = ({ idEmpresa }) => {
       startCrearNuevoContrato({
         idContrato: idContrato,
         idEmpresa: idEmpresa,
+        nombreEmpresa: nombreEmpresa,
+        dotacion: dotacion,
+        nombreFaena: nombreFaena,
         fechaInicio: fechaInicio.getTime(),
         fechaCaducidad: fechaCaducidad.getTime(),
       })
@@ -110,6 +116,45 @@ export const ContratoModal = ({ idEmpresa }) => {
             variant="outlined"
             style={{ width: 300, marginBottom: 10 }}
             label="Código o Nombre del contrato"
+          />
+          <TextField
+            type="text"
+            className={`form-control ${!titleValid && "is-invalid"}`}
+            name="nombreEmpresa"
+            autoComplete="off"
+            value={nombreEmpresa}
+            onChange={handleInputChange}
+            required
+            autoFocus
+            variant="outlined"
+            style={{ width: 300, marginBottom: 10 }}
+            label="Nombre Empresa Asociada"
+          />
+          <TextField
+            type="text"
+            className={`form-control ${!titleValid && "is-invalid"}`}
+            name="nombreFaena"
+            autoComplete="off"
+            value={nombreFaena}
+            onChange={handleInputChange}
+            required
+            autoFocus
+            variant="outlined"
+            style={{ width: 300, marginBottom: 10 }}
+            label="Nombre Faena"
+          />
+          <TextField
+            type="text"
+            className={`form-control ${!titleValid && "is-invalid"}`}
+            name="dotacion"
+            autoComplete="off"
+            value={dotacion}
+            onChange={handleInputChange}
+            required
+            autoFocus
+            variant="outlined"
+            style={{ width: 300, marginBottom: 10 }}
+            label="Dotación"
           />
         </div>
         <div className="form-group">

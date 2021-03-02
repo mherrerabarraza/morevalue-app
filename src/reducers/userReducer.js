@@ -1,4 +1,4 @@
-import { types } from "../types/types";
+import { types } from "../types/types"
 
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
@@ -7,13 +7,19 @@ export const userReducer = (state = {}, action) => {
         nombre: action.payload.nombre,
         idEmpresa: action.payload.idEmpresa,
         isAdmin: action.payload.isAdmin,
-        idUsuario:action.payload.idUsuario
-      };
+        idUsuario: action.payload.idUsuario,
+      }
+
+    case types.createUser:
+      return {
+        ...state,
+        newUser: action.payload,
+      }
 
     case types.userLogout:
-      return {};
+      return {}
 
     default:
-      return state;
+      return state
   }
-};
+}

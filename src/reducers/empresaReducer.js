@@ -1,4 +1,4 @@
-import { types } from "../types/types";
+import { types } from "../types/types"
 
 export const empresaReducer = (state = {}, action) => {
   switch (action.type) {
@@ -6,7 +6,7 @@ export const empresaReducer = (state = {}, action) => {
       return {
         ...state,
         empresas: action.payload,
-      };
+      }
     // case types.crearNuevaEmpresa:
     //   console.log(action.payload);
     //   return {
@@ -14,6 +14,6 @@ export const empresaReducer = (state = {}, action) => {
     //     ultimaCreada: action.payload,
     //   };
     default:
-      return state;
+      return state
   }
-};
+}
