@@ -1,13 +1,13 @@
-import { db } from "../firebase/firebase-config"
-import { fileUpload } from "../helpers/fileUpload"
-import { types } from "../types/types"
+import { db } from '../firebase/firebase-config'
+import { fileUpload } from '../helpers/fileUpload'
+import { types } from '../types/types'
 
 export const startGetTodoExamenesTrabajadorID = (idTrabajador) => {
   const examenes = []
   return async (dispatch) => {
     await db
-      .collection("examenes")
-      .where("idTrabajador", "==", idTrabajador)
+      .collection('examenes')
+      .where('idTrabajador', '==', idTrabajador)
       .get()
       .then((snap) => {
         snap.forEach((examen) => {
@@ -30,14 +30,16 @@ export const startGetExamenesPorVencerTodasLasEmpresas = () => {
   var someDate = new Date()
   var today = someDate.getTime()
   var numberOfDaysToAdd = 90
+  // get documentos Vencidos desde hoy hasta 90 días
+  // no antes, no después
   someDate.setDate(someDate.getDate() + numberOfDaysToAdd)
   const newDate = someDate.getTime()
   const examenes = []
   return async (dispatch) => {
     await db
-      .collection("examenes")
-      .where("fechaCaducidad", ">=", today)
-      .where("fechaCaducidad", "<=", newDate)
+      .collection('examenes')
+      .where('fechaCaducidad', '>=', today)
+      .where('fechaCaducidad', '<=', newDate)
       .get()
       .then((snap) => {
         snap.forEach((examen) => {
@@ -64,10 +66,10 @@ export const startGetExamenesPorVencerPorIdEmpresa = (idEmpresa) => {
   const examenes = []
   return async (dispatch) => {
     await db
-      .collection("examenes")
-      .where("idEmpresa", "==", idEmpresa)
+      .collection('examenes')
+      .where('idEmpresa', '==', idEmpresa)
       //Calcular fecha a 60 días (se creo un filtro en firestore tambien)
-      .where("fechaCaducidad", "<=", newDate)
+      .where('fechaCaducidad', '<=', newDate)
       .get()
       .then((snap) => {
         snap.forEach((examen) =>
@@ -92,7 +94,7 @@ export const startCrearNuevoExamen = (examen) => {
     // const newExamen = [];
     // console.log('startCrearNuevoExamen-idContrato : ', idTrabajador.idTrabajador);
     await db
-      .collection("examenes")
+      .collection('examenes')
       .add(examen)
       .then(
         dispatch(startGetExamenesPorVencerTodasLasEmpresas()),
@@ -152,10 +154,10 @@ export const startLogDescargas = (
         { merge: true }
       )
       .then((ok) => {
-        console.log("Registro Ingresado: ", ok)
+        console.log('Registro Ingresado: ', ok)
       })
       .catch((err) => {
-        console.log("Algo salió mal: ", err)
+        console.log('Algo salió mal: ', err)
       })
   }
 }
