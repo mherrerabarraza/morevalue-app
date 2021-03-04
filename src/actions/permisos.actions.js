@@ -60,7 +60,6 @@ export const getPermisosPorVencerTodasLasEmpresas = (permisos) => ({
 })
 
 export const startGetTodoPermisosEquipoID = (idEquipo) => {
-  console.log(idEquipo)
   const permisos = []
   return async (dispatch) => {
     await db
