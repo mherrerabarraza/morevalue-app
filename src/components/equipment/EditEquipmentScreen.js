@@ -1,22 +1,27 @@
-import React, { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import Swal from "sweetalert2"
-import { startGetTodoPermisosEquipoID } from "../../actions/permisos.actions"
-import { useForm } from "../../hooks/useForm"
-import { PermisosScreen } from "../ui/permisos/PermisosScreen"
-import { uiOpenModal } from "../../actions/ui"
-import { PermisosModal } from "../ui/modal/PermisosModal"
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
+import { startGetTodoPermisosEquipoID } from '../../actions/permisos.actions'
+import { useForm } from '../../hooks/useForm'
+import { PermisosScreen } from '../ui/permisos/PermisosScreen'
+import { uiOpenModal } from '../../actions/ui'
+import { PermisosModal } from '../ui/modal/PermisosModal'
 import {
   Button,
   CircularProgress,
   Container,
+  Grid,
+  Paper,
   TextField,
-} from "@material-ui/core"
+  Typography,
+} from '@material-ui/core'
+import { AddCircleOutlined, Edit } from '@material-ui/icons'
+import { green } from '@material-ui/core/colors'
 
 export const EditEquipmentScreen = () => {
   const dispatch = useDispatch()
   const [formValues, handleInputChange, reset] = useForm({
-    idEquipo: "",
+    idEquipo: '',
   })
   const { idEquipo } = formValues
   const [exist, setExist] = useState(false)
@@ -36,7 +41,7 @@ export const EditEquipmentScreen = () => {
     if (equ.length > 0) {
       setExist(true)
     } else {
-      Swal.fire("Equipo No Encontrado", "", "warning")
+      Swal.fire('Equipo No Encontrado', '', 'warning')
       setExist(false)
       reset()
     }
@@ -46,71 +51,159 @@ export const EditEquipmentScreen = () => {
   }
 
   return (
-    <Container maxWidth="xl">
-      <form onSubmit={handleSearch}>
-        <h1 className="h3 mb-3 fw-normal">Buscar Eqiupo</h1>
-        <hr />
-        <TextField
-          type="text"
-          id="idEquipo"
-          name="idEquipo"
-          className="form-control"
-          label="Ingrese patente"
-          required
-          autoFocus
-          variant="outlined"
-          placeholder="Ej: AABB11"
-          style={{ width: 300, marginBottom: 10 }}
-          onChange={handleInputChange}
-          value={idEquipo}
-        />
-        <br />
-        <Button
-          style={{ width: 300, marginBottom: 10 }}
-          type="submit"
-          color="primary"
-          variant="contained"
-        >
-          Buscar
-        </Button>
-      </form>
-
-      {exist ? (
-        <div>
-          <h3>Datos del Equipo</h3>
-          <div className="datosTrabajador">
-            {datosEquipo ? (
-              <div>Nombre: {datosEquipo[0].nombre}</div>
-            ) : (
-              <div></div>
-            )}
-          </div>
+    <div>
+      <Container maxWidth="xl">
+        <Typography variant="h4">Editar Equipo</Typography>
+        <Grid item xs={12} lg={6}>
+          <form onSubmit={handleSearch}>
+            <Paper
+              elevation={3}
+              style={{
+                display: 'flex',
+                alignContent: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                padding: '20px',
+                margin: '10px 0px',
+              }}
+            >
+              <TextField
+                type="text"
+                id="idEquipo"
+                name="idEquipo"
+                className="form-control"
+                label="Ingrese patente"
+                required
+                autoFocus
+                variant="outlined"
+                placeholder="Ej: AABB11"
+                style={{ width: 300, marginBottom: 10 }}
+                onChange={handleInputChange}
+                value={idEquipo}
+              />
+              <br />
+              <Button
+                style={{ width: 300, marginBottom: 10 }}
+                type="submit"
+                color="primary"
+                variant="contained"
+              >
+                Buscar
+              </Button>
+            </Paper>
+          </form>
+        </Grid>
+        {exist ? (
           <div>
-            <h3>
-              Documentos{" "}
-              <span style={{ color: "green", cursor: "pointer" }}>
-                <i className="fas fa-plus-circle" onClick={handleModal}>
-                  {" "}
-                </i>
-              </span>
-            </h3>
-          </div>
-          {/* Pasar directamente el permiso sin recorrer 1 a 1 para que no
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              <Typography variant="h4">Datos del Equipo</Typography>
+              <Edit
+                style={{
+                  fontSize: '2rem',
+                  color: green[800],
+                  cursor: 'pointer',
+                }}
+                // onClick={handleEdit}
+              />
+            </div>
+            <Paper
+              elevation={3}
+              style={{
+                display: 'flex',
+                alignContent: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                padding: '20px',
+                margin: '10px 0px',
+              }}
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {datosEquipo ? (
+                  <div>
+                    <TextField
+                      id="nombre"
+                      name="nombre"
+                      type="text"
+                      // value={nombre}
+                      onChange={handleInputChange}
+                      placeholder="Nombre Empresa"
+                      label={`${datosEquipo[0].nombre} `}
+                      required
+                      variant="outlined"
+                      // disabled={editable ? false : true}
+                      disabled="true"
+                      style={{ width: 300, margin: '10px' }}
+                    />
+                    <TextField
+                      id="nombre"
+                      name="nombre"
+                      type="text"
+                      // value={nombre}
+                      onChange={handleInputChange}
+                      placeholder="Nombre Empresa"
+                      label={`${datosEquipo[0].idEmpresa} `}
+                      required
+                      variant="outlined"
+                      // disabled={editable ? false : true}
+                      disabled="true"
+                      style={{ width: 300, margin: '10px' }}
+                    />
+                    <TextField
+                      id="nombre"
+                      name="nombre"
+                      type="text"
+                      // value={nombre}
+                      onChange={handleInputChange}
+                      placeholder="Nombre Empresa"
+                      label={`${datosEquipo[0].idContrato} `}
+                      required
+                      variant="outlined"
+                      // disabled={editable ? false : true}
+                      disabled="true"
+                      style={{ width: 300, margin: '10px' }}
+                    />
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+            </Paper>
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              <Typography variant="h4">Documentos del Equipo</Typography>
+              <AddCircleOutlined
+                style={{
+                  fontSize: '2rem',
+                  color: green[800],
+                  cursor: 'pointer',
+                }}
+                onClick={handleModal}
+              />
+            </div>
+            {/* Pasar directamente el permiso sin recorrer 1 a 1 para que no
                     haya duplicidad en la creación de la tabla */}
-          {permisosEquipos ? (
-            <PermisosScreen datosPermisos={permisosEquipos} />
-          ) : (
-            <CircularProgress />
-          )}
-          <PermisosModal
-            idContrato={datosEquipo[0].idContrato}
-            idEquipo={idEquipo}
-            idEmpresa={datosEquipo[0].idEmpresa}
-          />
-        </div>
-      ) : (
-        <div></div>
-      )}
-    </Container>
+            {permisosEquipos ? (
+              <PermisosScreen datosPermisos={permisosEquipos} />
+            ) : (
+              <CircularProgress />
+            )}
+            <PermisosModal
+              idContrato={datosEquipo[0].idContrato}
+              idEquipo={idEquipo}
+              idEmpresa={datosEquipo[0].idEmpresa}
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </Container>
+    </div>
   )
 }

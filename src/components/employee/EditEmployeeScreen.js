@@ -1,19 +1,25 @@
-import React, { /*useEffect ,*/ useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useForm } from "../../hooks/useForm"
-import Swal from "sweetalert2"
+import React, { /*useEffect ,*/ useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useForm } from '../../hooks/useForm'
+import Swal from 'sweetalert2'
 
-import { CalendarModal } from "../ui/modal/CalendarModal"
+import { CalendarModal } from '../ui/modal/CalendarModal'
 
-import { uiOpenModal } from "../../actions/ui"
-import { ExamenScreen } from "../ui/examenes/ExamenScreen"
-import { startGetTodoExamenesTrabajadorID } from "../../actions/exam"
+import { uiOpenModal } from '../../actions/ui'
+import { ExamenScreen } from '../ui/examenes/ExamenScreen'
+import { startGetTodoExamenesTrabajadorID } from '../../actions/exam'
 import {
   Button,
   CircularProgress,
   Container,
+  FormGroup,
+  Grid,
+  Paper,
   TextField,
-} from "@material-ui/core"
+  Typography,
+} from '@material-ui/core'
+import { AddCircleOutlined } from '@material-ui/icons'
+import { green } from '@material-ui/core/colors'
 // import { startGetTrabajadoresIdEmpresa } from "../../actions/employee";
 
 export const EditEmployeeScreen = () => {
@@ -23,7 +29,7 @@ export const EditEmployeeScreen = () => {
   const [exist, setExist] = useState(false)
   const [datosTrabajador, setDatosTrabajador] = useState([])
   const [formValues, handleInputChange, reset] = useForm({
-    idTrabajador: "",
+    idTrabajador: '',
   })
   const { idTrabajador } = formValues
 
@@ -49,7 +55,7 @@ export const EditEmployeeScreen = () => {
     if (tra.length > 0) {
       setExist(true)
     } else {
-      Swal.fire("Trabajador No Encontrado", "", "warning")
+      Swal.fire('Trabajador No Encontrado', '', 'warning')
       //evita error de busqueda de no existente, después de encontrado
       setExist(false)
       reset()
@@ -61,53 +67,129 @@ export const EditEmployeeScreen = () => {
   }
   return (
     <Container maxWidth="xl">
-      <form onSubmit={handleSearch}>
-        <h1 className="h3 mb-3 fw-normal">Buscar Trabajador</h1>
-        <hr />
-        <TextField
-          type="text"
-          id="idTrabajador"
-          name="idTrabajador"
-          className="form-control"
-          placeholder="Ej: 12345678-9"
-          required
-          autoFocus
-          onChange={handleInputChange}
-          value={idTrabajador}
-          variant="outlined"
-          label="Rut Trabajador"
-          style={{ width: 300, marginBottom: 10 }}
-        />
-        <br />
-        <Button
-          style={{ width: 300, marginBottom: 10 }}
-          type="submit"
-          color="primary"
-          variant="contained"
-        >
-          Buscar Trabajador
-        </Button>
-      </form>
-
+      <Typography variant="h4">Editar Trabajador</Typography>
+      <Grid container spacing={1}>
+        <Grid item xs={12} lg={6}>
+          <Paper
+            elevation={3}
+            style={{
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              padding: '20px',
+              margin: '10px 0px',
+            }}
+          >
+            <Typography variant="h5">Ingrese Rut</Typography>
+            <form onSubmit={handleSearch}>
+              <TextField
+                type="text"
+                id="idTrabajador"
+                name="idTrabajador"
+                className="form-control"
+                placeholder="Ej: 12345678-9"
+                required
+                autoFocus
+                onChange={handleInputChange}
+                value={idTrabajador}
+                variant="outlined"
+                label="Rut Trabajador"
+                style={{ width: 300, margin: '10px' }}
+              />
+              <br />
+              <Button
+                style={{ width: 300, margin: '10px' }}
+                type="submit"
+                color="primary"
+                variant="contained"
+              >
+                Buscar Trabajador
+              </Button>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
       {exist ? (
         <div>
-          <h3>Datos del Trabajador</h3>
-          <div className="datosTrabajador">
-            {datosTrabajador ? (
-              <div>Nombre: {datosTrabajador[0].nombre}</div>
-            ) : (
-              <div></div>
-            )}
-          </div>
-          <div>
-            <h3>
-              Documentos{" "}
-              <span style={{ color: "green", cursor: "pointer" }}>
-                <i className="fas fa-plus-circle" onClick={handleModal}>
-                  {" "}
-                </i>
-              </span>
-            </h3>
+          <Typography variant="h4">Datos del Trabajador</Typography>
+          <Paper
+            elevation={3}
+            style={{
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              padding: '20px',
+              margin: '10px 0px',
+            }}
+          >
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {datosTrabajador ? (
+                <div>
+                  <TextField
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    // value={nombre}
+                    onChange={handleInputChange}
+                    placeholder="Nombre Empresa"
+                    label={`${datosTrabajador[0].nombre} `}
+                    required
+                    variant="outlined"
+                    // disabled={editable ? false : true}
+                    disabled="true"
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  <TextField
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    // value={nombre}
+                    onChange={handleInputChange}
+                    placeholder="Nombre Empresa"
+                    label={`${datosTrabajador[0].idEmpresa} `}
+                    required
+                    variant="outlined"
+                    // disabled={editable ? false : true}
+                    disabled="true"
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  <TextField
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    // value={nombre}
+                    onChange={handleInputChange}
+                    placeholder="Nombre Empresa"
+                    label={`${datosTrabajador[0].idContrato} `}
+                    required
+                    variant="outlined"
+                    // disabled={editable ? false : true}
+                    disabled="true"
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
+          </Paper>
+
+          <div
+            style={{
+              display: 'flex',
+            }}
+          >
+            <Typography variant="h4">Documentos del Trabajador</Typography>
+            <AddCircleOutlined
+              style={{
+                fontSize: '2rem',
+                color: green[800],
+                cursor: 'pointer',
+              }}
+              onClick={handleModal}
+            />
           </div>
 
           {examenesTrabajador ? (

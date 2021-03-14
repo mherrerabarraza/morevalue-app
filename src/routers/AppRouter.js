@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
-import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom"
-import { login } from "../actions/auth"
-import { firebase } from "../firebase/firebase-config"
-import { AuthRouter } from "./AuthRouter"
-import { PrivateRoute } from "../routers/PrivateRoute"
-import { PublicRoute } from "../routers/PublicRoute"
-import { MvcAppScreen } from "../components/main/MvcAppScreen"
-import { startLoadUserData } from "../actions/user"
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom'
+import { login } from '../actions/auth'
+import { firebase } from '../firebase/firebase-config'
+import { AuthRouter } from './AuthRouter'
+import { PrivateRoute } from '../routers/PrivateRoute'
+import { PublicRoute } from '../routers/PublicRoute'
+import { MvcAppScreen } from '../components/main/MvcAppScreen'
+import { startLoadUserData } from '../actions/user'
 
 export const AppRouter = () => {
   const dispatch = useDispatch()
@@ -49,6 +49,7 @@ export const AppRouter = () => {
             exact
             isAuthenticated={isLoggedIn}
             path="/"
+            // component={MvcAppNew}
             component={MvcAppScreen}
           />
           <Redirect to="/" />

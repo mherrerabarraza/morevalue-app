@@ -4,18 +4,18 @@ import {
   CssBaseline,
   TextField,
   Typography,
-} from "@material-ui/core"
-import React from "react"
-import { useDispatch } from "react-redux"
-import { startLoginEmailPassword } from "../../actions/auth"
-import { useForm } from "../../hooks/useForm"
-import "./signin.css"
+} from '@material-ui/core'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { startLoginEmailPassword } from '../../actions/auth'
+import { useForm } from '../../hooks/useForm'
+import './signin.css'
 
 export const LoginScreen = () => {
   const dispatch = useDispatch()
   const [formValues, handleInputChange] = useForm({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   })
 
   const { email, password } = formValues
@@ -29,15 +29,15 @@ export const LoginScreen = () => {
       <CssBaseline />
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
         <Typography component="h1" variant="h5">
           Ingresar
         </Typography>
-        <form onSubmit={handleLogin} style={{ width: "100%" }}>
+        <form onSubmit={handleLogin} style={{ width: '100%' }}>
           <TextField
             type="email"
             id="email"

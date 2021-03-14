@@ -1,39 +1,46 @@
-import moment from "moment"
-import React, { useState } from "react"
-import DateTimePicker from "react-datetime-picker"
-import Modal from "react-modal"
-import "./modal.css"
-import Swal from "sweetalert2"
-import { useDispatch, useSelector } from "react-redux"
-import { uiCloseModal } from "../../../actions/ui"
-import { removeExamenUrl } from "../../../actions/exam"
-import { Button, TextField } from "@material-ui/core"
-import SaveIcon from "@material-ui/icons/Save"
-import { startCrearNuevoContrato } from "../../../actions/contract"
+import moment from 'moment'
+import React, { useState } from 'react'
+import DateTimePicker from 'react-datetime-picker'
+import Modal from 'react-modal'
+import './modal.css'
+import Swal from 'sweetalert2'
+import { useDispatch, useSelector } from 'react-redux'
+import { uiCloseModal } from '../../../actions/ui'
+import { removeExamenUrl } from '../../../actions/exam'
+import {
+  Button,
+  FormControl,
+  FormGroup,
+  Grid,
+  TextField,
+} from '@material-ui/core'
+import SaveIcon from '@material-ui/icons/Save'
+import { startCrearNuevoContrato } from '../../../actions/contract'
 
 const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
   },
 }
 const now = moment().minutes(0).seconds(0)
-Modal.setAppElement("#root")
+Modal.setAppElement('#root')
 export const ContratoModal = ({ idEmpresa }) => {
   const dispatch = useDispatch()
   const { modalOpen } = useSelector((state) => state.ui)
   const [fechaInicio, setFechaInicio] = useState(now.toDate())
   const [fechaCaducidad, setFechaCaducidad] = useState(now.toDate())
+  const [fechaAcreditacion, setFechaAcreditacion] = useState(now.toDate())
   const [titleValid, setTitleValid] = useState(true)
   const [formValues, setFormValues] = useState({
-    idContrato: "",
-    nombreEmpresa: "",
-    nombreFaena: "",
-    dotacion: "",
+    idContrato: '',
+    nombreEmpresa: '',
+    nombreFaena: '',
+    dotacion: '',
     fechaCaducidad: now.toDate(),
   })
   const { idContrato, nombreEmpresa, nombreFaena, dotacion } = formValues
@@ -57,6 +64,13 @@ export const ContratoModal = ({ idEmpresa }) => {
     setFormValues({
       ...formValues,
       fechaCaducidad: e,
+    })
+  }
+  const handleStartDateChangeAcreditacion = (e) => {
+    setFechaAcreditacion(e)
+    setFormValues({
+      ...formValues,
+      fechaAcreditacion: e,
     })
   }
 
@@ -85,7 +99,7 @@ export const ContratoModal = ({ idEmpresa }) => {
         fechaCaducidad: fechaCaducidad.getTime(),
       })
     )
-    Swal.fire("Documento Creado con Éxito", "", "success")
+    Swal.fire('Documento Creado con Éxito', '', 'success')
     dispatch(uiCloseModal())
   }
   //   closeModal();
@@ -102,11 +116,14 @@ export const ContratoModal = ({ idEmpresa }) => {
     >
       <h1> Nuevo Contrato </h1>
       <hr />
+      <Grid container spacing={1}>
+        <Grid item xs={12}></Grid>
+      </Grid>
       <form className="container" onSubmit={handleSubmitForm}>
-        <div className="form-group">
+        <FormControl>
           <TextField
             type="text"
-            className={`form-control ${!titleValid && "is-invalid"}`}
+            className={`form-control ${!titleValid && 'is-invalid'}`}
             name="idContrato"
             autoComplete="off"
             value={idContrato}
@@ -117,9 +134,11 @@ export const ContratoModal = ({ idEmpresa }) => {
             style={{ width: 300, marginBottom: 10 }}
             label="Código o Nombre del contrato"
           />
+        </FormControl>
+        <FormControl>
           <TextField
             type="text"
-            className={`form-control ${!titleValid && "is-invalid"}`}
+            className={`form-control ${!titleValid && 'is-invalid'}`}
             name="nombreEmpresa"
             autoComplete="off"
             value={nombreEmpresa}
@@ -128,11 +147,13 @@ export const ContratoModal = ({ idEmpresa }) => {
             autoFocus
             variant="outlined"
             style={{ width: 300, marginBottom: 10 }}
-            label="Nombre Empresa Asociada"
+            label="Empresa a quien se presta el servicio"
           />
+        </FormControl>
+        <FormControl>
           <TextField
             type="text"
-            className={`form-control ${!titleValid && "is-invalid"}`}
+            className={`form-control ${!titleValid && 'is-invalid'}`}
             name="nombreFaena"
             autoComplete="off"
             value={nombreFaena}
@@ -143,9 +164,11 @@ export const ContratoModal = ({ idEmpresa }) => {
             style={{ width: 300, marginBottom: 10 }}
             label="Nombre Faena"
           />
+        </FormControl>
+        <FormControl>
           <TextField
             type="text"
-            className={`form-control ${!titleValid && "is-invalid"}`}
+            className={`form-control ${!titleValid && 'is-invalid'}`}
             name="dotacion"
             autoComplete="off"
             value={dotacion}
@@ -156,9 +179,19 @@ export const ContratoModal = ({ idEmpresa }) => {
             style={{ width: 300, marginBottom: 10 }}
             label="Dotación"
           />
-        </div>
+        </FormControl>
+
+        <label>Fecha Inicio Acreditación</label>
+        <DateTimePicker
+          name="fechaInicioAcreaditacion"
+          className="form-control"
+          fechaInicioAcreaditacion
+          value={fechaAcreditacion}
+          onChange={handleStartDateChangeAcreditacion}
+          required
+        />
         <div className="form-group">
-          <label>Fecha Inicio</label>
+          <label>Fecha Inicio Contrato</label>
           <DateTimePicker
             name="fechaInicio"
             className="form-control"
@@ -168,7 +201,7 @@ export const ContratoModal = ({ idEmpresa }) => {
           />
         </div>
         <div className="form-group">
-          <label>Fecha Vencimiento</label>
+          <label>Fecha Vencimiento Contrato</label>
           <DateTimePicker
             name="fechaCaducidad"
             className="form-control"
@@ -182,7 +215,7 @@ export const ContratoModal = ({ idEmpresa }) => {
           type="submit"
           // className="btn btn-outline-primary btn-block"
           style={{
-            marginTop: "10px",
+            marginTop: '10px',
             // display: `${url ? "" : "none"}`,
           }}
           color="primary"

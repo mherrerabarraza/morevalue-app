@@ -1,8 +1,8 @@
-import React from "react"
-import { useSelector } from "react-redux"
-import { ExamenScreen } from "../ui/examenes/ExamenScreen"
-import { PermisosScreen } from "./permisos/PermisosScreen"
-import { CircularProgress, Container } from "@material-ui/core"
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { ExamenScreen } from '../ui/examenes/ExamenScreen'
+import { PermisosScreen } from './permisos/PermisosScreen'
+import { CircularProgress, Container } from '@material-ui/core'
 
 export const DashBoardScreen = () => {
   const { examenes } = useSelector((state) => state.exam)

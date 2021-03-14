@@ -1,20 +1,23 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 import {
   Button,
   Container,
   FormControl,
   Grid,
+  Paper,
   Select,
   TextField,
-} from "@material-ui/core"
-import { useDispatch, useSelector } from "react-redux"
-import Swal from "sweetalert2"
-import { startUpdateEmpresa } from "../../actions/empresa.actions"
-import { useForm } from "../../hooks/useForm"
-import { uiOpenModal } from "../../actions/ui"
-import { ContratoModal } from "../ui/modal/ContratoModal"
-import { ContratosScreen } from "../ui/contratos/ContratosScreen"
-
+  Typography,
+} from '@material-ui/core'
+import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
+import { startUpdateEmpresa } from '../../actions/empresa.actions'
+import { useForm } from '../../hooks/useForm'
+import { uiOpenModal } from '../../actions/ui'
+import { ContratoModal } from '../ui/modal/ContratoModal'
+import { ContratosScreen } from '../ui/contratos/ContratosScreen'
+import { AddCircleOutlined, Edit } from '@material-ui/icons'
+import { green } from '@material-ui/core/colors'
 export const EditEmpresaScreen = () => {
   const dispatch = useDispatch()
   const { empresas } = useSelector((state) => state.empr)
@@ -28,13 +31,13 @@ export const EditEmpresaScreen = () => {
    */
   const [value, setValue] = useState(empresas[0])
   const [formValues, handleInputChange, reset] = useForm({
-    idEmpresa: "",
-    nombre: "",
-    direccion: "",
-    telefonoEmpresaContacto: "",
-    nombrePersonaContacto: "",
-    telefonoPersonaContacto: "",
-    emailPersonaContacto: "",
+    idEmpresa: '',
+    nombre: '',
+    direccion: '',
+    telefonoEmpresaContacto: '',
+    nombrePersonaContacto: '',
+    telefonoPersonaContacto: '',
+    emailPersonaContacto: '',
   })
   const {
     idEmpresa,
@@ -54,11 +57,11 @@ export const EditEmpresaScreen = () => {
       setDatosContratos(con)
       setExist(true)
       setEditable(false)
-    } else if (idEmpresa === "") {
-      Swal.fire("Debe Seleccionar una Empresa", "", "warning")
+    } else if (idEmpresa === '') {
+      Swal.fire('Debe Seleccionar una Empresa', '', 'warning')
       reset()
     } else {
-      Swal.fire("Empresa No Encontrada", "", "warning")
+      Swal.fire('Empresa No Encontrada', '', 'warning')
       setExist(false)
       reset()
     }
@@ -71,7 +74,7 @@ export const EditEmpresaScreen = () => {
   const handleUpdate = (event) => {
     event.preventDefault()
     if (nombre.length <= 1) {
-      Swal.fire("El nombre es muy corto", "", "info")
+      Swal.fire('El nombre es muy corto', '', 'info')
       return
     }
     /**
@@ -83,8 +86,8 @@ export const EditEmpresaScreen = () => {
         nombre: nombre,
       })
     )
-      ? Swal.fire("La Empresa se actualizó con éxito", "", "success")
-      : Swal.fire("Hubo un problema", "No se pudo actualizar", "err")
+      ? Swal.fire('La Empresa se actualizó con éxito', '', 'success')
+      : Swal.fire('Hubo un problema', 'No se pudo actualizar', 'err')
     reset()
     setExist(false)
     setValue(empresas[0])
@@ -94,166 +97,236 @@ export const EditEmpresaScreen = () => {
   }
   return (
     <Container maxWidth="xl">
+      <Typography variant="h4">Editar Empresa</Typography>
       <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h1 className="h3 mb-3 fw-normal">Buscar Empresa</h1>
-          <FormControl variant="outlined">
-            <Select
-              style={{ width: 300, marginBottom: 10, marginTop: 10 }}
-              native
+        <Grid item xs={12} lg={6}>
+          <Paper
+            elevation={3}
+            style={{
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              padding: '20px',
+              margin: '10px 0px',
+            }}
+          >
+            <Typography variant="h5">Seleccione Empresa</Typography>
+            <FormControl variant="outlined">
+              <Select
+                style={{ width: 300, margin: '10px' }}
+                native
+                value={idEmpresa}
+                onChange={handleInputChange}
+                label="Empresa"
+                required
+                variant="outlined"
+                inputProps={{
+                  name: 'idEmpresa',
+                  id: 'idEmpresa',
+                }}
+              >
+                <option defaultValue key="selected">
+                  Seleccione una Empresa
+                </option>
+                {empresas.map((empresa) => (
+                  <option
+                    key={empresa.idEmpresa}
+                    id={empresa.idEmpresa}
+                    value={empresa.idEmpresa}
+                  >
+                    {empresa.nombre}
+                  </option>
+                ))}
+              </Select>
+
+              <Button
+                type="submit"
+                onClick={() => buscar(idEmpresa)}
+                variant="contained"
+                color="primary"
+                style={{ width: 300, margin: '10px' }}
+              >
+                Ver Información
+              </Button>
+            </FormControl>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={6} xl={6}>
+          <Paper
+            elevation={3}
+            style={{
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              padding: '20px',
+              margin: '10px 0px',
+            }}
+          >
+            <Typography variant="h5">Ingrese Rut</Typography>
+            <TextField
+              id="idEmpresa"
+              name="idEmpresa"
+              type="text"
               value={idEmpresa}
               onChange={handleInputChange}
-              label="Empresa"
+              label="Rut Empresa"
+              placeholder="Ej: 12345678-9"
               required
               variant="outlined"
-              inputProps={{
-                name: "idEmpresa",
-                id: "idEmpresa",
-              }}
-            >
-              <option defaultValue key="selected">
-                Seleccione una Empresa
-              </option>
-              {empresas.map((empresa) => (
-                <option
-                  key={empresa.idEmpresa}
-                  id={empresa.idEmpresa}
-                  value={empresa.idEmpresa}
-                >
-                  {empresa.nombre}
-                </option>
-              ))}
-            </Select>
-
+              style={{ width: 300, margin: '10px' }}
+            />
             <Button
               type="submit"
               onClick={() => buscar(idEmpresa)}
               variant="contained"
               color="primary"
-              style={{ width: 300, marginBottom: 10, marginTop: 10 }}
+              style={{ width: 300, margin: '10px' }}
             >
               Ver Información
             </Button>
-          </FormControl>
+          </Paper>
         </Grid>
-
         {exist ? (
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <h3>
-              <span>
-                Datos de la Empresa{" "}
-                <i
-                  className="fas fa-edit"
-                  style={{ color: "green", cursor: "pointer" }}
-                  onClick={handleEdit}
-                ></i>
-              </span>
-            </h3>
+          <Grid item xs={12} lg={12} xl={6}>
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              <Typography variant="h4">Datos de la Empresa</Typography>
+              <Edit
+                style={{
+                  fontSize: '2rem',
+                  color: green[800],
+                  cursor: 'pointer',
+                }}
+                onClick={handleEdit}
+              />
+            </div>
             <FormControl variant="outlined">
-              <form onSubmit={handleUpdate}>
-                <TextField
-                  id="nombre"
-                  name="nombre"
-                  type="text"
-                  value={nombre}
-                  onChange={handleInputChange}
-                  placeholder="Nombre Empresa"
-                  label={`${datosEmpresa[0].nombre} `}
-                  required
-                  variant="outlined"
-                  disabled={editable ? false : true}
-                  style={{ width: 300, marginBottom: 10, marginTop: 10 }}
-                />
-                <TextField
-                  id="direccion"
-                  name="direccion"
-                  type="text"
-                  value={direccion}
-                  onChange={handleInputChange}
-                  label={`${datosEmpresa[0].direccion} `}
-                  placeholder={`${datosEmpresa[0].direccion} `}
-                  required
-                  variant="outlined"
-                  disabled={editable ? false : true}
-                  style={{ width: 300, marginBottom: 10, marginTop: 10 }}
-                />
-                <TextField
-                  id="telefonoEmpresaContacto"
-                  name="telefonoEmpresaContacto"
-                  type="text"
-                  value={telefonoEmpresaContacto}
-                  onChange={handleInputChange}
-                  label={`${datosEmpresa[0].telefonoEmpresaContacto} `}
-                  placeholder={`${datosEmpresa[0].telefonoEmpresaContacto} `}
-                  required
-                  variant="outlined"
-                  disabled={editable ? false : true}
-                  style={{ width: 300, marginBottom: 10, marginTop: 10 }}
-                />
-                <TextField
-                  id="nombrePersonaContacto"
-                  name="nombrePersonaContacto"
-                  type="text"
-                  value={nombrePersonaContacto}
-                  onChange={handleInputChange}
-                  label={`${datosEmpresa[0].nombrePersonaContacto} `}
-                  placeholder={`${datosEmpresa[0].nombrePersonaContacto} `}
-                  required
-                  variant="outlined"
-                  disabled={editable ? false : true}
-                  style={{ width: 300, marginBottom: 10, marginTop: 10 }}
-                />
-                <TextField
-                  id="telefonoPersonaContacto"
-                  name="telefonoPersonaContacto"
-                  type="text"
-                  value={telefonoPersonaContacto}
-                  onChange={handleInputChange}
-                  label={`${datosEmpresa[0].telefonoPersonaContacto} `}
-                  placeholder={`${datosEmpresa[0].telefonoPersonaContacto} `}
-                  required
-                  variant="outlined"
-                  disabled={editable ? false : true}
-                  style={{ width: 300, marginBottom: 10, marginTop: 10 }}
-                />
-                <TextField
-                  id="emailPersonaContacto"
-                  name="emailPersonaContacto"
-                  type="email"
-                  value={emailPersonaContacto}
-                  onChange={handleInputChange}
-                  label={`${datosEmpresa[0].emailPersonaContacto} `}
-                  placeholder={`${datosEmpresa[0].emailPersonaContacto} `}
-                  required
-                  variant="outlined"
-                  disabled={editable ? false : true}
-                  style={{ width: 300, marginBottom: 10, marginTop: 10 }}
-                />
-                {editable && (
-                  <Button
-                    type="submit"
-                    style={{ width: 300, marginBottom: 10, marginTop: 10 }}
+              <Paper
+                elevation={3}
+                style={{
+                  display: 'flex',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  padding: '20px',
+                  margin: '10px 0px',
+                }}
+              >
+                <form onSubmit={handleUpdate}>
+                  <TextField
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    value={nombre}
+                    onChange={handleInputChange}
+                    placeholder="Nombre Empresa"
+                    label={`${datosEmpresa[0].nombre} `}
+                    required
                     variant="outlined"
-                    color="primary"
-                  >
-                    Guardar Cambios
-                  </Button>
-                )}
-              </form>
+                    disabled={editable ? false : true}
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  <TextField
+                    id="direccion"
+                    name="direccion"
+                    type="text"
+                    value={direccion}
+                    onChange={handleInputChange}
+                    label={`${datosEmpresa[0].direccion} `}
+                    placeholder={`${datosEmpresa[0].direccion} `}
+                    required
+                    variant="outlined"
+                    disabled={editable ? false : true}
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  <TextField
+                    id="telefonoEmpresaContacto"
+                    name="telefonoEmpresaContacto"
+                    type="text"
+                    value={telefonoEmpresaContacto}
+                    onChange={handleInputChange}
+                    label={`${datosEmpresa[0].telefonoEmpresaContacto} `}
+                    placeholder={`${datosEmpresa[0].telefonoEmpresaContacto} `}
+                    required
+                    variant="outlined"
+                    disabled={editable ? false : true}
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  <TextField
+                    id="nombrePersonaContacto"
+                    name="nombrePersonaContacto"
+                    type="text"
+                    value={nombrePersonaContacto}
+                    onChange={handleInputChange}
+                    label={`${datosEmpresa[0].nombrePersonaContacto} `}
+                    placeholder={`${datosEmpresa[0].nombrePersonaContacto} `}
+                    required
+                    variant="outlined"
+                    disabled={editable ? false : true}
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  <TextField
+                    id="telefonoPersonaContacto"
+                    name="telefonoPersonaContacto"
+                    type="text"
+                    value={telefonoPersonaContacto}
+                    onChange={handleInputChange}
+                    label={`${datosEmpresa[0].telefonoPersonaContacto} `}
+                    placeholder={`${datosEmpresa[0].telefonoPersonaContacto} `}
+                    required
+                    variant="outlined"
+                    disabled={editable ? false : true}
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  <TextField
+                    id="emailPersonaContacto"
+                    name="emailPersonaContacto"
+                    type="email"
+                    value={emailPersonaContacto}
+                    onChange={handleInputChange}
+                    label={`${datosEmpresa[0].emailPersonaContacto} `}
+                    placeholder={`${datosEmpresa[0].emailPersonaContacto} `}
+                    required
+                    variant="outlined"
+                    disabled={editable ? false : true}
+                    style={{ width: 300, margin: '10px' }}
+                  />
+                  {editable && (
+                    <Button
+                      type="submit"
+                      style={{ width: 300, margin: '10px' }}
+                      variant="outlined"
+                      color="primary"
+                    >
+                      Guardar Cambios
+                    </Button>
+                  )}
+                </form>
+              </Paper>
             </FormControl>
             <ContratoModal idEmpresa={idEmpresa} />
 
-            <Grid item xs={12} md={12} lg={12} xl={12}>
-              <h3>
-                <span>
-                  Contratos Asociados{" "}
-                  <i
-                    className="fas fa-briefcase"
-                    style={{ color: "green", cursor: "pointer" }}
-                    onClick={handleAddContrato}
-                  ></i>
-                </span>
-              </h3>
+            <Grid item xs={12} lg={12} xl={6}>
+              <div
+                style={{
+                  display: 'flex',
+                }}
+              >
+                <Typography variant="h4">Contratos Asociados</Typography>
+                <AddCircleOutlined
+                  style={{
+                    fontSize: '2rem',
+                    color: green[800],
+                    cursor: 'pointer',
+                  }}
+                  onClick={handleAddContrato}
+                />
+              </div>
               {contratos ? (
                 <ContratosScreen datosContratos={datosContratos} />
               ) : (
